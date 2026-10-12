@@ -115,12 +115,12 @@
 /* Stats ticker: scrolling tape + count-up numbers. Edit STATS to update. */
 (function () {
   var STATS = [
-    { value: 118253, suffix: '+', label: 'YouTube views' },
-    { value: 52, suffix: '', label: 'videos edited' },
-    { value: 85, suffix: '', label: 'reels cut' },
-    { value: 10719, suffix: '', label: 'Instagram likes' },
-    { value: 377, suffix: '', label: 'followers grown' },
-    { value: 29, suffix: '', label: 'projects delivered' }
+    { value: 2300, suffix: '+', label: 'videos delivered' },
+    { value: 118, suffix: 'K+', label: 'YouTube views generated' },
+    { value: 1600, suffix: '+', label: 'videos for EMR Agency' },
+    { value: 300, suffix: '+', label: "videos for Charlie's Pokécards" },
+    { value: 170, suffix: '+', label: 'videos for Art Home Photo & Art Social' },
+    { value: 120, suffix: '+', label: 'videos for Hercules Training' }
   ];
 
   var track = document.getElementById('tickerTrack');
