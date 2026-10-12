@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Showreel Hero — Concept Demo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: #0a0a0c; color: #f2f2f4;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  .hero { position: relative; height: 100dvh; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+  .hero video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 30%;
+  }
+  .hero-shade {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(to top, rgba(6,6,8,0.92) 0%, rgba(6,6,8,0.35) 45%, rgba(6,6,8,0.25) 100%),
+      radial-gradient(circle at 50% 20%, rgba(232,255,71,0.05), transparent 50%);
+  }
+  .demo-badge {
+    position: absolute; top: calc(1rem + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+    z-index: 3; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    background: rgba(232,255,71,0.14); color: #e8ff47; border: 1px solid rgba(232,255,71,0.4);
+    padding: 0.4rem 0.9rem; border-radius: 999px; backdrop-filter: blur(6px);
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center;
+    padding: 0 1.5rem calc(4.5rem + env(safe-area-inset-bottom)); max-width: 720px;
+  }
+  .hero-kicker {
+    text-transform: uppercase; letter-spacing: 0.35em; font-size: 0.72rem;
+    color: #e8ff47; margin-bottom: 0.9rem;
+  }
+  .hero-content h1 {
+    font-size: clamp(2.6rem, 11vw, 4.5rem); font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.02; text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+  }
+  .hero-tag {
+    margin-top: 1rem; font-size: clamp(1.05rem, 4.5vw, 1.35rem); color: #e8e8ec;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+  }
+  .hero-tag strong { color: #e8ff47; }
+  .hero-cta { margin-top: 1.8rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 0.9rem 1.7rem; border-radius: 999px;
+    font-weight: 700; text-decoration: none; font-size: 1rem;
+  }
+  .btn-primary { background: #e8ff47; color: #0a0a0c; }
+  .btn-ghost { border: 1px solid rgba(255,255,255,0.35); color: #fff; backdrop-filter: blur(6px); }
+  .scroll-hint {
+    position: absolute; bottom: calc(1.2rem + env(safe-area-inset-bottom)); left: 50%;
+    transform: translateX(-50%); z-index: 2; color: rgba(255,255,255,0.55);
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100% { transform: translate(-50%,0); } 50% { transform: translate(-50%,6px); } }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <video autoplay muted loop playsinline preload="auto" src="showreel-demo.mp4"></video>
+    <div class="hero-shade"></div>
+    <div class="demo-badge">Concept demo</div>
+    <div class="hero-content">
+      <p class="hero-kicker">Showreel &mdash; 2026</p>
+      <h1>Driss Ouazzani Chahdi</h1>
+      <p class="hero-tag">I cut videos <strong>people can't scroll past.</strong></p>
+      <div class="hero-cta">
+        <span class="btn btn-primary">Watch my work</span>
+        <span class="btn btn-ghost">Hire me</span>
+      </div>
+    </div>
+    <p class="scroll-hint">Scroll</p>
+  </section>
+</body>
+</html>
