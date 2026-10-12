@@ -116,7 +116,7 @@
 (function () {
   var STATS = [
     { value: 2300, suffix: '+', label: 'videos delivered' },
-    { value: 590, suffix: '+', label: 'reels cut' },
+    { value: 1489, suffix: '+', label: 'reels cut' },
     { value: 118, suffix: 'K+', label: 'YouTube views generated' },
     { value: 5, suffix: '', label: 'brands edited for' },
     { value: 8, suffix: '+', label: 'years editing' }
