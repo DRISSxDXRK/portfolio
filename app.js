@@ -111,3 +111,54 @@
 
   render();
 })();
+
+/* Stats ticker: scrolling tape + count-up numbers. Edit STATS to update. */
+(function () {
+  var STATS = [
+    { value: 118253, suffix: '+', label: 'YouTube views' },
+    { value: 52, suffix: '', label: 'videos edited' },
+    { value: 85, suffix: '', label: 'reels cut' },
+    { value: 10719, suffix: '', label: 'Instagram likes' },
+    { value: 377, suffix: '', label: 'followers grown' },
+    { value: 29, suffix: '', label: 'projects delivered' }
+  ];
+
+  var track = document.getElementById('tickerTrack');
+  if (!track) return;
+
+  function groupHTML() {
+    return '<div class="ticker-group">' + STATS.map(function (s) {
+      return '<span class="tick-item"><span class="tick-num" data-value="' + s.value +
+        '" data-suffix="' + s.suffix + '">0</span><span class="tick-label">' + s.label +
+        '</span></span><span class="tick-sep">✦</span>';
+    }).join('') + '</div>';
+  }
+  track.innerHTML = groupHTML() + groupHTML(); // duplicate for seamless loop
+
+  function countUp(el) {
+    var target = parseInt(el.dataset.value, 10);
+    var suffix = el.dataset.suffix || '';
+    var dur = 1600, start = null;
+    function fmt(n) { return Math.round(n).toLocaleString('en-US') + suffix; }
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * eased);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var done = false;
+  function run() {
+    if (done) return; done = true;
+    track.querySelectorAll('.tick-num').forEach(countUp);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { run(); io.disconnect(); } });
+    });
+    io.observe(track);
+  } else { run(); }
+})();

@@ -231,3 +231,49 @@ footer {
   .card-title { font-size: 0.92rem; }
   .player.vertical { max-height: 380px; }
 }
+
+/* ---------- Stats ticker ---------- */
+.ticker {
+  overflow: hidden;
+  background: #0d0d10;
+  border-bottom: 1px solid var(--line);
+  padding: 0.65rem 0;
+  position: relative;
+  z-index: 5;
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 30s linear infinite;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker-group { display: flex; align-items: center; }
+.tick-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0 1.4rem;
+  white-space: nowrap;
+}
+.tick-num {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2em;
+  text-align: right;
+}
+.tick-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+.tick-sep { color: var(--accent); opacity: 0.45; font-size: 0.8rem; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
