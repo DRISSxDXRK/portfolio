@@ -242,18 +242,21 @@ footer {
   z-index: 5;
 }
 .ticker-track {
-  display: flex;
-  width: max-content;
+  display: inline-flex;
+  will-change: transform;
+}
+.ticker-track.go {
   animation: ticker-scroll 30s linear infinite;
 }
 .ticker:hover .ticker-track { animation-play-state: paused; }
-.ticker-group { display: flex; align-items: center; }
+.ticker-group { display: flex; align-items: center; flex-shrink: 0; }
 .tick-item {
   display: flex;
   align-items: baseline;
   gap: 0.45rem;
   padding: 0 1.4rem;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .tick-num {
   font-weight: 800;

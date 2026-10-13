@@ -153,6 +153,9 @@
   function run() {
     if (done) return; done = true;
     track.querySelectorAll('.tick-num').forEach(countUp);
+    // Start the marquee only after the count-up settles, so the browser
+    // measures final item widths when the loop distance is resolved.
+    setTimeout(function () { track.classList.add('go'); }, 1750);
   }
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
