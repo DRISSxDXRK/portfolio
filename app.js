@@ -121,18 +121,21 @@
     { value: 6, suffix: '+', label: 'brands edited for' },
     { value: 8, suffix: '+', label: 'years editing' }
   ];
+  var SPEED = 85; // px per second — scroll speed stays constant on any screen
 
   var track = document.getElementById('tickerTrack');
   if (!track) return;
 
-  function groupHTML() {
+  function finalText(s) { return Math.round(s.value).toLocaleString('en-US') + s.suffix; }
+
+  function groupHTML(withFinal) {
     return '<div class="ticker-group">' + STATS.map(function (s) {
       return '<span class="tick-item"><span class="tick-num" data-value="' + s.value +
-        '" data-suffix="' + s.suffix + '">0</span><span class="tick-label">' + s.label +
+        '" data-suffix="' + s.suffix + '">' + (withFinal ? finalText(s) : '0') +
+        '</span><span class="tick-label">' + s.label +
         '</span></span><span class="tick-sep">✦</span>';
     }).join('') + '</div>';
   }
-  track.innerHTML = groupHTML() + groupHTML(); // duplicate for seamless loop
 
   function countUp(el) {
     var target = parseInt(el.dataset.value, 10);
@@ -149,18 +152,48 @@
     requestAnimationFrame(step);
   }
 
-  var done = false;
-  function run() {
-    if (done) return; done = true;
-    track.querySelectorAll('.tick-num').forEach(countUp);
-    // Start the marquee only after the count-up settles, so the browser
-    // measures final item widths when the loop distance is resolved.
-    setTimeout(function () { track.classList.add('go'); }, 1750);
+  // Build enough copies that each identical half of the track is wider than
+  // the viewport — that is what makes the -50% loop seamless on any screen.
+  function layout(animate) {
+    track.classList.remove('go');
+    track.style.animationDuration = '';
+    track.innerHTML = groupHTML(true); // single group, final widths, to measure
+    var g = track.querySelector('.ticker-group');
+    var W = g ? g.offsetWidth : 600;
+    var V = (track.parentElement && track.parentElement.clientWidth) || window.innerWidth;
+    var perHalf = Math.max(2, Math.ceil(V / W) + 1);
+    var html = '';
+    for (var i = 0; i < perHalf * 2; i++) html += groupHTML(true);
+    track.innerHTML = html;
+    var W2 = track.querySelector('.ticker-group').offsetWidth || W;
+    track.style.animationDuration = ((perHalf * W2) / SPEED).toFixed(2) + 's';
+    var nums = track.querySelectorAll('.tick-num');
+    if (animate) {
+      nums.forEach(function (el) { el.textContent = '0'; });
+      nums.forEach(countUp);
+      // Start scrolling only after the count-up settles, so the loop
+      // distance is resolved against final item widths.
+      setTimeout(function () { track.classList.add('go'); }, 1750);
+    } else {
+      track.classList.add('go');
+    }
+  }
+
+  var started = false;
+  function start() {
+    if (started) return; started = true;
+    layout(true);
   }
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { run(); io.disconnect(); } });
+      entries.forEach(function (e) { if (e.isIntersecting) { start(); io.disconnect(); } });
     });
     io.observe(track);
-  } else { run(); }
+  } else { start(); }
+
+  var rt = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { if (started) layout(false); }, 250);
+  });
 })();
