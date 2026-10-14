@@ -1,6 +1,8 @@
 /* Client testimonials. Add entries as reviews arrive — the section stays hidden while empty.
    Entry shape: { text: "…", name: "Client Name", detail: "Brand / context" } */
-var TESTIMONIALS = [];
+var TESTIMONIALS = [
+ { text: "He is good.", name: "Malek", detail: "5/5 — client review" }
+];
 
 (function () {
   var section = document.getElementById('testimonials');
