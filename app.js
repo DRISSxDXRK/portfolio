@@ -97,6 +97,10 @@
       if (currentFilter !== 'all' && v.client !== currentFilter) return;
       grid.appendChild(makeCard(v));
     });
+    /* Hook for motion.js: re-animate freshly rendered work cards. */
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent('portfolio:grid-rendered', { detail: { filter: currentFilter } }));
+    }
   }
 
   filtersEl.addEventListener('click', function (e) {

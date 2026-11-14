@@ -37,8 +37,8 @@
 <header class="hero" id="top">
   <div class="hero-inner">
     <div class="hero-copy">
-      <p class="hero-kicker">Portfolio — Video Editor</p>
-      <h1>Edits that keep <em>viewers watching.</em></h1>
+      <p class="hero-kicker" id="hero-kicker">Portfolio — Video Editor</p>
+      <h1 id="hero-title">Edits that keep <em>viewers watching.</em></h1>
       <p class="hero-sub">I'm Driss, a freelance video editor from Fès, Morocco. Reels, YouTube and real estate media — cut with pacing your audience can feel.</p>
       <div class="hero-cta">
         <a href="#work" class="btn btn-primary">Watch my work</a>
@@ -176,5 +176,18 @@
 <script src="videos.js"></script>
 <script src="testimonials.js"></script>
 <script src="app.js"></script>
+<!-- Premium motion: GSAP 3.12.5 + ScrollTrigger (cdnjs), Lenis 1.1.14 (jsDelivr).
+     All are progressive enhancement: motion.js guards every call, and no CSS
+     hides content, so the site is fully visible if any CDN fails. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+<!-- React Bits (adapted, see react-bits.jsx): React 18 UMD + Babel standalone.
+     Progressive enhancement only: if these fail, the static hero/cards stay. -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin defer></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin defer></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js" defer></script>
+<script type="text/babel" data-presets="react" src="react-bits.jsx"></script>
+<script src="motion.js" defer></script>
 </body>
 </html>
