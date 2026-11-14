@@ -16,6 +16,9 @@
   'use strict';
   if (!window.React || !window.ReactDOM) return;
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Stage 2: no per-character stagger on mobile — headline must read in
+     full immediately on small screens, never as "Prop" / "Edi". */
+  var NO_STAGGER = REDUCED || window.matchMedia('(max-width: 960px)').matches;
   var React = window.React;
   var useState = React.useState;
   var useEffect = React.useEffect;
@@ -37,7 +40,7 @@
                     <span
                       key={ci}
                       className="split-char"
-                      style={{ animationDelay: REDUCED ? '0s' : (0.05 + i * 0.045 + ci * 0.012) + 's' }}
+                      style={{ animationDelay: NO_STAGGER ? '0s' : (0.05 + i * 0.045 + ci * 0.012) + 's' }}
                     >
                       {ch}
                     </span>

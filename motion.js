@@ -57,11 +57,15 @@
   }
 
   /* Hero: kicker + h1 are animated by React Bits (SplitText / ShinyText),
-   * so they are deliberately NOT animated here — no double animation. */
-  window.gsap.from('.hero-sub', { y: 24, opacity: 0, duration: 0.9, delay: 0.15, ease: 'power3.out' });
-  window.gsap.from('.hero-cta .btn', { y: 20, opacity: 0, duration: 0.8, delay: 0.3, stagger: 0.1, ease: 'power3.out' });
-  window.gsap.from('.hero-visual', { y: 28, opacity: 0, scale: 0.97, duration: 1, delay: 0.2, ease: 'power3.out' });
-  window.gsap.from('.chip', { y: 16, opacity: 0, duration: 0.7, delay: 0.55, stagger: 0.15, ease: 'power3.out' });
+   * so they are deliberately NOT animated here — no double animation.
+   * Stage 2: skip the hero entrance fades on mobile so the kicker,
+   * headline, sub and CTAs are visible immediately in the first viewport. */
+  if (!window.matchMedia('(max-width: 960px)').matches) {
+    window.gsap.from('.hero-sub', { y: 24, opacity: 0, duration: 0.9, delay: 0.15, ease: 'power3.out' });
+    window.gsap.from('.hero-cta .btn', { y: 20, opacity: 0, duration: 0.8, delay: 0.3, stagger: 0.1, ease: 'power3.out' });
+    window.gsap.from('.hero-visual', { y: 28, opacity: 0, scale: 0.97, duration: 1, delay: 0.2, ease: 'power3.out' });
+    window.gsap.from('.chip', { y: 16, opacity: 0, duration: 0.7, delay: 0.55, stagger: 0.15, ease: 'power3.out' });
+  }
 
   /* Sections */
   reveal('.sec-kicker');

@@ -46,11 +46,11 @@
       var video = document.createElement('video');
       video.src = v.src;
       video.poster = v.poster;
-      video.preload = 'metadata';
+      video.preload = 'none'; // Stage 1: posters only on load, video loads on tap/hover
       video.playsInline = true;
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
-      video.controls = true;
+      video.controls = false; // native controls only after a tap-to-play (see below)
       video.disablePictureInPicture = false;
       player.appendChild(video);
       players.push(video);
@@ -61,11 +61,44 @@
       overlay2.addEventListener('click', function () {
         pauseAll(video);
         overlay2.classList.add('gone');
+        video.controls = true;
+        video.muted = false;
+        video.loop = false;
         video.play().catch(function () { overlay2.classList.remove('gone'); });
       });
       video.addEventListener('pause', function () { overlay2.classList.remove('gone'); });
-      video.addEventListener('play', function () { overlay2.classList.add('gone'); });
+      // Only one video plays at a time anywhere on the page.
+      video.addEventListener('play', function () {
+        overlay2.classList.add('gone');
+        pauseAll(video);
+        var reel = document.getElementById('showreel-video');
+        if (reel && !reel.paused) reel.pause();
+      });
       player.appendChild(overlay2);
+
+      /* Stage 1 hover preview: desktop only (hover + fine pointer), never
+         on touch, never on reduced-motion. Muted looping preview of the same
+         file; tap-to-play behaviour is unchanged. */
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+          !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var hovering = false;
+        player.addEventListener('mouseenter', function () {
+          if (video.controls) return; // already playing by tap — leave it alone
+          hovering = true;
+          pauseAll(video);
+          video.muted = true;
+          video.loop = true;
+          video.play().catch(function () {});
+        });
+        player.addEventListener('mouseleave', function () {
+          hovering = false;
+          video.pause();
+          video.muted = false;
+          video.loop = false;
+          video.currentTime = 0;
+        });
+        video.addEventListener('pause', function () { hovering = false; });
+      }
     }
 
     var body = document.createElement('div');
@@ -120,6 +153,15 @@
       window.dispatchEvent(new CustomEvent('portfolio:grid-rendered', { detail: { filter: currentFilter } }));
     }
   }
+
+  /* Hide filter tabs that have no videos yet (e.g. Ads). They reappear
+     automatically as soon as a video with that format is added to videos.js. */
+  filtersEl.querySelectorAll('.filter').forEach(function (b) {
+    var key = b.dataset.filter;
+    if (key === 'all') return;
+    var has = VIDEOS.some(function (v) { return (v.format || []).indexOf(key) !== -1; });
+    if (!has) b.hidden = true;
+  });
 
   filtersEl.addEventListener('click', function (e) {
     var btn = e.target.closest('.filter');
@@ -220,29 +262,182 @@
   });
 })();
 
-/* Contact form: no backend on this static site, so submit composes an
-   email to hello@drizoeditz.pro and opens it in the visitor's email app. */
+/* Mobile menu: toggle button under 720px. */
+(function () {
+  var nav = document.querySelector('.nav');
+  var btn = document.getElementById('nav-toggle');
+  var menu = document.getElementById('nav-menu');
+  if (!nav || !btn || !menu) return;
+
+  function setOpen(open) {
+    nav.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); btn.focus(); }
+  });
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(min-width: 721px)');
+    var onChange = function (e) { if (e.matches) setOpen(false); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+  }
+})();
+
+/* Contact form.
+   - Validates name + message and says exactly what is missing.
+   - If config.js has a formEndpoint (Formspree / Web3Forms), sends the message
+     there with a visible "sending / sent / failed" state.
+   - Otherwise falls back to the visitor's email app (mailto).
+   - "Send on WhatsApp instead" works either way. */
 (function () {
   var form = document.getElementById('contact-form');
   if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = document.getElementById('field-name').value.trim();
-    var type = document.getElementById('field-type').value;
-    var budget = document.getElementById('field-budget').value;
-    var link = document.getElementById('field-link').value.trim();
-    var message = document.getElementById('field-message').value.trim();
-    if (!name || !message) return;
+
+  var CFG = window.SITE_CONFIG || {};
+  var EMAIL = CFG.email || 'hello@drizoeditz.pro';
+  var WA = CFG.whatsapp || '4917688649232';
+
+  var nameEl = document.getElementById('field-name');
+  var typeEl = document.getElementById('field-type');
+  var budgetEl = document.getElementById('field-budget');
+  var linkEl = document.getElementById('field-link');
+  var messageEl = document.getElementById('field-message');
+  var hpEl = document.getElementById('field-hp');
+  var statusEl = document.getElementById('contact-status');
+  var submitBtn = document.getElementById('contact-submit');
+  var waBtn = document.getElementById('contact-wa');
+  var submitLabel = submitBtn ? submitBtn.textContent : 'Send message';
+
+  function waUrl(text) {
+    return 'https://wa.me/' + WA + (text ? '?text=' + encodeURIComponent(text) : '');
+  }
+
+  /* Status line: plain text, optionally followed by a WhatsApp link. */
+  function setStatus(text, kind, withWhatsApp, waText) {
+    statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
+    statusEl.textContent = text;
+    if (withWhatsApp) {
+      statusEl.appendChild(document.createTextNode(' '));
+      var a = document.createElement('a');
+      a.href = waUrl(waText);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = 'message me on WhatsApp';
+      statusEl.appendChild(a);
+      statusEl.appendChild(document.createTextNode('.'));
+    }
+  }
+
+  function normalizeLink(v) {
+    v = v.trim();
+    if (v && !/^https?:\/\//i.test(v)) v = 'https://' + v;
+    return v;
+  }
+
+  function readFields() {
+    return {
+      name: nameEl.value.trim(),
+      type: typeEl.value,
+      budget: budgetEl.value,
+      link: normalizeLink(linkEl.value),
+      message: messageEl.value.trim()
+    };
+  }
+
+  /* Returns true when valid; otherwise marks fields, explains, focuses the first. */
+  function validate(d) {
+    [nameEl, messageEl, linkEl].forEach(function (el) { el.removeAttribute('aria-invalid'); });
+    var bad = [];
+    var parts = [];
+    if (!d.name) { bad.push(nameEl); parts.push('your name'); }
+    if (!d.message) { bad.push(messageEl); parts.push('a short message about your project'); }
+    if (bad.length) {
+      setStatus('Add ' + parts.join(' and ') + ', then send again.', 'error');
+    } else if (d.link && !/^https?:\/\/[^\s\/.]+\.[^\s]{2,}$/i.test(d.link)) {
+      bad.push(linkEl);
+      setStatus('That link does not look right. Paste the full address, for example https://youtube.com/...', 'error');
+    }
+    bad.forEach(function (el) { el.setAttribute('aria-invalid', 'true'); });
+    if (bad.length) { bad[0].focus(); return false; }
+    return true;
+  }
+
+  function textLines(d) {
     var lines = [
       'Hi Driss, I want to book a project.',
-      'Name: ' + name,
-      'Project type: ' + type,
-      'Budget: ' + budget
+      'Name: ' + d.name,
+      'Project type: ' + d.type,
+      'Budget: ' + d.budget
     ];
-    if (link) lines.push('Link: ' + link);
-    lines.push('Message: ' + message);
-    var subject = 'New project enquiry - ' + name + ' - ' + type;
-    var url = 'mailto:hello@drizoeditz.pro?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+    if (d.link) lines.push('Link: ' + d.link);
+    lines.push('Message: ' + d.message);
+    return lines.join('\n');
+  }
+
+  function busy(on) {
+    if (!submitBtn) return;
+    submitBtn.disabled = on;
+    submitBtn.textContent = on ? 'Sending\u2026' : submitLabel;
+  }
+
+  function sendToEndpoint(d) {
+    var subject = 'New project enquiry - ' + d.name + ' - ' + d.type;
+    var payload = {
+      name: d.name,
+      'project-type': d.type,
+      budget: d.budget,
+      link: d.link,
+      message: d.message,
+      _subject: subject
+    };
+    if (CFG.formAccessKey) {
+      payload.access_key = CFG.formAccessKey;
+      payload.subject = subject;
+      payload.from_name = d.name;
+    }
+    busy(true);
+    setStatus('Sending your message\u2026', '');
+    fetch(CFG.formEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (j) {
+        var ok = res.ok && j.success !== false && j.ok !== false && !j.errors && !j.error;
+        if (!ok) throw new Error('send failed');
+        form.reset();
+        setStatus('Message sent. Thanks, I will get back to you soon.', 'ok');
+      });
+    }).catch(function () {
+      setStatus('Your message did not send. Check your connection and try again, or', 'error', true, textLines(d));
+    }).then(function () { busy(false); });
+  }
+
+  function sendByMailto(d) {
+    var subject = 'New project enquiry - ' + d.name + ' - ' + d.type;
+    var url = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(textLines(d));
+    setStatus('Opening your email app. If nothing happens,', '', true, textLines(d));
     window.location.href = url;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = readFields();
+    if (!validate(d)) return;
+    if (hpEl && hpEl.value) { form.reset(); setStatus('Message sent. Thanks, I will get back to you soon.', 'ok'); return; } /* bot */
+    if (CFG.formEndpoint) sendToEndpoint(d); else sendByMailto(d);
   });
+
+  if (waBtn) {
+    waBtn.addEventListener('click', function () {
+      var d = readFields();
+      if (!validate(d)) return;
+      window.open(waUrl(textLines(d)), '_blank', 'noopener');
+      setStatus('WhatsApp is opening with your details filled in.', 'ok');
+    });
+  }
 })();

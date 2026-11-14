@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Driss Ouazzani Chahdi — Video Editor</title>
+<title>Freelance Video Editor for Reels &amp; YouTube | Driss Ouazzani Chahdi</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0a1428">
 <meta name="description" content="Portfolio of Driss Ouazzani Chahdi, freelance video editor. Reels, YouTube edits, real estate media.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Driss Ouazzani Chahdi — Video Editor">
+<meta property="og:title" content="Freelance Video Editor for Reels &amp; YouTube | Driss Ouazzani Chahdi">
 <meta property="og:description" content="Edits that keep viewers watching. 2,300+ videos delivered, 48-hour turnaround.">
 <meta property="og:url" content="https://drizoeditz.pro/">
 <meta property="og:image" content="https://drizoeditz.pro/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Driss Ouazzani Chahdi — Video Editor">
+<meta name="twitter:title" content="Freelance Video Editor for Reels &amp; YouTube | Driss Ouazzani Chahdi">
 <meta name="twitter:description" content="Edits that keep viewers watching. 2,300+ videos delivered, 48-hour turnaround.">
 <meta name="twitter:image" content="https://drizoeditz.pro/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,13 +27,19 @@
 
 <nav class="nav">
   <a href="#top" class="wordmark">Driss<span>.</span></a>
-  <div class="nav-links">
+  <div class="nav-links" id="nav-menu">
     <a href="#work">Work</a>
     <a href="#services">Services</a>
+    <a href="#quote">Quote</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
   </div>
-  <a href="#contact" class="btn btn-small btn-primary">Hire me</a>
+  <div class="nav-actions">
+    <a href="#contact" class="btn btn-small btn-primary" data-track="hire-me">Hire me</a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+    </button>
+  </div>
 </nav>
 
 <header class="hero" id="top">
@@ -42,11 +50,16 @@
       <p class="hero-sub">I'm Driss, a freelance video editor from Fès, Morocco. Reels, YouTube and real estate media — cut with pacing your audience can feel.</p>
       <div class="hero-cta">
         <a href="#work" class="btn btn-primary">Watch my work</a>
-        <a href="#services" class="btn btn-ghost">Pricing</a>
+        <a href="#quote" class="btn btn-ghost">Get a quote</a>
+        <!-- Stage 2 booking: hidden until config.js bookingUrl is set -->
+        <a href="#" class="btn btn-ghost booking-btn" id="hero-booking" hidden>Book a 15-min call</a>
       </div>
     </div>
     <div class="hero-visual">
-      <div class="arch-frame"><img src="profile.jpg" alt="Driss Ouazzani Chahdi"></div>
+      <div class="arch-frame">
+        <img src="profile.jpg" alt="Driss Ouazzani Chahdi" id="hero-photo" width="320" height="416">
+        <video id="showreel-video" class="showreel" muted loop playsinline preload="none" width="320" height="416" hidden></video>
+      </div>
       <div class="chip chip-a"><strong>2,300+</strong><span>videos delivered</span></div>
       <div class="chip chip-b"><strong>48h</strong><span>turnaround</span></div>
     </div>
@@ -72,29 +85,66 @@
     <div class="grid" id="grid"></div>
   </section>
 
+  <!-- Stage 1 mounts: beforeafter.js and casestudy.js render into these
+       ONLY when their data files have content. Empty by default, so nothing
+       (no section, no heading) is visible until Driss supplies the assets. -->
+  <div id="before-after-mount"></div>
+  <div id="case-study-mount"></div>
+
   <section id="services" class="services">
     <div class="services-inner">
       <p class="sec-kicker"><span>02</span>Services</p>
       <h2 class="sec-title">Pick a format. <em>I handle the rest.</em></h2>
-      <p class="services-sub">Broadcast-level pacing, platform-native formatting, and a turnaround your content calendar can rely on.</p>
+      <p class="services-sub">Premium pacing, honest pricing, and a turnaround your content calendar can rely on.</p>
+      <h3 class="pricing-group-title">Reels &amp; Shorts</h3>
       <div class="pricing-grid">
         <div class="price-card featured">
           <p class="price-badge">Most popular</p>
-          <p class="price-tier">Short-Form</p>
-          <h3>Reels &amp; Shorts</h3>
-          <p class="price"><span class="price-from">from</span> $10<span class="price-per">/reel</span></p>
-          <p class="price-desc">Scroll-stopping vertical cuts engineered to win the first 3 seconds.</p>
+          <p class="price-tier">Reels</p>
+          <h3>Starter Reel</h3>
+          <p class="price">$10<span class="price-per">/reel</span></p>
+          <p class="price-desc">One scroll-stopping vertical cut, engineered to win the first 3 seconds.</p>
           <ul class="price-features">
-            <li>Hook-first pacing &amp; kinetic captions</li>
-            <li>Trend-aware sound design</li>
+            <li>One vertical reel</li>
+            <li>Hook-first pacing &amp; captions</li>
             <li>Platform-native 9:16 formatting</li>
             <li>48-hour turnaround</li>
           </ul>
           <a href="#contact" class="btn btn-primary price-cta">Start a project</a>
         </div>
         <div class="price-card">
+          <p class="price-badge">Best value</p>
+          <p class="price-tier">Reels</p>
+          <h3>Creator Pack</h3>
+          <p class="price">$45<span class="price-per">/ 5 reels</span></p>
+          <p class="price-desc">Five reels for the price of four and a half — a week of content in one order.</p>
+          <ul class="price-features">
+            <li>5 vertical reels</li>
+            <li>Priority 48-hour turnaround</li>
+            <li>1 revision round</li>
+            <li>Consistent style across the pack</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost price-cta">Start a project</a>
+        </div>
+        <div class="price-card">
+          <p class="price-tier">Reels</p>
+          <h3>Partner</h3>
+          <p class="price">$180<span class="price-per">/month</span></p>
+          <p class="price-desc">Weekly reels from a dedicated editor embedded in your content operation.</p>
+          <ul class="price-features">
+            <li>Weekly reels, every week</li>
+            <li>Priority turnaround</li>
+            <li>One feedback loop, zero chaos</li>
+            <li>Monthly content system</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost price-cta">Let&apos;s talk</a>
+        </div>
+      </div>
+      <h3 class="pricing-group-title">YouTube</h3>
+      <div class="pricing-grid two">
+        <div class="price-card">
           <p class="price-tier">Long-Form</p>
-          <h3>YouTube Edits</h3>
+          <h3>Single Edit</h3>
           <p class="price"><span class="price-from">from</span> $12<span class="price-per">/min</span></p>
           <p class="price-desc">Retention-edited videos built to hold attention to the end card.</p>
           <ul class="price-features">
@@ -106,27 +156,67 @@
           <a href="#contact" class="btn btn-ghost price-cta">Start a project</a>
         </div>
         <div class="price-card">
-          <p class="price-tier">Ongoing</p>
-          <h3>Content Partner</h3>
+          <p class="price-tier">Long-Form</p>
+          <h3>Channel Partner</h3>
           <p class="price">Custom</p>
-          <p class="price-desc">A dedicated editor embedded in your content operation.</p>
+          <p class="price-desc">A dedicated editor for your channel, on a regular schedule.</p>
           <ul class="price-features">
-            <li>Guaranteed weekly output slots</li>
+            <li>Regular edits on a set schedule</li>
             <li>Priority turnaround</li>
             <li>One feedback loop, zero chaos</li>
             <li>Monthly content system</li>
           </ul>
-          <a href="#contact" class="btn btn-ghost price-cta">Let's talk</a>
+          <a href="#contact" class="btn btn-ghost price-cta">Let&apos;s talk</a>
         </div>
       </div>
-      <p class="services-note">Still deciding? <a href="#contact">Start with a paid trial edit</a> — judge the work, not the pitch.</p>
+      <p class="services-note">Still deciding? <a href="trial.html">Start with a paid trial edit</a> — one reel for $10, credited toward your first pack if you continue — or <a href="#quote">get an instant quote</a>. Judge the work, not the pitch.</p>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="how-it-works" aria-labelledby="how-title">
+    <p class="sec-kicker">How it works</p>
+    <h2 class="sec-title" id="how-title">From brief to <em>finished video.</em></h2>
+    <ol class="steps">
+      <li class="step">
+        <h3>Brief</h3>
+        <p>Tell me about your project, your footage and your deadline.</p>
+      </li>
+      <li class="step">
+        <h3>First draft in 48h</h3>
+        <p>You get a first cut within 48 hours of the brief.</p>
+      </li>
+      <li class="step">
+        <h3>Revisions</h3>
+        <p>3 revision rounds included. Extra rounds are +10% of the project price each.</p>
+      </li>
+      <li class="step">
+        <h3>Delivery and payment</h3>
+        <p>You get the finished video, ready to post. Payment by PayPal or international wire bank transfer to Morocco.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Stage 2 lead magnet: hidden until config.js leadFormEndpoint AND
+       leadPdfUrl are both set (see leadmagnet.js). -->
+  <section id="lead-magnet" class="lead-magnet" aria-labelledby="lead-title" hidden>
+    <div class="lead-magnet-inner">
+      <p class="sec-kicker">Free guide</p>
+      <h2 class="sec-title" id="lead-title">10 reel hooks <em>that work.</em></h2>
+      <p>Get the free guide: ten opening hooks you can use on your next reel, with an example for each.</p>
+      <form class="lead-form" id="lead-form" action="#" novalidate>
+        <label class="sr-only" for="lead-email">Email</label>
+        <input id="lead-email" name="email" type="email" autocomplete="email" required placeholder="Your email">
+        <button class="btn btn-primary" type="submit">Send me the guide</button>
+      </form>
+      <p class="form-status" id="lead-status" role="status" aria-live="polite"></p>
+      <a class="lead-pdf-link" id="lead-pdf-link" href="#" hidden>Download "10 reel hooks that work" (PDF)</a>
     </div>
   </section>
 
   <section id="quote" class="quote-calc" aria-labelledby="quote-title">
     <p class="sec-kicker">Instant Quote</p>
     <h2 class="sec-title" id="quote-title">Get an instant <em>estimate.</em></h2>
-    <p class="quote-sub">Pick a format, a length and a turnaround, and see the price straight away. Estimate only &mdash; final price confirmed on WhatsApp.</p>
+    <p class="quote-sub">Pick a format, a length and a turnaround, and see the price straight away. Estimate only &mdash; final price confirmed by email or WhatsApp.</p>
     <div class="quote-layout">
       <form class="quote-form" id="quote-form" action="#" novalidate>
         <fieldset class="field">
@@ -164,7 +254,8 @@
           <li id="quote-base">Reels / Shorts &mdash; 1 x $10 per reel = $10</li>
           <li id="quote-adjustment">Standard &mdash; 48h: +$0</li>
         </ul>
-        <a class="btn btn-primary" id="quote-email" href="mailto:hello@drizoeditz.pro" target="_blank" rel="noopener">Send this quote by email</a>
+        <a class="btn btn-primary" id="quote-wa" data-track="quote-whatsapp" href="https://wa.me/4917688649232" target="_blank" rel="noopener">Send this quote on WhatsApp</a>
+        <a class="btn btn-ghost" id="quote-email" data-track="quote-email" href="mailto:hello@drizoeditz.pro">Send this quote by email</a>
         <p class="form-note"><a href="#contact">Or use the contact form below</a></p>
       </div>
     </div>
@@ -184,7 +275,7 @@
         </ul>
       </div>
       <div class="about-visual">
-        <img src="profile.jpg" alt="Driss Ouazzani Chahdi">
+        <img src="profile.jpg" alt="Driss Ouazzani Chahdi" id="about-photo" width="320" height="416">
       </div>
     </div>
   </section>
@@ -197,14 +288,6 @@
         <blockquote>&ldquo;He is good.&rdquo;</blockquote>
         <figcaption><strong>Malek</strong><span>5/5 &mdash; client review</span></figcaption>
       </figure>
-      <figure class="quote placeholder">
-        <blockquote>&ldquo;[Placeholder &mdash; replace with a real client quote]&rdquo;</blockquote>
-        <figcaption><strong>[Placeholder &mdash; client name]</strong><span>[Placeholder &mdash; brand / result]</span></figcaption>
-      </figure>
-      <figure class="quote placeholder">
-        <blockquote>&ldquo;[Placeholder &mdash; replace with a real client quote]&rdquo;</blockquote>
-        <figcaption><strong>[Placeholder &mdash; client name]</strong><span>[Placeholder &mdash; brand / result]</span></figcaption>
-      </figure>
     </div>
   </section>
 
@@ -212,9 +295,11 @@
     <p class="sec-kicker"><span>05</span>Contact</p>
     <h2 class="sec-title">Let's make something <em>worth watching.</em></h2>
     <p class="contact-sub">Currently available for freelance projects — reels, YouTube edits, ad creatives.</p>
+    <!-- Stage 2 booking: hidden until config.js bookingUrl is set -->
+    <a href="#" class="btn btn-ghost booking-btn" id="contact-booking" hidden>Book a 15-min call</a>
     <div class="contact-layout">
     <div class="contact-links">
-      <a class="contact-card" href="https://wa.me/4917688649232" target="_blank" rel="noopener">
+      <a class="contact-card" href="https://wa.me/4917688649232" data-track="whatsapp" target="_blank" rel="noopener">
         <span class="contact-label">WhatsApp</span>
         <span class="contact-value">+49 176 88649232</span>
       </a>
@@ -222,7 +307,7 @@
         <span class="contact-label">Instagram</span>
         <span class="contact-value">@drissouazzani.21</span>
       </a>
-      <a class="contact-card" href="mailto:hello@drizoeditz.pro">
+      <a class="contact-card" href="mailto:hello@drizoeditz.pro" data-track="email"
         <span class="contact-label">Email</span>
         <span class="contact-value">hello@drizoeditz.pro</span>
       </a>
@@ -260,19 +345,31 @@
         <label for="field-message">Message</label>
         <textarea id="field-message" name="message" rows="4" required placeholder="Tell me about your project&hellip;"></textarea>
       </div>
-      <button class="btn btn-primary" type="submit">Send via email</button>
-      <p class="form-note">Sends by email to hello@drizoeditz.pro.</p>
+      <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="_gotcha" id="field-hp" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn btn-primary" type="submit" id="contact-submit">Send message</button>
+      <button class="btn btn-ghost" type="button" id="contact-wa">Send on WhatsApp instead</button>
+      <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
     </form>
     </div>
   </section>
 </main>
 
 <footer>
+  <p class="footer-socials" id="social-links"></p>
+  <p><a href="real-estate-video-editor.html">Real Estate Video Editor</a> &middot; <a href="youtube-editor.html">YouTube Editor</a> &middot; <a href="trial.html">Paid Trial — $10</a></p>
   <p>© 2026 Driss Ouazzani Chahdi — Video Editor</p>
 </footer>
 
+<script src="config.js"></script>
 <script src="videos.js"></script>
 <script src="testimonials.js"></script>
+<script src="beforeafter.js"></script>
+<script src="casestudy.js"></script>
+<script src="showreel.js"></script>
+<script src="booking.js"></script>
+<script src="leadmagnet.js"></script>
+<script src="analytics.js"></script>
+<script src="socials.js"></script>
 <script src="app.js"></script>
 <script src="quote.js"></script>
 <!-- Premium motion: GSAP 3.12.5 + ScrollTrigger (cdnjs), Lenis 1.1.14 (jsDelivr).
