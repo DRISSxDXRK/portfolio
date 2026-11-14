@@ -971,3 +971,92 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 
 /* Visually hidden label (lead magnet email field) */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Floating bottom pill nav (iOS 26 Liquid Glass) ---------- */
+/* Fixed morph technique: the skin and the bar morph with real geometry
+   (left / width / height, border-radius: 999px). No scaleX/scaleY on the
+   skin — non-uniform scaling flattens the corners into a rounded
+   rectangle. Labels fade/scale with transform + opacity only; the inner
+   row slides with transform only. Easing: Apple spring approx
+   cubic-bezier(0.32, 0.72, 0, 1), 480ms; expand overshoot
+   cubic-bezier(0.34, 1.56, 0.64, 1) on the skin. */
+.pillnav {
+  position: fixed;
+  z-index: 60;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  height: 52px;
+  overflow: hidden;
+  background: rgba(6, 11, 22, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  transition: left 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    width 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    height 0.48s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.pillnav-snap, .pillnav-snap * { transition: none !important; }
+.pillnav-skin {
+  position: absolute;
+  top: 6px;
+  height: 40px;
+  background: var(--gold);
+  border-radius: 999px;
+  transition: left 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    width 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    top 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    height 0.48s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.pillnav:not(.is-compact) .pillnav-skin {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pillnav-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  padding: 0 8px;
+  transition: transform 0.48s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.pillnav-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  color: var(--pearl-dim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: opacity 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.48s cubic-bezier(0.32, 0.72, 0, 1),
+    color 0.2s ease, visibility 0s linear 0.48s;
+}
+.pillnav-link:hover { color: var(--pearl); }
+.pillnav-link.is-active { color: var(--ink); font-weight: 600; }
+.pillnav.is-compact .pillnav-link:not(.is-active) {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  visibility: hidden;
+}
+.pillnav.is-compact .pillnav-link.is-active { pointer-events: auto; }
+@media (max-width: 720px) {
+  .pillnav-link { font-size: 0.78rem; padding: 0 8px; }
+  .pillnav-row { gap: 2px; padding: 0 6px; }
+}
+@media (max-width: 380px) {
+  .pillnav-link { font-size: 0.75rem; padding: 0 7px; }
+}
+/* Keep the last footer content clear of the floating pill. */
+footer { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px)); }
+@media (prefers-reduced-motion: reduce) {
+  .pillnav, .pillnav-skin, .pillnav-row, .pillnav-link { transition: none; }
+}
