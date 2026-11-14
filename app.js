@@ -93,10 +93,28 @@
   function render() {
     grid.innerHTML = '';
     players = [];
+    var shown = 0;
     VIDEOS.forEach(function (v) {
-      if (currentFilter !== 'all' && v.client !== currentFilter) return;
+      if (currentFilter !== 'all' && !(v.format || []).includes(currentFilter)) return;
       grid.appendChild(makeCard(v));
+      shown++;
     });
+    if (!shown) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-state';
+      var msg = currentFilter === 'ads'
+        ? 'No ad creatives published yet \u2014 ask me for recent ad examples.'
+        : 'No videos in this category yet.';
+      var pEl = document.createElement('p');
+      pEl.textContent = msg;
+      var link = document.createElement('a');
+      link.href = '#contact';
+      link.className = 'btn btn-primary';
+      link.textContent = 'Ask for examples';
+      empty.appendChild(pEl);
+      empty.appendChild(link);
+      grid.appendChild(empty);
+    }
     /* Hook for motion.js: re-animate freshly rendered work cards. */
     if (typeof window !== 'undefined' && window.dispatchEvent) {
       window.dispatchEvent(new CustomEvent('portfolio:grid-rendered', { detail: { filter: currentFilter } }));
@@ -199,5 +217,31 @@
   window.addEventListener('resize', function () {
     clearTimeout(rt);
     rt = setTimeout(function () { if (started) layout(false); }, 250);
+  });
+})();
+
+/* Contact form: no backend on this static site, so submit composes a
+   WhatsApp message to +4917688649232 and opens it in a new tab. */
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('field-name').value.trim();
+    var type = document.getElementById('field-type').value;
+    var budget = document.getElementById('field-budget').value;
+    var link = document.getElementById('field-link').value.trim();
+    var message = document.getElementById('field-message').value.trim();
+    if (!name || !message) return;
+    var lines = [
+      'Hi Driss, I want to book a project.',
+      'Name: ' + name,
+      'Project type: ' + type,
+      'Budget: ' + budget
+    ];
+    if (link) lines.push('Link: ' + link);
+    lines.push('Message: ' + message);
+    var url = 'https://wa.me/4917688649232?text=' + encodeURIComponent(lines.join('\n'));
+    window.open(url, '_blank', 'noopener');
   });
 })();

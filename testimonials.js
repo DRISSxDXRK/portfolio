@@ -1,5 +1,7 @@
-/* Client testimonials. Add entries as reviews arrive — the section stays hidden while empty.
-   Entry shape: { text: "…", name: "Client Name", detail: "Brand / context" } */
+/* Client testimonials. The Malek quote is rendered statically in index.html
+   so the section is visible with no JS; this script only adds entries that
+   are NOT already in the DOM. Add entries as reviews arrive.
+   Entry shape: { text: "...", name: "Client Name", detail: "Brand / context" } */
 var TESTIMONIALS = [
  { text: "He is good.", name: "Malek", detail: "5/5 — client review" }
 ];
@@ -8,9 +10,13 @@ var TESTIMONIALS = [
   var section = document.getElementById('testimonials');
   var wrap = document.getElementById('quotes');
   if (!section || !wrap) return;
-  if (!TESTIMONIALS.length) { section.hidden = true; return; }
-  section.hidden = false;
+  // Section is visible by default in the HTML; never hide it here.
+  var existing = [];
+  wrap.querySelectorAll('blockquote').forEach(function (b) {
+    existing.push(b.textContent.replace(/[\u201C\u201D"]/g, '').trim());
+  });
   TESTIMONIALS.forEach(function (t) {
+    if (existing.indexOf(t.text.trim()) !== -1) return; // already rendered statically
     var fig = document.createElement('figure');
     fig.className = 'quote';
     var q = document.createElement('blockquote');

@@ -73,6 +73,7 @@
   reveal('.about-visual', { y: 28 });
   reveal('.filters', { y: 16 });
   reveal('.quote', { y: 28, stagger: 0.1 });
+  reveal('.contact-form', { y: 28 });
 
   /* ---------- Work cards: re-run after app.js render / filter ---------- */
   var cardTriggers = [];
