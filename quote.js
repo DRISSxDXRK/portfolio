@@ -7,10 +7,10 @@
  * Turnaround modifiers (new assumptions — Driss to confirm):
  *   Standard 48h  x1.0, Rush 24h  x1.5, Flexible 4-7 days  x0.9
  * Total is rounded to the nearest whole dollar. Estimate only — the final
- * price is confirmed on WhatsApp. No backend, no submit needed to see the
- * price; the WhatsApp button just opens wa.me with the quote pre-filled.
+ * price is confirmed by email. No backend, no submit needed to see the
+ * price; the email button just opens a mailto link with the quote pre-filled.
  * Progressive enhancement: if this file fails, the form stays visible and
- * the WhatsApp button keeps its default $10 / 1 Reel / Standard quote.
+ * the email button keeps its default $10 / 1 Reel / Standard quote.
  */
 (function () {
   'use strict';
@@ -26,7 +26,7 @@
     rush: { label: 'Rush — 24h (+50%)', mult: 1.5 },
     flexible: { label: 'Flexible — 4-7 days (-10%)', mult: 0.9 }
   };
-  var WA_NUMBER = '4917688649232';
+  var EMAIL = 'hello@drizoeditz.pro';
 
   function clamp(n, min, max, fallback) {
     n = parseInt(n, 10);
@@ -57,7 +57,7 @@
   var baseLine = document.getElementById('quote-base');
   var adjLine = document.getElementById('quote-adjustment');
   var totalEl = document.getElementById('quote-total');
-  var waBtn = document.getElementById('quote-whatsapp');
+  var waBtn = document.getElementById('quote-email');
 
   function currentFormat() {
     var checked = form.querySelector('input[name="format"]:checked');
@@ -99,7 +99,7 @@
         'Turnaround: ' + q.turn.label,
         'Estimated total: from $' + q.total + ' (estimate only — please confirm the final price.)'
       ];
-      waBtn.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+      waBtn.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Instant quote - ' + q.rate.label) + '&body=' + encodeURIComponent(lines.join('\n'));
     }
   }
 

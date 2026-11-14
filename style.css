@@ -729,3 +729,8 @@ html.lenis, html.lenis body { height: auto; }
   .quote-layout { grid-template-columns: 1fr; }
   .quote-result { position: static; }
 }
+
+/* ---------- Stage 3: niche landing pages ---------- */
+footer a { color: var(--gold); font-weight: 600; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer p + p { margin-top: 0.5rem; }
