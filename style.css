@@ -591,14 +591,13 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .split-char, .shiny-text { animation: none; }
+  .shiny-text { color: var(--gold); background: none; -webkit-background-clip: initial; background-clip: initial; }
+  .magnetic { transition: none; }
 }
 /* Stage 2: no per-character headline stagger on mobile — the headline
    must read in full immediately, never as "Prop" / "Edi" mid-animation. */
 @media (max-width: 960px) {
   .split-char { animation: none; }
-}
-  .shiny-text { color: var(--gold); background: none; -webkit-background-clip: initial; background-clip: initial; }
-  .magnetic { transition: none; }
 }
 
 /* ---------- Stage 1: testimonials placeholders, contact form, empty state ---------- */
@@ -1120,6 +1119,14 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 }
 @media (max-width: 380px) {
   .pillnav-link { font-size: 0.75rem; padding: 0 7px; }
+  .pillnav-row { gap: 0; padding: 0 4px; }
+}
+/* 360px: the four pill labels together are ~367px at the 380px sizing,
+   wider than the viewport, so the pill was clipped on the right edge.
+   Tighten further so the whole pill fits inside 360px. */
+@media (max-width: 360px) {
+  .pillnav-link { font-size: 0.72rem; padding: 0 5px; }
+  .pillnav-row { gap: 0; padding: 0 4px; }
 }
 /* Keep the last footer content clear of the floating pill. */
 footer { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px)); }
