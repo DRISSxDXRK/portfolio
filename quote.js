@@ -5,7 +5,7 @@
  *   Real Estate:     $80 per video (=$40 per 30s, the site's published rate)
  *   Ad Creative:     $10 per reel (same base as Reels, labelled as ad creative)
  * Turnaround modifiers (new assumptions — Driss to confirm):
- *   Standard 48h  x1.0, Rush 24h  x1.5, Flexible 3-5 days  x0.9
+ *   Standard 48h  x1.0, Rush 24h  x1.5, Flexible 4-7 days  x0.9
  * Total is rounded to the nearest whole dollar. Estimate only — the final
  * price is confirmed on WhatsApp. No backend, no submit needed to see the
  * price; the WhatsApp button just opens wa.me with the quote pre-filled.
@@ -24,7 +24,7 @@
   var TURNAROUNDS = {
     standard: { label: 'Standard — 48h', mult: 1.0 },
     rush: { label: 'Rush — 24h (+50%)', mult: 1.5 },
-    flexible: { label: 'Flexible — 3-5 days (-10%)', mult: 0.9 }
+    flexible: { label: 'Flexible — 4-7 days (-10%)', mult: 0.9 }
   };
   var WA_NUMBER = '4917688649232';
 
