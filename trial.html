@@ -209,6 +209,13 @@
     <a class="pillnav-link" href="trial.html">Trial &mdash; $10</a>
   </span>
 </nav>
+<!-- Premium motion, same as homepage: GSAP + Lenis smooth scroll.
+     Progressive enhancement only: motion.js guards every call, no CSS
+     hides content, so the page is fully visible if any CDN fails. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+<script src="motion.js" defer></script>
 <script src="pillnav.js"></script>
 </body>
 </html>
