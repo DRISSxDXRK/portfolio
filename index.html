@@ -123,6 +123,53 @@
     </div>
   </section>
 
+  <section id="quote" class="quote-calc" aria-labelledby="quote-title">
+    <p class="sec-kicker">Instant Quote</p>
+    <h2 class="sec-title" id="quote-title">Get an instant <em>estimate.</em></h2>
+    <p class="quote-sub">Pick a format, a length and a turnaround, and see the price straight away. Estimate only &mdash; final price confirmed on WhatsApp.</p>
+    <div class="quote-layout">
+      <form class="quote-form" id="quote-form" action="#" novalidate>
+        <fieldset class="field">
+          <legend>Format</legend>
+          <div class="radio-row" role="group" aria-label="Format">
+            <label class="radio-pill"><input type="radio" name="format" value="reels" checked> Reels / Shorts</label>
+            <label class="radio-pill"><input type="radio" name="format" value="youtube"> YouTube Edit</label>
+            <label class="radio-pill"><input type="radio" name="format" value="real-estate"> Real Estate</label>
+            <label class="radio-pill"><input type="radio" name="format" value="ad"> Ad Creative</label>
+          </div>
+        </fieldset>
+        <div class="field" id="quote-count-field">
+          <label for="quote-count">Number of videos</label>
+          <input id="quote-count" name="count" type="number" min="1" max="10" step="1" value="1">
+          <p class="field-hint">$10 per reel &middot; $80 per real-estate video &middot; $10 per ad creative</p>
+        </div>
+        <div class="field" id="quote-minutes-field" hidden>
+          <label for="quote-minutes">Video length <output id="quote-minutes-value" for="quote-minutes">5 min</output></label>
+          <input id="quote-minutes" name="minutes" type="range" min="1" max="30" step="1" value="5">
+          <p class="field-hint">$12 per minute</p>
+        </div>
+        <div class="field">
+          <label for="quote-turnaround">Turnaround</label>
+          <select id="quote-turnaround" name="turnaround">
+            <option value="standard">Standard &mdash; 48h (included)</option>
+            <option value="rush">Rush &mdash; 24h (+50%)</option>
+            <option value="flexible">Flexible &mdash; 3-5 days (-10%)</option>
+          </select>
+        </div>
+      </form>
+      <div class="quote-result" aria-live="polite">
+        <p class="quote-result-label">Your estimate</p>
+        <p class="quote-total" id="quote-total">from $10</p>
+        <ul class="quote-breakdown">
+          <li id="quote-base">Reels / Shorts &mdash; 1 x $10 per reel = $10</li>
+          <li id="quote-adjustment">Standard &mdash; 48h: +$0</li>
+        </ul>
+        <a class="btn btn-primary" id="quote-whatsapp" href="https://wa.me/4917688649232?text=Hi%20Driss%2C%20I%20want%20an%20instant%20quote.%0AFormat%3A%20Reels%20%2F%20Shorts%0AQuantity%3A%201%20video%0ATurnaround%3A%20Standard%20%E2%80%94%2048h%0AEstimated%20total%3A%20from%20%2410%20(estimate%20only%20%E2%80%94%20please%20confirm%20the%20final%20price.)" target="_blank" rel="noopener">Send this quote on WhatsApp</a>
+        <p class="form-note"><a href="#contact">Or use the contact form below</a></p>
+      </div>
+    </div>
+  </section>
+
   <section id="about" class="about">
     <p class="sec-kicker"><span>03</span>About</p>
     <div class="about-grid">
@@ -227,6 +274,7 @@
 <script src="videos.js"></script>
 <script src="testimonials.js"></script>
 <script src="app.js"></script>
+<script src="quote.js"></script>
 <!-- Premium motion: GSAP 3.12.5 + ScrollTrigger (cdnjs), Lenis 1.1.14 (jsDelivr).
      All are progressive enhancement: motion.js guards every call, and no CSS
      hides content, so the site is fully visible if any CDN fails. -->
