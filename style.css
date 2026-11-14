@@ -525,3 +525,56 @@ footer::before {
   .facts li { flex-direction: column; gap: 0.2rem; }
   .facts li span { min-width: 0; }
 }
+
+/* ---------- Premium motion additions (GSAP / Lenis / React Bits) ----------
+   Palette unchanged: only existing --gold / --ocean / --pearl variables.
+   No element is hidden by CSS here — GSAP uses gsap.from() only, so if
+   GSAP fails to load everything stays visible. */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+/* SplitText: hero headline chars rise in, staggered via inline animation-delay */
+.split-text { display: inline; }
+.split-word { display: inline-block; white-space: nowrap; }
+.split-word.split-em { font-style: italic; color: var(--gold); }
+.split-char {
+  display: inline-block;
+  animation: split-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+@keyframes split-rise {
+  from { transform: translateY(0.55em) rotate(2deg); opacity: 0; }
+  to { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+/* ShinyText: gold shine sweep across the hero kicker */
+.shiny-text {
+  background: linear-gradient(110deg, var(--gold) 40%, #fff8dc 50%, var(--gold) 60%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shiny-sweep 3.5s linear infinite;
+}
+@keyframes shiny-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* SpotlightCard: cursor glow overlay inside pricing / contact cards */
+.price-card, .contact-card { position: relative; }
+.spotlight-mount { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; overflow: hidden; }
+.spotlight-layer { position: absolute; inset: 0; transition: opacity 0.25s ease; pointer-events: none; }
+/* Cooler glow on the light (non-featured) pricing cards, gold elsewhere */
+.price-card:not(.featured) .spotlight-layer { --spot: rgba(91, 136, 178, 0.20); }
+.price-card.featured .spotlight-layer { --spot: rgba(224, 197, 143, 0.18); }
+.contact-card .spotlight-layer { --spot: rgba(224, 197, 143, 0.14); }
+
+/* Magnetic buttons */
+.magnetic { will-change: transform; transition: transform 0.18s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .split-char, .shiny-text { animation: none; }
+  .shiny-text { color: var(--gold); background: none; -webkit-background-clip: initial; background-clip: initial; }
+  .magnetic { transition: none; }
+}
