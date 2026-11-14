@@ -64,10 +64,10 @@
     <h2 class="sec-title">Work that <em>holds attention.</em></h2>
     <div class="filters" id="filters">
       <button class="filter active" data-filter="all">All</button>
-      <button class="filter" data-filter="ahp">Art Home Photo</button>
-      <button class="filter" data-filter="as">Art Social</button>
-      <button class="filter" data-filter="charlie">Charlie's Pokécards</button>
-      <button class="filter" data-filter="hercules">Hercules Training</button>
+      <button class="filter" data-filter="reels">Reels</button>
+      <button class="filter" data-filter="youtube">YouTube</button>
+      <button class="filter" data-filter="real-estate">Real Estate</button>
+      <button class="filter" data-filter="ads">Ads</button>
     </div>
     <div class="grid" id="grid"></div>
   </section>
@@ -142,16 +142,30 @@
     </div>
   </section>
 
-  <section id="testimonials" class="testimonials" hidden>
+  <section id="testimonials" class="testimonials">
     <p class="sec-kicker"><span>04</span>Kind Words</p>
     <h2 class="sec-title">Clients, <em>in their words.</em></h2>
-    <div class="quotes" id="quotes"></div>
+    <div class="quotes" id="quotes">
+      <figure class="quote">
+        <blockquote>&ldquo;He is good.&rdquo;</blockquote>
+        <figcaption><strong>Malek</strong><span>5/5 &mdash; client review</span></figcaption>
+      </figure>
+      <figure class="quote placeholder">
+        <blockquote>&ldquo;[Placeholder &mdash; replace with a real client quote]&rdquo;</blockquote>
+        <figcaption><strong>[Placeholder &mdash; client name]</strong><span>[Placeholder &mdash; brand / result]</span></figcaption>
+      </figure>
+      <figure class="quote placeholder">
+        <blockquote>&ldquo;[Placeholder &mdash; replace with a real client quote]&rdquo;</blockquote>
+        <figcaption><strong>[Placeholder &mdash; client name]</strong><span>[Placeholder &mdash; brand / result]</span></figcaption>
+      </figure>
+    </div>
   </section>
 
   <section id="contact" class="contact">
     <p class="sec-kicker"><span>05</span>Contact</p>
     <h2 class="sec-title">Let's make something <em>worth watching.</em></h2>
     <p class="contact-sub">Currently available for freelance projects — reels, YouTube edits, ad creatives.</p>
+    <div class="contact-layout">
     <div class="contact-links">
       <a class="contact-card" href="https://wa.me/4917688649232" target="_blank" rel="noopener">
         <span class="contact-label">WhatsApp</span>
@@ -165,6 +179,43 @@
         <span class="contact-label">Email</span>
         <span class="contact-value">serrentazimuts121@gmail.com</span>
       </a>
+    </div>
+    <form class="contact-form" id="contact-form" action="#" novalidate>
+      <div class="field">
+        <label for="field-name">Name</label>
+        <input id="field-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="field-type">Project type</label>
+        <select id="field-type" name="project-type">
+          <option>Reels</option>
+          <option>YouTube</option>
+          <option>Real Estate</option>
+          <option>Ads</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="field-budget">Budget</label>
+        <select id="field-budget" name="budget">
+          <option>Under $100</option>
+          <option>$100&ndash;250</option>
+          <option>$250&ndash;500</option>
+          <option>$500+</option>
+          <option>To discuss</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="field-link">Link <span class="field-optional">(optional)</span></label>
+        <input id="field-link" name="link" type="url" inputmode="url" placeholder="https:// — your channel or a reference video">
+      </div>
+      <div class="field">
+        <label for="field-message">Message</label>
+        <textarea id="field-message" name="message" rows="4" required placeholder="Tell me about your project&hellip;"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Send via WhatsApp</button>
+      <p class="form-note">Sends via WhatsApp &mdash; no email account needed.</p>
+    </form>
     </div>
   </section>
 </main>

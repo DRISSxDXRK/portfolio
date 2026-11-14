@@ -578,3 +578,66 @@ html.lenis, html.lenis body { height: auto; }
   .shiny-text { color: var(--gold); background: none; -webkit-background-clip: initial; background-clip: initial; }
   .magnetic { transition: none; }
 }
+
+/* ---------- Stage 1: testimonials placeholders, contact form, empty state ---------- */
+.quote.placeholder { border-style: dashed; opacity: 0.85; }
+
+/* Contact: form beside the contact cards on desktop, stacked on mobile */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.contact-layout .contact-links { grid-template-columns: 1fr; }
+.contact-form {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.field { margin-bottom: 1rem; }
+.field label {
+  display: block;
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--gold);
+  font-weight: 600; margin-bottom: 0.45rem;
+}
+.field-optional { text-transform: none; letter-spacing: 0; color: var(--pearl-dim); font-weight: 500; }
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  background: var(--noir);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--pearl);
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.8rem 0.9rem;
+}
+.contact-form textarea { resize: vertical; min-height: 6rem; }
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-color: var(--gold);
+}
+.contact-form .btn { width: 100%; text-align: center; margin-top: 0.25rem; }
+.form-note { margin-top: 0.9rem; font-size: 0.85rem; color: var(--pearl-dim); text-align: center; }
+
+/* Work grid empty state (e.g. Ads filter, no videos yet) */
+.empty-state {
+  grid-column: 1 / -1;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+}
+.empty-state p { color: var(--pearl-dim); font-size: 1.05rem; max-width: 32rem; }
+
+@media (max-width: 960px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}

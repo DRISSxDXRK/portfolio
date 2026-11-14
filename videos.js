@@ -4,6 +4,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-isabelle-reel-1.mp4",
   "poster": "thumbs/ahp-isabelle-reel-1.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -11,6 +12,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-isabelle-reel-2.mp4",
   "poster": "thumbs/ahp-isabelle-reel-2.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -18,6 +20,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-delaney-reel-1.mp4",
   "poster": "thumbs/ahp-delaney-reel-1.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -25,6 +28,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-claire-reel-2.mp4",
   "poster": "thumbs/ahp-claire-reel-2.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -32,6 +36,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-claire-reel-3.mp4",
   "poster": "thumbs/ahp-claire-reel-3.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -39,6 +44,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-peekaboo.mp4",
   "poster": "thumbs/ahp-peekaboo.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -46,6 +52,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-lilly-reel-1.mp4",
   "poster": "thumbs/ahp-lilly-reel-1.jpg",
+  "format": ["reels", "real-estate"],
   "vertical": true
  },
  {
@@ -53,6 +60,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-gomez-reel-1.mp4",
   "poster": "thumbs/ahp-gomez-reel-1.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -60,6 +68,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-gomez-reel-2.mp4",
   "poster": "thumbs/ahp-gomez-reel-2.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -67,6 +76,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-alexa-gomez-reel.mp4",
   "poster": "thumbs/ahp-alexa-gomez-reel.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -74,6 +84,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-dustin-reel-2.mp4",
   "poster": "thumbs/ahp-dustin-reel-2.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -81,6 +92,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-dustin-reel-3.mp4",
   "poster": "thumbs/ahp-dustin-reel-3.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -88,6 +100,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-brachen-reel-1.mp4",
   "poster": "thumbs/ahp-brachen-reel-1.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -95,6 +108,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-brachen-reel-2.mp4",
   "poster": "thumbs/ahp-brachen-reel-2.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -102,6 +116,7 @@ const VIDEOS = [
   "client": "as",
   "src": "videos/ahp-brachen-reel-3.mp4",
   "poster": "thumbs/ahp-brachen-reel-3.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -109,6 +124,7 @@ const VIDEOS = [
   "client": "charlie",
   "src": "videos/charlie-pack-opening.mp4",
   "poster": "thumbs/charlie-pack-opening.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -116,6 +132,7 @@ const VIDEOS = [
   "client": "charlie",
   "src": "videos/charlie-pikachu-zekrom.mp4",
   "poster": "thumbs/charlie-pikachu-zekrom.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -123,6 +140,7 @@ const VIDEOS = [
   "client": "charlie",
   "src": "videos/charlie-200-trade-up.mp4",
   "poster": "thumbs/charlie-200-trade-up.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -130,6 +148,7 @@ const VIDEOS = [
   "client": "charlie",
   "src": "videos/charlie-401-games.mp4",
   "poster": "thumbs/charlie-401-games.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -137,6 +156,7 @@ const VIDEOS = [
   "client": "hercules",
   "src": "videos/drive-derrek-edit-12.mp4",
   "poster": "thumbs/drive-derrek-edit-12.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -144,6 +164,7 @@ const VIDEOS = [
   "client": "hercules",
   "src": "videos/drive-derrek-edit-14.mp4",
   "poster": "thumbs/drive-derrek-edit-14.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -151,6 +172,7 @@ const VIDEOS = [
   "client": "hercules",
   "src": "videos/drive-drake-edit-13.mp4",
   "poster": "thumbs/drive-drake-edit-13.jpg",
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -158,6 +180,7 @@ const VIDEOS = [
   "client": "charlie",
   "youtube": "VPgi7ncVia0",
   "poster": "thumbs/yt-VPgi7ncVia0.jpg",
+  "format": ["youtube"],
   "vertical": false
  },
  {
@@ -165,6 +188,7 @@ const VIDEOS = [
   "client": "charlie",
   "youtube": "bY7Z3jxcb6g",
   "poster": "thumbs/yt-bY7Z3jxcb6g.jpg",
+  "format": ["youtube"],
   "vertical": false
  },
  {
@@ -172,6 +196,7 @@ const VIDEOS = [
   "client": "charlie",
   "youtube": "mxR-9d-3uaQ",
   "poster": "thumbs/yt-mxR-9d-3uaQ.jpg",
+  "format": ["youtube"],
   "vertical": false
  }
 ];
