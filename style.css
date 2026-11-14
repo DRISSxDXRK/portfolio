@@ -202,7 +202,8 @@ img { display: block; max-width: 100%; }
 
 /* ---------- Sections ---------- */
 main { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-section { padding: 6rem 0 2rem; scroll-margin-top: 4.5rem; }
+section { padding: 6rem 0 2rem; scroll-margin-top: 7rem; }
+html { scroll-padding-top: 7rem; }
 .sec-kicker {
   display: flex; align-items: center; gap: 0.8rem;
   text-transform: uppercase; letter-spacing: 0.3em;
@@ -502,10 +503,12 @@ footer::before {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-  .hero { padding-top: 6rem; }
-  .hero-visual { order: -1; }
-  .arch-frame { width: min(240px, 64vw); }
+  .hero-inner { grid-template-columns: 1fr; gap: 1.75rem; }
+  .hero { min-height: 0; padding: 5.5rem 1.25rem 2.5rem; }
+  .hero-visual { order: 0; }
+  .hero h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
+  .hero-sub { margin-bottom: 1.5rem; }
+  .arch-frame { width: min(200px, 56vw); }
   .chip-a { left: 2%; }
   .chip-b { right: 2%; }
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -519,7 +522,7 @@ footer::before {
   main { padding: 0 1.25rem; }
   section { padding: 4rem 0 1.5rem; }
   .services-inner { padding: 0 1.25rem; }
-  .grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .card-title { font-size: 0.92rem; }
   .player.vertical { max-height: 380px; }
   .facts li { flex-direction: column; gap: 0.2rem; }
@@ -572,6 +575,13 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Magnetic buttons */
 .magnetic { will-change: transform; transition: transform 0.18s ease-out; }
+
+/* Mobile / landing pages: headline must be fully visible immediately,
+   never caught mid-stagger with only its first letters showing. */
+@media (max-width: 960px) {
+  .split-char { animation: none; }
+}
+body.landing .split-char { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .split-char, .shiny-text { animation: none; }

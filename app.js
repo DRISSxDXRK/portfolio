@@ -50,7 +50,7 @@
       video.playsInline = true;
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
-      video.controls = true;
+      video.controls = false; /* native controls only after tap-to-play, so the card shows one play button, not two */
       video.disablePictureInPicture = false;
       player.appendChild(video);
       players.push(video);
@@ -61,10 +61,11 @@
       overlay2.addEventListener('click', function () {
         pauseAll(video);
         overlay2.classList.add('gone');
+        video.controls = true;
         video.play().catch(function () { overlay2.classList.remove('gone'); });
       });
-      video.addEventListener('pause', function () { overlay2.classList.remove('gone'); });
-      video.addEventListener('play', function () { overlay2.classList.add('gone'); });
+      video.addEventListener('pause', function () { video.controls = false; overlay2.classList.remove('gone'); });
+      video.addEventListener('play', function () { video.controls = true; overlay2.classList.add('gone'); });
       player.appendChild(overlay2);
     }
 

@@ -16,6 +16,12 @@
   'use strict';
   if (!window.React || !window.ReactDOM) return;
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* No per-character stagger on mobile or on the Stage 3 landing pages:
+     the headline must read in full the moment its view appears, not
+     build up letter by letter (it was caught showing only "Prop"/"Edi"). */
+  var NO_STAGGER = REDUCED
+    || window.matchMedia('(max-width: 960px)').matches
+    || /editor\/?$/.test(window.location.pathname);
   var React = window.React;
   var useState = React.useState;
   var useEffect = React.useEffect;
@@ -37,7 +43,7 @@
                     <span
                       key={ci}
                       className="split-char"
-                      style={{ animationDelay: REDUCED ? '0s' : (0.05 + i * 0.045 + ci * 0.012) + 's' }}
+                      style={{ animationDelay: NO_STAGGER ? '0s' : (0.05 + i * 0.045 + ci * 0.012) + 's' }}
                     >
                       {ch}
                     </span>
