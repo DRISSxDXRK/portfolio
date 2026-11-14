@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<canvas id="success-confetti" class="success-confetti" aria-hidden="true"></canvas>
 <nav class="nav">
   <a href="index.html" class="wordmark">Driss<span>.</span></a>
   <div class="nav-links" id="nav-menu">
@@ -39,9 +40,10 @@
 <header class="hero" id="top">
   <div class="hero-inner">
     <div class="hero-copy">
+      <div class="success-check" aria-hidden="true">✓</div>
       <p class="hero-kicker">Trial edit — payment received</p>
-      <h1>Payment received, <em>thank you.</em></h1>
-      <p class="hero-sub">Your trial edit is booked. I will review the brief you sent and get started on your reel.</p>
+      <h1 class="success-pop">Payment received, <em>thank you.</em></h1>
+      <p class="hero-sub success-pop">Your trial edit is booked. Your brief was sent to me before you paid, so I already have your footage link and details. I will review it and get started on your reel.</p>
       <div class="hero-cta">
         <a href="index.html" class="btn btn-primary">Back to homepage</a>
         <a href="trial.html" class="btn btn-ghost">Start another trial brief</a>
@@ -85,7 +87,7 @@
     <p class="sec-kicker">Please note</p>
     <h2 class="sec-title" id="confirm-title">A quick note about <em>this page.</em></h2>
     <p class="contact-sub">This page is a return page only. It cannot verify the PayPal payment itself, because this site has no backend. I will confirm your payment by email at <a href="mailto:hello@drizoeditz.pro">hello@drizoeditz.pro</a> once I see it in PayPal.</p>
-    <p class="contact-sub">If you have not sent your brief yet, please send it from the <a href="trial.html">trial page</a> — I cannot start your edit without your footage link and details.</p>
+    <p class="contact-sub">Your brief was sent to me before you paid, so I already have your footage link and details. If you reached this page without sending a brief, please send it from the <a href="trial.html">trial page</a> — I cannot start your edit without your footage link and details.</p>
     <div class="hero-cta">
       <a href="trial.html" class="btn btn-primary">Send your brief</a>
       <a href="https://wa.me/4917688649232" class="btn btn-ghost" data-track="whatsapp">Message me on WhatsApp</a>
@@ -119,6 +121,56 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); btn.focus(); }
   });
+})();
+</script>
+
+<script>
+/* Celebration confetti: lightweight canvas, ~120 pieces, gold/cream/
+   navy/Volt Yellow. Bursts once on load, runs ~2.5s, then stops.
+   No confetti at all under prefers-reduced-motion. */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var canvas = document.getElementById('success-confetti');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  var COLORS = ['#E0C58F', '#FBF9E4', '#E6FF3A', '#5B88B2', '#E6FF3A', '#E0C58F'];
+  var pieces = [];
+  for (var i = 0; i < 120; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: -20 - Math.random() * canvas.height * 0.4,
+      w: 6 + Math.random() * 6,
+      h: 8 + Math.random() * 8,
+      color: COLORS[i % COLORS.length],
+      vy: 2 + Math.random() * 3.5,
+      vx: -1.5 + Math.random() * 3,
+      rot: Math.random() * Math.PI,
+      vr: -0.08 + Math.random() * 0.16
+    });
+  }
+  var start = performance.now();
+  function frame(now) {
+    var elapsed = now - start;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(function (p) {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    if (elapsed < 2600) requestAnimationFrame(frame);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 
