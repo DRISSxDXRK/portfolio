@@ -641,3 +641,91 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 960px) {
   .contact-layout { grid-template-columns: 1fr; }
 }
+
+/* ---------- Stage 2: instant quote calculator ----------
+   Unnumbered section, so 01-05 numbering stays intact. Reuses the
+   existing navy/gold palette, .field labels and .btn styles. */
+.quote-calc .sec-kicker { color: var(--gold); }
+.quote-sub { color: var(--pearl-dim); font-size: 1.06rem; max-width: 36rem; margin-bottom: 2.5rem; }
+.quote-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  align-items: start;
+}
+.quote-form {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.quote-form fieldset { border: 0; margin-bottom: 1rem; }
+.quote-form legend {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--gold);
+  font-weight: 600; margin-bottom: 0.45rem; padding: 0;
+}
+.radio-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.radio-pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--pearl-dim);
+  cursor: pointer;
+}
+.radio-pill:has(input:checked) { background: var(--pearl); border-color: var(--pearl); color: var(--ink); font-weight: 600; }
+.radio-pill input { accent-color: var(--gold); margin-right: 0.35rem; }
+.radio-pill:focus-within { outline: 2px solid var(--gold); outline-offset: 2px; }
+.quote-form input[type="number"],
+.quote-form select {
+  width: 100%;
+  background: var(--noir);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--pearl);
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.8rem 0.9rem;
+}
+.quote-form input[type="range"] { width: 100%; accent-color: var(--gold); }
+.quote-form input:focus,
+.quote-form select:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-color: var(--gold);
+}
+.quote-form output { color: var(--gold); font-weight: 600; }
+.field-hint { margin-top: 0.45rem; font-size: 0.85rem; color: var(--pearl-dim); }
+.quote-result {
+  background: var(--midnight);
+  color: var(--pearl);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  position: sticky;
+  top: 5.5rem;
+}
+.quote-result-label {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--gold);
+  font-weight: 600; margin-bottom: 0.5rem;
+}
+.quote-total {
+  font-family: var(--serif);
+  font-size: 2.4rem; font-weight: 700;
+  letter-spacing: -0.02em; margin-bottom: 1rem;
+}
+.quote-breakdown { list-style: none; margin-bottom: 1.5rem; }
+.quote-breakdown li {
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(251, 249, 228, 0.14);
+  font-size: 0.93rem; color: var(--pearl-dim);
+}
+.quote-result .btn { width: 100%; text-align: center; }
+.quote-result .form-note a { color: var(--gold); font-weight: 600; }
+
+@media (max-width: 960px) {
+  .quote-layout { grid-template-columns: 1fr; }
+  .quote-result { position: static; }
+}
