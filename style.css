@@ -62,7 +62,7 @@ img { display: block; max-width: 100%; }
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-block;
-  padding: 0.85rem 1.7rem;
+  padding: 0.85em 1.7em;
   border-radius: 999px;
   font-weight: 600;
   font-size: 1rem;
@@ -71,7 +71,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid transparent;
 }
 .btn:active { transform: scale(0.97); }
-.btn-small { padding: 0.6rem 1.3rem; font-size: 0.9rem; }
+.btn-small { padding: 0.6em 1.3em; font-size: 0.9rem; }
 .btn-primary { background: var(--ocean); color: #fff; }
 .btn-primary:hover { background: #6b97c0; }
 .btn-ghost { border-color: rgba(251, 249, 228, 0.25); color: var(--pearl); }
@@ -100,7 +100,7 @@ img { display: block; max-width: 100%; }
   grid-template-columns: 1.15fr 0.85fr;
   gap: 4rem;
   align-items: center;
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   width: 100%;
 }
@@ -131,7 +131,7 @@ img { display: block; max-width: 100%; }
 
 .hero-visual { position: relative; display: flex; justify-content: center; }
 .arch-frame {
-  width: min(320px, 78vw);
+  width: min(20rem, 78vw);
   aspect-ratio: 3 / 3.9;
   border-radius: 999px 999px var(--radius) var(--radius);
   overflow: hidden;
@@ -201,7 +201,7 @@ img { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
 /* ---------- Sections ---------- */
-main { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+main { max-width: 75rem; margin: 0 auto; padding: 0 2rem; }
 section { padding: 6rem 0 2rem; scroll-margin-top: 7rem; }
 html { scroll-padding-top: 7rem; }
 .sec-kicker {
@@ -234,7 +234,7 @@ html { scroll-padding-top: 7rem; }
   background: transparent;
   border: 1px solid var(--line);
   color: var(--pearl-dim);
-  padding: 0.6rem 1.25rem;
+  padding: 0.6em 1.25em;
   border-radius: 999px;
   font-size: 0.9rem; font-weight: 500;
   cursor: pointer;
@@ -246,10 +246,14 @@ html { scroll-padding-top: 7rem; }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(18.75rem, 100%), 1fr));
   gap: 1.75rem;
   counter-reset: work;
 }
+/* Grid tracks must be allowed to shrink below a card's min-content width,
+   or a fixed minmax floor pushes the track (and the page) wider than the
+   viewport on small screens. */
+.grid > *, .quotes > *, .contact-links > *, .pricing-grid > *, .case-grid > *, .steps > * { min-width: 0; }
 .card {
   background: var(--card);
   border: 1px solid var(--line);
@@ -268,7 +272,7 @@ html { scroll-padding-top: 7rem; }
   aspect-ratio: 16 / 10;
   background: #000; overflow: hidden;
 }
-.player.vertical { aspect-ratio: 9 / 12; max-height: 480px; margin: 0 auto; }
+.player.vertical { aspect-ratio: 9 / 12; max-height: 30rem; margin: 0 auto; }
 .player video, .player iframe, .player img {
   width: 100%; height: 100%;
   object-fit: cover; display: block; border: 0;
@@ -281,7 +285,7 @@ html { scroll-padding-top: 7rem; }
 }
 .play-overlay.gone { opacity: 0; pointer-events: none; }
 .play-btn {
-  width: 68px; height: 68px; border-radius: 50%;
+  width: 4.25rem; height: 4.25rem; border-radius: 50%;
   background: rgba(251, 249, 228, 0.95);
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5);
@@ -317,14 +321,14 @@ html { scroll-padding-top: 7rem; }
   margin-top: 6rem;
   padding: 5rem 0;
 }
-.services-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.services-inner { max-width: 75rem; margin: 0 auto; padding: 0 2rem; }
 .services .sec-kicker { color: #8a6d3b; }
 .services .sec-kicker span { color: var(--ocean); }
 .services .sec-title em { color: #8a6d3b; }
 .services-sub {
   color: rgba(18, 44, 79, 0.72);
   font-size: 1.08rem;
-  max-width: 620px;
+  max-width: 38.75rem;
   margin-bottom: 3rem;
 }
 .pricing-group-title {
@@ -341,7 +345,7 @@ html { scroll-padding-top: 7rem; }
   gap: 1.5rem;
   align-items: stretch;
 }
-.pricing-grid.two { grid-template-columns: repeat(2, 1fr); max-width: 820px; }
+.pricing-grid.two { grid-template-columns: repeat(2, 1fr); max-width: 51.25rem; }
 .footer-socials { margin-bottom: 0.5rem; }
 .footer-socials a { color: var(--gold); }
 .price-card {
@@ -368,7 +372,7 @@ html { scroll-padding-top: 7rem; }
   color: var(--midnight);
   font-size: 0.72rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.14em;
-  padding: 0.35rem 1rem;
+  padding: 0.35em 1em;
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -449,7 +453,7 @@ html { scroll-padding-top: 7rem; }
 /* ---------- Testimonials ---------- */
 .quotes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(18.75rem, 100%), 1fr));
   gap: 1.5rem;
 }
 .quote {
@@ -475,7 +479,7 @@ html { scroll-padding-top: 7rem; }
 .contact-sub { color: var(--pearl-dim); font-size: 1.08rem; margin-bottom: 2.5rem; max-width: 36rem; }
 .contact-links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(15.625rem, 100%), 1fr));
   gap: 1.25rem;
 }
 .contact-card {
@@ -521,12 +525,13 @@ footer::before {
   .hero-visual { order: 0; }
   .hero h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
   .hero-sub { margin-bottom: 1.5rem; }
-  .arch-frame { width: min(200px, 56vw); }
+  .arch-frame { width: min(12.5rem, 56vw); }
   .chip-a { left: 2%; }
   .chip-b { right: 2%; }
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .about-visual { max-width: 420px; }
-  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .about-visual { max-width: 26.25rem; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 30rem; margin: 0 auto; }
+  .pricing-grid.two { grid-template-columns: 1fr; }
   .price-card.featured { margin-top: 1.25rem; }
 }
 @media (max-width: 720px) {
@@ -537,7 +542,7 @@ footer::before {
   .services-inner { padding: 0 1.25rem; }
   .grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .card-title { font-size: 0.92rem; }
-  .player.vertical { max-height: 380px; }
+  .player.vertical { max-height: 23.75rem; }
   .facts li { flex-direction: column; gap: 0.2rem; }
   .facts li span { min-width: 0; }
 }
@@ -690,7 +695,7 @@ html.lenis, html.lenis body { height: auto; }
 .radio-pill {
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 0.6rem 1.1rem;
+  padding: 0.6em 1.1em;
   font-size: 0.9rem; font-weight: 500;
   color: var(--pearl-dim);
   cursor: pointer;
@@ -757,7 +762,7 @@ html.lenis, html.lenis body { height: auto; }
 .nav-toggle {
   display: none;
   align-items: center; justify-content: center;
-  width: 44px; height: 44px;
+  width: 2.75rem; height: 2.75rem;
   background: transparent;
   border: 1px solid rgba(251, 249, 228, 0.25);
   border-radius: 50%;
@@ -767,7 +772,7 @@ html.lenis, html.lenis body { height: auto; }
 .nav-toggle-bar,
 .nav-toggle-bar::before,
 .nav-toggle-bar::after {
-  display: block; width: 18px; height: 2px;
+  display: block; width: 1.125rem; height: 2px;
   background: currentColor; border-radius: 2px;
   transition: transform 0.2s ease, background 0.2s ease;
 }
@@ -832,7 +837,7 @@ button:focus-visible,
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* One real testimonial: keep it a readable width instead of stretching across the page */
-.quotes:has(> .quote:only-child) { grid-template-columns: minmax(0, 560px); }
+.quotes:has(> .quote:only-child) { grid-template-columns: minmax(0, 35rem); }
 
 /* <button class="btn"> must look like the <a class="btn"> links: no default grey fill, site font */
 button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cursor: pointer; }
@@ -852,7 +857,7 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 .ba-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem; }
 .ba-stage {
   position: relative; width: 100%;
-  aspect-ratio: 16 / 9; max-width: 900px;
+  aspect-ratio: 16 / 9; max-width: 56.25rem;
   background: #000; border-radius: var(--radius); overflow: hidden;
   border: 1px solid var(--line);
 }
@@ -869,7 +874,7 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 .ba-divider::after {
   content: ""; position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 2.125rem; height: 2.125rem; border-radius: 50%;
   background: var(--gold);
   border: 2px solid var(--ink);
 }
@@ -890,12 +895,12 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 }
 .ba-slider::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 2.125rem; height: 2.125rem; border-radius: 50%;
   background: var(--gold); border: 2px solid var(--ink);
   cursor: ew-resize;
 }
 .ba-slider::-moz-range-thumb {
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 2.125rem; height: 2.125rem; border-radius: 50%;
   background: var(--gold); border: 2px solid var(--ink);
   cursor: ew-resize;
 }
@@ -951,12 +956,12 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 .lead-magnet { padding: 6rem 0 2rem; }
 .lead-magnet-inner {
   background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 2rem; max-width: 640px;
+  border-radius: var(--radius); padding: 2rem; max-width: 40rem;
 }
 .lead-magnet-inner p { color: var(--pearl-dim); margin-bottom: 1.25rem; }
 .lead-form { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .lead-form input {
-  flex: 1 1 220px; background: var(--noir); border: 1px solid var(--line);
+  flex: 1 1 13.75rem; background: var(--noir); border: 1px solid var(--line);
   border-radius: 12px; color: var(--pearl); font: inherit;
   font-size: 0.95rem; padding: 0.8rem 0.9rem;
 }
@@ -965,7 +970,7 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 
 /* Trial page: payment step, hidden until the brief is sent (trial.js). */
 .trial-pay { padding: 2rem 0 6rem; }
-.trial-pay p { color: var(--pearl-dim); margin-bottom: 1.25rem; max-width: 640px; }
+.trial-pay p { color: var(--pearl-dim); margin-bottom: 1.25rem; max-width: 40rem; }
 .trial-pay .btn { display: inline-block; }
 
 /* Trial ready note: pops out with a gold glow as soon as every required
@@ -1022,7 +1027,7 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 }
 .success-check {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 72px; height: 72px; border-radius: 50%;
+  width: 4.5rem; height: 4.5rem; border-radius: 50%;
   background: var(--gold); color: var(--ink);
   font-size: 2rem; font-weight: 700;
   box-shadow: 0 0 32px rgba(224, 197, 143, 0.65), 0 0 64px rgba(230, 255, 58, 0.35);
@@ -1051,7 +1056,8 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
   bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  height: 52px;
+  height: 3.25rem;
+  max-width: calc(100vw - 1rem);
   overflow: hidden;
   background: rgba(6, 11, 22, 0.82);
   backdrop-filter: blur(14px);
@@ -1066,8 +1072,8 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 .pillnav-snap, .pillnav-snap * { transition: none !important; }
 .pillnav-skin {
   position: absolute;
-  top: 6px;
-  height: 40px;
+  top: 0.375rem;
+  height: 2.5rem;
   background: var(--gold);
   border-radius: 999px;
   transition: left 0.48s cubic-bezier(0.32, 0.72, 0, 1),
@@ -1082,9 +1088,9 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
   position: relative;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
   height: 100%;
-  padding: 0 8px;
+  padding: 0 0.5rem;
   transition: transform 0.48s cubic-bezier(0.32, 0.72, 0, 1);
 }
 .pillnav-link {
@@ -1092,8 +1098,8 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
   z-index: 1;
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 0 18px;
+  height: 2.5rem;
+  padding: 0 1.125em;
   border-radius: 999px;
   color: var(--pearl-dim);
   text-decoration: none;
@@ -1114,19 +1120,21 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 }
 .pillnav.is-compact .pillnav-link.is-active { pointer-events: auto; }
 @media (max-width: 720px) {
-  .pillnav-link { font-size: 0.78rem; padding: 0 8px; }
-  .pillnav-row { gap: 2px; padding: 0 6px; }
+  .pillnav-link { font-size: 0.78rem; padding: 0 0.5em; }
+  .pillnav-row { gap: 0.125rem; padding: 0 0.375rem; }
 }
 @media (max-width: 380px) {
-  .pillnav-link { font-size: 0.75rem; padding: 0 7px; }
-  .pillnav-row { gap: 0; padding: 0 4px; }
+  .pillnav-link { font-size: 0.75rem; padding: 0 0.45em; }
+  .pillnav-row { gap: 0; padding: 0 0.25rem; }
 }
-/* 360px: the four pill labels together are ~367px at the 380px sizing,
+/* 360px: the four pill labels together were ~367px at the 380px sizing,
    wider than the viewport, so the pill was clipped on the right edge.
-   Tighten further so the whole pill fits inside 360px. */
+   Tighten further so the whole pill fits inside 360px, and as a backstop
+   .pillnav has max-width: calc(100vw - 1rem) and pillnav.js caps the
+   measured row width at viewport minus 1rem. */
 @media (max-width: 360px) {
-  .pillnav-link { font-size: 0.72rem; padding: 0 5px; }
-  .pillnav-row { gap: 0; padding: 0 4px; }
+  .pillnav-link { font-size: 0.72rem; padding: 0 0.35em; }
+  .pillnav-row { gap: 0; padding: 0 0.25rem; }
 }
 /* Keep the last footer content clear of the floating pill. */
 footer { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px)); }

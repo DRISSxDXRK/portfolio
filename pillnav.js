@@ -54,6 +54,10 @@
     var activeW = active.offsetWidth;
     var activeL = active.offsetLeft;
     var height = nav.offsetHeight || 52;
+    /* Never let the pill be wider than the viewport: on a 360px phone a
+       wider system font could push the row past the screen edge. */
+    var maxW = Math.max(0, window.innerWidth - 16);
+    rowW = Math.min(rowW, maxW);
     return {
       expanded: {
         width: rowW,
