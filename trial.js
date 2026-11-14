@@ -1,19 +1,24 @@
 /* Trial edit form (trial.html).
    - Validates the brief and says exactly what is missing, same style as
      the homepage contact form.
-   - On submit, opens the visitor's email app (mailto) to
-     hello@drizoeditz.pro with subject "Trial edit brief - <name>" and all
-     answers in the body. Nothing is paid yet.
-   - Then reveals Step 3, the $10 PayPal payment. The payment button only
-     appears when config.js trialPaypalUrl is set; while it is empty the
-     button stays hidden and the page says Driss will send the payment link
-     after reviewing the brief. No payment URL is invented anywhere. */
+   - On submit, the website sends the brief itself: it POSTs the answers
+     directly to FormSubmit AJAX (https://formsubmit.co/ajax/hello@drizoeditz.pro)
+     in the background. NO email-app redirect.
+   - On success it instantly redirects the browser to the PayPal payment
+     link from config.js trialPaypalUrl. No intermediate payment step.
+   - On POST failure it shows a clear error with a WhatsApp link and keeps
+     the form data so the client can retry. It never falls back to opening an email app.
+   NOTE: FormSubmit sends an activation email to hello@drizoeditz.pro on
+   the FIRST submission — Driss must click "Activate" in that email once,
+   or the first brief will not arrive. */
 (function () {
   var form = document.getElementById('trial-form');
   if (!form) return;
 
   var CFG = window.SITE_CONFIG || {};
   var EMAIL = CFG.email || 'hello@drizoeditz.pro';
+  var FORM_URL = 'https://formsubmit.co/ajax/' + EMAIL;
+  var WHATSAPP_URL = 'https://wa.me/' + (CFG.whatsapp || '4917688649232');
 
   var nameEl = document.getElementById('trial-name');
   var emailEl = document.getElementById('trial-email');
@@ -27,13 +32,17 @@
   var deadlineEl = document.getElementById('trial-deadline');
   var notesEl = document.getElementById('trial-notes');
   var statusEl = document.getElementById('trial-status');
-  var paymentEl = document.getElementById('trial-payment');
-  var payBtn = document.getElementById('trial-pay');
-  var payNote = document.getElementById('trial-pay-note');
+  var readyNote = document.getElementById('trial-ready-note');
+  var submitBtn = document.getElementById('trial-submit');
 
   function setStatus(text, kind) {
     statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
     statusEl.textContent = text;
+  }
+
+  function setStatusHtml(html, kind) {
+    statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
+    statusEl.innerHTML = html;
   }
 
   function normalizeLink(v) {
@@ -58,6 +67,19 @@
       deadline: deadlineEl.value.trim(),
       notes: notesEl.value.trim()
     };
+  }
+
+  /* Pure readiness check, used only for the glowing note. No focusing, no status. */
+  function isReady(d) {
+    if (!d.name || !d.email || !d.footage || !d.scope || !d.look) return false;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) return false;
+    if (!isUrl(d.footage)) return false;
+    return d.examples.every(function (link) { return !link || isUrl(link); });
+  }
+
+  function updateReadyNote() {
+    if (!readyNote) return;
+    readyNote.hidden = !isReady(readFields());
   }
 
   /* Returns true when valid; otherwise marks fields, explains, focuses the first. */
@@ -97,45 +119,50 @@
     return true;
   }
 
-  function textLines(d) {
-    var lines = [
-      'Hi Driss, I would like a $10 trial edit.',
-      'Name: ' + d.name,
-      'Email: ' + d.email,
-      'Video type: ' + d.type,
-      'Raw footage link: ' + d.footage,
-      'Video scope: ' + d.scope,
-      'How it should look: ' + d.look
-    ];
-    if (d.examples.length) lines.push('Example videos: ' + d.examples.join(', '));
-    if (d.deadline) lines.push('Deadline for first cut: ' + d.deadline);
-    if (d.notes) lines.push('Anything else: ' + d.notes);
-    lines.push('Trial: 1 reel for $10, first cut in 48h, 3 revision rounds included.');
-    return lines.join('\n');
-  }
-
-  function revealPayment() {
-    paymentEl.hidden = false;
-    paymentEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (CFG.trialPaypalUrl) {
-      payBtn.href = CFG.trialPaypalUrl;
-      payBtn.hidden = false;
-      payNote.hidden = true;
-    } else {
-      payBtn.hidden = true;
-      payNote.hidden = false;
-    }
-  }
+  form.addEventListener('input', updateReadyNote);
+  form.addEventListener('change', updateReadyNote);
+  updateReadyNote();
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var d = readFields();
     if (!validate(d)) return;
-    var subject = 'Trial edit brief - ' + d.name;
-    var url = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(textLines(d));
-    setStatus('Brief ready. Your email app is opening — send it, then come back here to pay the $10.', 'ok');
-    window.location.href = url;
-    revealPayment();
+    if (!CFG.trialPaypalUrl) {
+      setStatus('Payment link coming soon — your brief is ready, please message me on WhatsApp to pay the $10.', 'error');
+      return;
+    }
+    submitBtn.disabled = true;
+    var originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Sending brief…';
+    setStatus('Sending your brief…', 'ok');
+    var payload = {
+      name: d.name,
+      email: d.email,
+      'video-type': d.type,
+      'footage-link': d.footage,
+      scope: d.scope,
+      look: d.look,
+      'example-videos': d.examples.join(', '),
+      deadline: d.deadline,
+      notes: d.notes,
+      _subject: 'Trial edit brief - ' + d.name,
+      _template: 'table',
+      _captcha: 'false'
+    };
+    fetch(FORM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('FormSubmit returned ' + res.status);
+      return res.json().catch(function () { return {}; });
+    }).then(function () {
+      setStatus('Brief sent. Taking you to PayPal to pay the $10…', 'ok');
+      window.location.href = CFG.trialPaypalUrl;
+    }).catch(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+      setStatusHtml('Could not send your brief, please try again or message me on <a href="' + WHATSAPP_URL + '">WhatsApp</a>.', 'error');
+    });
   });
 })();

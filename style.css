@@ -969,6 +969,72 @@ button.btn { font-family: inherit; font-size: inherit; line-height: inherit; cur
 .trial-pay p { color: var(--pearl-dim); margin-bottom: 1.25rem; max-width: 640px; }
 .trial-pay .btn { display: inline-block; }
 
+/* Trial ready note: pops out with a gold glow as soon as every required
+   field is filled, before the client clicks send. Transform/opacity only. */
+.trial-ready-note {
+  position: relative;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  background: rgba(224, 197, 143, 0.12);
+  color: var(--pearl);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+  box-shadow: 0 0 24px rgba(224, 197, 143, 0.45), 0 0 48px rgba(224, 197, 143, 0.22);
+  animation: trial-note-pop 400ms cubic-bezier(0.32, 0.72, 0, 1) both,
+    trial-note-pulse 2.4s cubic-bezier(0.32, 0.72, 0, 1) 400ms infinite;
+}
+.trial-ready-note::before {
+  content: "";
+  position: absolute; inset: -14px;
+  border-radius: calc(var(--radius) + 14px);
+  background: radial-gradient(ellipse at center, rgba(224, 197, 143, 0.28), rgba(224, 197, 143, 0) 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes trial-note-pop {
+  from { opacity: 0; transform: scale(0.9) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes trial-note-pulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(224, 197, 143, 0.45), 0 0 48px rgba(224, 197, 143, 0.22); }
+  50% { box-shadow: 0 0 36px rgba(224, 197, 143, 0.7), 0 0 72px rgba(224, 197, 143, 0.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trial-ready-note { animation: none; box-shadow: 0 0 24px rgba(224, 197, 143, 0.45); }
+}
+
+/* Payment success celebration: confetti + popping headline/checkmark.
+   Confetti is a lightweight canvas (confetti.js inline in
+   payment-success.html), ~120 pieces, gold/cream/navy/Volt Yellow.
+   Runs once on load, ~2-3s, then stops. */
+.success-confetti {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 60;
+}
+.success-pop { animation: success-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@keyframes success-pop {
+  0% { opacity: 0; transform: scale(0.7) translateY(14px); }
+  60% { opacity: 1; transform: scale(1.06) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.success-check {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--gold); color: var(--ink);
+  font-size: 2rem; font-weight: 700;
+  box-shadow: 0 0 32px rgba(224, 197, 143, 0.65), 0 0 64px rgba(230, 255, 58, 0.35);
+  margin-bottom: 1rem;
+  animation: success-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 100ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .success-pop, .success-check { animation: none; }
+  .success-confetti { display: none; }
+}
+
 /* Visually hidden label (lead magnet email field) */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
