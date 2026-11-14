@@ -4,13 +4,13 @@
  *   YouTube Edit:    $12 per minute
  *   Real Estate:     $80 per video (=$40 per 30s, the site's published rate)
  *   Ad Creative:     $10 per reel (same base as Reels, labelled as ad creative)
- * Turnaround modifiers (new assumptions — Driss to confirm):
+ * Turnaround modifiers (confirmed by Driss 2026-11-14):
  *   Standard 48h  x1.0, Rush 24h  x1.5, Flexible 4-7 days  x0.9
  * Total is rounded to the nearest whole dollar. Estimate only — the final
- * price is confirmed by email. No backend, no submit needed to see the
- * price; the email button just opens a mailto link with the quote pre-filled.
+ * price is confirmed in the chat. No backend: the WhatsApp button and the
+ * email button both open with the quote pre-filled.
  * Progressive enhancement: if this file fails, the form stays visible and
- * the email button keeps its default $10 / 1 Reel / Standard quote.
+ * the buttons keep their plain WhatsApp / email links.
  */
 (function () {
   'use strict';
@@ -26,7 +26,9 @@
     rush: { label: 'Rush — 24h (+50%)', mult: 1.5 },
     flexible: { label: 'Flexible — 4-7 days (-10%)', mult: 0.9 }
   };
-  var EMAIL = 'hello@drizoeditz.pro';
+  var CFG = window.SITE_CONFIG || {};
+  var EMAIL = CFG.email || 'hello@drizoeditz.pro';
+  var WA = CFG.whatsapp || '4917688649232';
 
   function clamp(n, min, max, fallback) {
     n = parseInt(n, 10);
@@ -57,7 +59,8 @@
   var baseLine = document.getElementById('quote-base');
   var adjLine = document.getElementById('quote-adjustment');
   var totalEl = document.getElementById('quote-total');
-  var waBtn = document.getElementById('quote-email');
+  var waBtn = document.getElementById('quote-wa');
+  var emailBtn = document.getElementById('quote-email');
 
   function currentFormat() {
     var checked = form.querySelector('input[name="format"]:checked');
@@ -88,7 +91,7 @@
     }
     if (totalEl) totalEl.textContent = 'from $' + q.total;
 
-    if (waBtn) {
+    if (waBtn || emailBtn) {
       var qtyLine = q.rate.per === 'minute'
         ? 'Length: ' + q.qty + ' minutes'
         : 'Quantity: ' + q.qty + (q.qty === 1 ? ' video' : ' videos');
@@ -99,7 +102,9 @@
         'Turnaround: ' + q.turn.label,
         'Estimated total: from $' + q.total + ' (estimate only — please confirm the final price.)'
       ];
-      waBtn.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Instant quote - ' + q.rate.label) + '&body=' + encodeURIComponent(lines.join('\n'));
+      var text = lines.join('\n');
+      if (waBtn) waBtn.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text);
+      if (emailBtn) emailBtn.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Instant quote - ' + q.rate.label) + '&body=' + encodeURIComponent(text);
     }
   }
 
