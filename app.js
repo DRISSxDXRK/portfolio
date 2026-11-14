@@ -220,8 +220,8 @@
   });
 })();
 
-/* Contact form: no backend on this static site, so submit composes a
-   WhatsApp message to +4917688649232 and opens it in a new tab. */
+/* Contact form: no backend on this static site, so submit composes an
+   email to hello@drizoeditz.pro and opens it in the visitor's email app. */
 (function () {
   var form = document.getElementById('contact-form');
   if (!form) return;
@@ -241,7 +241,8 @@
     ];
     if (link) lines.push('Link: ' + link);
     lines.push('Message: ' + message);
-    var url = 'https://wa.me/4917688649232?text=' + encodeURIComponent(lines.join('\n'));
-    window.open(url, '_blank', 'noopener');
+    var subject = 'New project enquiry - ' + name + ' - ' + type;
+    var url = 'mailto:hello@drizoeditz.pro?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+    window.location.href = url;
   });
 })();
