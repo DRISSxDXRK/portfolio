@@ -26,7 +26,7 @@
 
   /* ---------- 1. SplitText (react-bits.dev/text-animations/split-text) ----------
    * Splits text into words > chars, each char rises in with a staggered delay.
-   * props.words: [{ text, em }] — em words keep the gold italic from the
+   * props.words: [{ text, em }] — em words keep the Fir italic from the
    * original <em> in the hero headline. */
   function SplitText(props) {
     return (
@@ -56,7 +56,7 @@
   }
 
   /* ---------- 2. ShinyText (react-bits.dev/text-animations/shiny-text) ----------
-   * A gold shine sweep across the text, via a background-clip gradient. */
+   * A Fir shine sweep across the text, via a background-clip gradient. */
   function ShinyText(props) {
     return <span className="shiny-text">{props.text}</span>;
   }
@@ -92,7 +92,7 @@
         style={{
           opacity: state.on ? 1 : 0,
           background:
-            'radial-gradient(240px circle at ' + state.x + 'px ' + state.y + 'px, var(--spot, rgba(224,197,143,0.16)), transparent 70%)'
+            'radial-gradient(240px circle at ' + state.x + 'px ' + state.y + 'px, var(--spot, rgba(80,84,87,0.16)), transparent 70%)'
         }}
       />
     );
