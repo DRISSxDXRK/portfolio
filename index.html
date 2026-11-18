@@ -21,7 +21,7 @@
 <meta name="twitter:image" content="https://drizoeditz.pro/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="style.css">
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3NFKERL15E"></script>
@@ -68,6 +68,7 @@
       <div class="hero-cta">
         <a href="#work" class="btn btn-primary">Watch my work</a>
         <a href="#quote" class="btn btn-ghost">Get a quote</a>
+        <a href="trial.html" class="btn btn-ghost">Try one reel, $10</a>
         <!-- Stage 2 booking: hidden until config.js bookingUrl is set -->
         <a href="#" class="btn btn-ghost booking-btn" id="hero-booking" hidden>Book a 15-min call</a>
       </div>
@@ -395,12 +396,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
-<!-- React Bits (adapted, see react-bits.jsx): React 18 UMD + Babel standalone.
-     Progressive enhancement only: if these fail, the static hero/cards stay. -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin defer></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin defer></script>
-<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js" defer></script>
-<script type="text/babel" data-presets="react" src="react-bits.jsx"></script>
+<!-- Hero and card effects (see react-bits.jsx): plain JavaScript only.
+     Progressive enhancement only: if this fails, the static hero/cards stay. -->
+<script src="react-bits.jsx" defer></script>
 <script src="motion.js" defer></script>
 
 <nav class="pillnav" id="pillnav" aria-label="Site pages">

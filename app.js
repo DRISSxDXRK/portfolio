@@ -30,7 +30,7 @@
 
       var overlay = document.createElement('div');
       overlay.className = 'play-overlay';
-      overlay.innerHTML = '<div class="play-btn"></div>';
+      overlay.innerHTML = '<div class="play-btn"></div><span class="play-label">Tap to play</span>';
       overlay.addEventListener('click', function () {
         pauseAll();
         var frame = document.createElement('iframe');
@@ -57,7 +57,7 @@
 
       var overlay2 = document.createElement('div');
       overlay2.className = 'play-overlay';
-      overlay2.innerHTML = '<div class="play-btn"></div>';
+      overlay2.innerHTML = '<div class="play-btn"></div><span class="play-label">Tap to play</span>';
       overlay2.addEventListener('click', function () {
         pauseAll(video);
         overlay2.classList.add('gone');
