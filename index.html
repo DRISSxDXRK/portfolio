@@ -392,15 +392,13 @@
 <script src="app.js"></script>
 <script src="quote.js"></script>
 <!-- Premium motion: GSAP 3.12.5 + ScrollTrigger (cdnjs), Lenis 1.1.14 (jsDelivr).
-     All are progressive enhancement: motion.js guards every call, and no CSS
-     hides content, so the site is fully visible if any CDN fails. -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+     Loaded only after first paint by motion-loader.js, so motion never
+     blocks the hero. Progressive enhancement only: motion.js guards every
+     call, and no CSS hides content, so the site is fully visible if any CDN fails. -->
 <!-- Hero and card effects (see react-bits.jsx): plain JavaScript only.
      Progressive enhancement only: if this fails, the static hero/cards stay. -->
 <script src="react-bits.jsx" defer></script>
-<script src="motion.js" defer></script>
+<script src="motion-loader.js" defer></script>
 
 <nav class="pillnav" id="pillnav" aria-label="Site pages">
   <span class="pillnav-skin" id="pillnav-skin" aria-hidden="true"></span>
