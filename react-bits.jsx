@@ -1,104 +1,27 @@
-/* React Bits — adapted from react-bits.dev (DavidHdev/react-bits).
- * React Bits is a copy-paste component library, not an npm package, so the
- * three components below are real React implementations in that style,
- * written for this site. They are progressive enhancement ONLY:
- * - The hero h1 and kicker already exist as static HTML. React only
- *   enhances them in place (createRoot on the existing element) — it does
- *   not add a second headline anywhere.
- * - SpotlightCard mounts a glow overlay inside existing .price-card /
- *   .contact-card elements — it does not duplicate card content.
- * - If React / ReactDOM / Babel fail to load, this file never runs and the
- *   original static hero and cards remain visible and unchanged.
+/* Plain JavaScript hero and card effects, adapted from react-bits.dev
+ * (DavidHdev/react-bits). No framework, no transpiler, no JSX.
+ * This file is loaded as a normal deferred script. It is progressive
+ * enhancement ONLY:
+ * - The hero h1 and kicker already exist as static HTML. This script only
+ *   enhances them in place. It does not add a second headline anywhere.
+ * - Spotlight glow mounts an overlay inside existing .price-card /
+ *   .contact-card elements. It does not duplicate card content.
+ * - If this script fails to load, the original static hero and cards
+ *   remain visible and unchanged.
  * - Respects prefers-reduced-motion: SplitText chars appear without stagger,
  *   ShinyText shine is disabled by CSS, Magnetic is skipped.
  */
 (function () {
   'use strict';
-  if (!window.React || !window.ReactDOM) return;
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* Stage 2: no per-character stagger on mobile — headline must read in
-     full immediately on small screens, never as "Prop" / "Edi". */
+  /* No per-character stagger on mobile: headline must read in full
+     immediately on small screens, never as "Prop" / "Edi". */
   var NO_STAGGER = REDUCED || window.matchMedia('(max-width: 960px)').matches;
-  var React = window.React;
-  var useState = React.useState;
-  var useEffect = React.useEffect;
-  var useRef = React.useRef;
 
-  /* ---------- 1. SplitText (react-bits.dev/text-animations/split-text) ----------
-   * Splits text into words > chars, each char rises in with a staggered delay.
-   * props.words: [{ text, em }] — em words keep the Fir italic from the
+  /* ---------- 1. SplitText ----------
+   * Splits text into words, then chars. Each char rises in with a
+   * staggered delay. Words from an <em> keep the Fir italic from the
    * original <em> in the hero headline. */
-  function SplitText(props) {
-    return (
-      <span className="split-text" aria-label={props.plainText}>
-        {props.words.map(function (w, i) {
-          return (
-            <React.Fragment key={i}>
-              <span className={'split-word' + (w.em ? ' split-em' : '')} aria-hidden="true">
-                {w.text.split('').map(function (ch, ci) {
-                  return (
-                    <span
-                      key={ci}
-                      className="split-char"
-                      style={{ animationDelay: NO_STAGGER ? '0s' : (0.05 + i * 0.045 + ci * 0.012) + 's' }}
-                    >
-                      {ch}
-                    </span>
-                  );
-                })}
-              </span>
-              {' '}
-            </React.Fragment>
-          );
-        })}
-      </span>
-    );
-  }
-
-  /* ---------- 2. ShinyText (react-bits.dev/text-animations/shiny-text) ----------
-   * A Fir shine sweep across the text, via a background-clip gradient. */
-  function ShinyText(props) {
-    return <span className="shiny-text">{props.text}</span>;
-  }
-
-  /* ---------- 3. SpotlightCard (react-bits.dev/components/spotlight-card) ----------
-   * A radial glow that follows the cursor inside the card. Mounted as an
-   * overlay (pointer-events: none) so it never blocks links/buttons. */
-  function SpotlightCard() {
-    var ref = useRef(null);
-    var pos = useState({ x: -400, y: -400, on: false });
-    var state = pos[0];
-    var setState = pos[1];
-    useEffect(function () {
-      var card = ref.current && ref.current.parentElement;
-      if (!card) return;
-      function move(e) {
-        var r = card.getBoundingClientRect();
-        setState({ x: e.clientX - r.left, y: e.clientY - r.top, on: true });
-      }
-      function leave() { setState(function (s) { return { x: s.x, y: s.y, on: false }; }); }
-      card.addEventListener('mousemove', move);
-      card.addEventListener('mouseleave', leave);
-      return function () {
-        card.removeEventListener('mousemove', move);
-        card.removeEventListener('mouseleave', leave);
-      };
-    }, []);
-    return (
-      <div
-        ref={ref}
-        className="spotlight-layer"
-        aria-hidden="true"
-        style={{
-          opacity: state.on ? 1 : 0,
-          background:
-            'radial-gradient(240px circle at ' + state.x + 'px ' + state.y + 'px, var(--spot, rgba(80,84,87,0.16)), transparent 70%)'
-        }}
-      />
-    );
-  }
-
-  /* ---------- Mount: hero headline (in place, no duplicate) ---------- */
   function mountSplitText() {
     var h1 = document.getElementById('hero-title');
     if (!h1) return;
@@ -112,32 +35,70 @@
         if (w) words.push({ text: w, em: isEm });
       });
     });
-    window.ReactDOM.createRoot(h1).render(
-      <SplitText words={words} plainText={plain.trim()} />
-    );
+    var root = document.createElement('span');
+    root.className = 'split-text';
+    root.setAttribute('aria-label', plain.trim());
+    words.forEach(function (w, i) {
+      var word = document.createElement('span');
+      word.className = 'split-word' + (w.em ? ' split-em' : '');
+      word.setAttribute('aria-hidden', 'true');
+      w.text.split('').forEach(function (ch, ci) {
+        var char = document.createElement('span');
+        char.className = 'split-char';
+        char.style.animationDelay = NO_STAGGER ? '0s' : (0.05 + i * 0.045 + ci * 0.012) + 's';
+        char.textContent = ch;
+        word.appendChild(char);
+      });
+      root.appendChild(word);
+      root.appendChild(document.createTextNode(' '));
+    });
+    h1.textContent = '';
+    h1.appendChild(root);
   }
 
-  /* ---------- Mount: hero kicker (in place) ---------- */
+  /* ---------- 2. ShinyText ----------
+   * A Fir shine sweep across the text, via a background-clip gradient. */
   function mountShinyText() {
     var kicker = document.getElementById('hero-kicker');
     if (!kicker) return;
     var text = kicker.textContent;
-    window.ReactDOM.createRoot(kicker).render(<ShinyText text={text} />);
+    var shine = document.createElement('span');
+    shine.className = 'shiny-text';
+    shine.textContent = text;
+    kicker.textContent = '';
+    kicker.appendChild(shine);
   }
 
-  /* ---------- Mount: SpotlightCard overlays on pricing + contact cards ---------- */
+  /* ---------- 3. SpotlightCard ----------
+   * A radial glow that follows the cursor inside the card. Mounted as an
+   * overlay (pointer-events: none) so it never blocks links/buttons. */
   function mountSpotlights() {
     document.querySelectorAll('.price-card, .contact-card').forEach(function (card) {
       if (card.querySelector('.spotlight-mount')) return;
       var mount = document.createElement('div');
       mount.className = 'spotlight-mount';
       mount.setAttribute('aria-hidden', 'true');
+      var layer = document.createElement('div');
+      layer.className = 'spotlight-layer';
+      layer.setAttribute('aria-hidden', 'true');
+      layer.style.opacity = '0';
+      layer.style.background = 'radial-gradient(240px circle at -400px -400px, var(--spot, rgba(80,84,87,0.16)), transparent 70%)';
+      mount.appendChild(layer);
       card.insertBefore(mount, card.firstChild);
-      window.ReactDOM.createRoot(mount).render(<SpotlightCard />);
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = e.clientX - r.left;
+        var y = e.clientY - r.top;
+        layer.style.opacity = '1';
+        layer.style.background = 'radial-gradient(240px circle at ' + x + 'px ' + y + 'px, var(--spot, rgba(80,84,87,0.16)), transparent 70%)';
+      });
+      card.addEventListener('mouseleave', function () {
+        layer.style.opacity = '0';
+      });
     });
   }
 
-  /* ---------- Magnetic hover on primary CTAs (React Bits-style micro-interaction) ---------- */
+  /* ---------- Magnetic hover on primary CTAs ---------- */
   function mountMagnetic() {
     if (REDUCED) return;
     document.querySelectorAll('.hero-cta .btn-primary, .nav .btn-primary').forEach(function (btn) {
