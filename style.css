@@ -600,6 +600,46 @@ html.lenis, html.lenis body { height: auto; }
   100% { background-position: -200% 0; }
 }
 
+/* ---------- PR #20: marker highlight (Midnight tint) + strike-rotate ----------
+   Marker: a Midnight Sky tint wash that sweeps in behind an <em> keyword
+   when it scrolls into view. Progressive enhancement only: without JS the
+   keyword stays readable with no highlight. The wash is 18% Midnight on
+   light sections only, so it never sits on the dark Services section.
+   Strike-rotate: the hero rotating word gets a strike line drawn through
+   it, then rotates out and the next word rotates in. */
+.mark {
+  background-image: linear-gradient(rgba(18, 20, 41, 0.18), rgba(18, 20, 41, 0.18));
+  background-repeat: no-repeat;
+  background-size: 0% 82%;
+  background-position: 0 88%;
+  padding: 0 0.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mark.in { background-size: 100% 82%; }
+
+.rotator { display: inline-block; white-space: nowrap; }
+.rotator-word {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.rotator-word::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: 55%;
+  height: 0.08em;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+.rotator.is-out .rotator-word { transform: rotate(-5deg) translateY(-0.12em); opacity: 0; }
+.rotator.is-out .rotator-word::after { transform: scaleX(1); }
+
 /* SpotlightCard: cursor glow overlay inside pricing / contact cards */
 .price-card, .contact-card { position: relative; }
 .spotlight-mount { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; overflow: hidden; }
@@ -616,6 +656,9 @@ html.lenis, html.lenis body { height: auto; }
   .split-char, .shiny-text { animation: none; }
   .shiny-text { color: var(--gold); background: none; -webkit-background-clip: initial; background-clip: initial; }
   .magnetic { transition: none; }
+  .mark { transition: none; background-size: 100% 82%; }
+  .rotator-word, .rotator-word::after { transition: none; }
+  .rotator-word::after { display: none; }
 }
 /* Stage 2: no per-character headline stagger on mobile — the headline
    must read in full immediately, never as "Prop" / "Edi" mid-animation. */

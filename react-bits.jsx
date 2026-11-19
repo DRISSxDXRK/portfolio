@@ -24,11 +24,28 @@
    * original <em> in the hero headline. */
   function mountSplitText() {
     var h1 = document.getElementById('hero-title');
-    if (!h1) return;
+    if (!h1 || h1.querySelector('.split-text')) return;
     var words = [];
     var plain = '';
     Array.prototype.forEach.call(h1.childNodes, function (node) {
       var isEm = node.nodeType === 1 && node.tagName === 'EM';
+      if (node.nodeType === 1 && node.querySelector) {
+        /* An <em> may hold plain text plus a .rotator span. Keep the
+           rotator as one unit, never split it into chars. */
+        Array.prototype.forEach.call(node.childNodes, function (child) {
+          if (child.nodeType === 1 && child.classList && child.classList.contains('rotator')) {
+            plain += child.textContent || '';
+            words.push({ rotator: true, node: child, em: isEm });
+          } else {
+            var text = child.textContent || '';
+            plain += text;
+            text.split(' ').forEach(function (w) {
+              if (w) words.push({ text: w, em: isEm });
+            });
+          }
+        });
+        return;
+      }
       var text = node.textContent || '';
       plain += text;
       text.split(' ').forEach(function (w) {
@@ -42,6 +59,13 @@
       var word = document.createElement('span');
       word.className = 'split-word' + (w.em ? ' split-em' : '');
       word.setAttribute('aria-hidden', 'true');
+      if (w.rotator) {
+        /* Rotator keeps its own word-swap animation; no char stagger. */
+        word.appendChild(w.node);
+        root.appendChild(word);
+        root.appendChild(document.createTextNode(' '));
+        return;
+      }
       w.text.split('').forEach(function (ch, ci) {
         var char = document.createElement('span');
         char.className = 'split-char';
@@ -54,6 +78,50 @@
     });
     h1.textContent = '';
     h1.appendChild(root);
+  }
+
+  /* ---------- 1b. Marker highlight (PR #20, Midnight tint) ----------
+   * .mark sweeps in when it scrolls into view. Without JS the keyword
+   * stays readable with no highlight. */
+  function mountMarkers() {
+    var marks = document.querySelectorAll('.mark');
+    if (!marks.length) return;
+    if (REDUCED || !('IntersectionObserver' in window)) {
+      marks.forEach(function (m) { m.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    marks.forEach(function (m) { io.observe(m); });
+  }
+
+  /* ---------- 1c. Strike-rotate (PR #20) ----------
+   * Hero rotating word: strike line draws through it, it rotates out,
+   * the next word rotates in. Static first word when reduced motion. */
+  function mountRotator() {
+    var rotator = document.querySelector('.rotator');
+    if (!rotator || rotator.dataset.started) return;
+    rotator.dataset.started = '1';
+    var wordEl = rotator.querySelector('.rotator-word');
+    if (!wordEl) return;
+    if (REDUCED) return;
+    var words = (rotator.getAttribute('data-words') || '').split('|').filter(function (w) { return w; });
+    if (words.length < 2) return;
+    var idx = 0;
+    setInterval(function () {
+      rotator.classList.add('is-out');
+      setTimeout(function () {
+        idx = (idx + 1) % words.length;
+        wordEl.textContent = words[idx];
+        rotator.classList.remove('is-out');
+      }, 420);
+    }, 3000);
   }
 
   /* ---------- 2. ShinyText ----------
@@ -115,6 +183,8 @@
 
   function init() {
     try { mountSplitText(); } catch (e) {}
+    try { mountMarkers(); } catch (e) {}
+    try { mountRotator(); } catch (e) {}
     try { mountShinyText(); } catch (e) {}
     try { mountSpotlights(); } catch (e) {}
     try { mountMagnetic(); } catch (e) {}
