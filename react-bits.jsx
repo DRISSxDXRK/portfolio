@@ -181,6 +181,33 @@
     });
   }
 
+
+  /* ---------- PR #21: Preferred Sources badge ----------
+   * The badge is a real Google feature in the reader's own Google
+   * account; this site cannot add itself for them. Clicking shows
+   * where to pick drizoeditz.pro in Google Search preferences. No
+   * ranking claim is made anywhere. */
+  function mountPreferredSources() {
+    var btns = document.querySelectorAll('[data-pref-source]');
+    if (!btns.length) return;
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var toast = document.getElementById('pref-toast');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.id = 'pref-toast';
+          toast.className = 'pref-toast';
+          toast.setAttribute('role', 'status');
+          document.body.appendChild(toast);
+        }
+        toast.textContent = 'To add it: open Google Search, go to Preferences, then Sources, and select drizoeditz.pro as a preferred source. It is saved on your own Google account.';
+        toast.classList.add('show');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function () { toast.classList.remove('show'); }, 5000);
+      });
+    });
+  }
+
   function init() {
     try { mountSplitText(); } catch (e) {}
     try { mountMarkers(); } catch (e) {}
@@ -188,6 +215,7 @@
     try { mountShinyText(); } catch (e) {}
     try { mountSpotlights(); } catch (e) {}
     try { mountMagnetic(); } catch (e) {}
+    try { mountPreferredSources(); } catch (e) {}
   }
 
   if (document.readyState === 'loading') {
