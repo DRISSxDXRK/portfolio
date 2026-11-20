@@ -45,6 +45,15 @@
     }
   }
   if (modalVideo) {
+    /* PR #28: match the screen to the file's REAL aspect ratio (720x1280
+       for Isabelle Reel 1 and 2, but other files may differ slightly).
+       With the CSS width derived from the viewport height, this makes
+       the video fill the screen edge to edge with no dark side bar. */
+    modalVideo.addEventListener('loadedmetadata', function () {
+      if (modalVideo.videoWidth && modalVideo.videoHeight && modalScreen) {
+        modalScreen.style.aspectRatio = modalVideo.videoWidth + ' / ' + modalVideo.videoHeight;
+      }
+    });
     modalVideo.addEventListener('playing', function () { showPlayBtn(false); });
     modalVideo.addEventListener('pause', function () {
       if (modal && modal.classList.contains('open') && !modalVideo.ended) showPlayBtn(true);
@@ -80,6 +89,9 @@
        showed them as a tiny pillarboxed strip (~213px wide on desktop)
        with the controls hard to reach — that was the reported bug.
        Vertical reels get a tall narrow card; YouTube gets a wide one. */
+    /* PR #28: clear any per-video aspect ratio from the previous open,
+       so a YouTube 16:9 embed never inherits a reel's 9:16 ratio. */
+    if (modalScreen) modalScreen.style.aspectRatio = '';
     var vertical = !!v.vertical && !v.youtube;
     if (modalCard) {
       modalCard.classList.toggle('modal-card--vertical', vertical);
@@ -121,6 +133,7 @@
     modal.classList.remove('open');
     unlockScroll();
     showPlayBtn(false);
+    if (modalScreen) modalScreen.style.aspectRatio = '';
     if (modalVideo) { modalVideo.pause(); modalVideo.removeAttribute('src'); modalVideo.load(); }
     if (modalFrame) { modalFrame.remove(); modalFrame = null; }
     if (lastFocused && lastFocused.focus) lastFocused.focus();
