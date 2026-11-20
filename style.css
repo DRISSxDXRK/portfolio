@@ -1297,13 +1297,22 @@ h1.seo-line em { font-style: italic; color: var(--gold); }
    Combination A only. Proof strip uses REAL stats only: 8+ years,
    2,300+ videos, 48h, Malek 5/5. No invented score anywhere. */
 body.rebuild { font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.55; overflow-x: hidden; padding-bottom: 110px; }
-body.rebuild section { max-width: 1440px; margin: 0 auto; padding: clamp(3rem, 7vw, 5.5rem) clamp(1rem, 4vw, 3rem) 0; }
-body.rebuild .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.1rem clamp(1rem, 4vw, 3rem); max-width: 1440px; margin: 0 auto; }
+/* PR #23 full-width fix: the rebuild's 1440px caps never took effect
+   because the legacy `main { max-width: 75rem; }` (1200px) rule is the
+   parent of the hero, sections and footer on index.html, so on a 1920px
+   desktop the page sat in a ~1200px column with ~360px empty margins
+   each side (Driss's screenshots, 2026-11-20). Widen the rebuild
+   container to 1600px, scoped to body.rebuild only, so the other 4
+   pages keep their layout. Text-line caps (hero-sub, sec-head p,
+   pref-panel p) stay as-is so lines stay readable. */
+body.rebuild main { max-width: 1600px; margin: 0 auto; padding: 0; }
+body.rebuild section { max-width: 1600px; margin: 0 auto; padding: clamp(3rem, 7vw, 5.5rem) clamp(1rem, 4vw, 3rem) 0; }
+body.rebuild .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.1rem clamp(1rem, 4vw, 3rem); max-width: 1600px; margin: 0 auto; }
 body.rebuild .brand { font-weight: 900; letter-spacing: -0.02em; font-size: 1.05rem; text-decoration: none; line-height: 1.1; color: var(--ink); }
 body.rebuild .brand small { display: block; font-family: "Archivo Narrow", "Archivo", sans-serif; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.62rem; color: var(--gold); }
 body.rebuild .top-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 body.rebuild .pref-badge { font-family: "Archivo Narrow", "Archivo", sans-serif; }
-body.rebuild .hero { position: static; min-height: 0; display: block; overflow: visible; padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 4vw, 3rem) 0; background: transparent; max-width: 1440px; margin: 0 auto; }
+body.rebuild .hero { position: static; min-height: 0; display: block; overflow: visible; padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 4vw, 3rem) 0; background: transparent; max-width: 1600px; margin: 0 auto; }
 body.rebuild .hero-kicker { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; font-family: "Archivo Narrow", "Archivo", sans-serif; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; font-size: clamp(0.72rem, 1.6vw, 0.9rem); color: var(--gold); margin-bottom: 0; }
 body.rebuild .hero-kicker::before { content: ""; width: clamp(28px, 5vw, 64px); height: 2px; background: var(--midnight); display: inline-block; }
 body.rebuild h1.seo-line { font-family: "Archivo", system-ui, sans-serif; font-size: clamp(1.25rem, 3.2vw, 2.1rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 1rem 0 0; max-width: 26em; color: var(--ink); }
@@ -1451,7 +1460,7 @@ body.rebuild .contact-form-panel .hp { display: none; }
 body.rebuild .contact-form-panel .btn3d { margin: 0.4rem 0.6rem 0.4rem 0; }
 body.rebuild .contact-form-panel .form-status { margin-top: 1rem; color: #33354e; }
 /* Footer, pill nav, modal, toast */
-body.rebuild footer { max-width: 1440px; margin: 0 auto; padding: 2.5rem clamp(1rem, 4vw, 3rem) 0; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; color: var(--gold); font-size: 0.85rem; background: transparent; }
+body.rebuild footer { max-width: 1600px; margin: 0 auto; padding: 2.5rem clamp(1rem, 4vw, 3rem) 0; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; color: var(--gold); font-size: 0.85rem; background: transparent; }
 body.rebuild footer::before { display: none; }
 body.rebuild footer .f-brand { font-weight: 800; color: var(--midnight); }
 body.rebuild footer a { color: var(--midnight); }
@@ -1471,6 +1480,11 @@ body.rebuild .modal-body p { margin: 0; color: rgba(244, 245, 240, 0.7); font-si
 body.rebuild .modal-close { position: absolute; top: 0.8rem; right: 0.8rem; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(18, 20, 41, 0.5); color: #fff; font-size: 1.1rem; cursor: pointer; }
 body.rebuild .toast { position: fixed; left: 50%; transform: translate(-50%, 20px); bottom: 6.2rem; z-index: 90; opacity: 0; pointer-events: none; background: var(--midnight); color: var(--pearl); border-radius: 14px; padding: 0.8rem 1.1rem; font-size: 0.9rem; max-width: min(480px, calc(100vw - 2rem)); text-align: center; transition: all 0.3s ease; box-shadow: 0 18px 40px -12px rgba(18, 20, 41, 0.6); }
 body.rebuild .toast.show { opacity: 1; transform: translate(-50%, 0); }
+/* PR #23: on wide desktops add a 5th work column instead of stretching
+   the 4 cards wider; cards stay ~290-300px wide at a 1600px container. */
+@media (min-width: 1500px) {
+  body.rebuild .work-grid { grid-template-columns: repeat(5, 1fr); }
+}
 @media (max-width: 1020px) {
   body.rebuild .work-grid { grid-template-columns: repeat(3, 1fr); }
   body.rebuild .svc-grid { grid-template-columns: 1fr 1fr; }
