@@ -45,22 +45,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="style.css">
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3NFKERL15E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-3NFKERL15E');
-</script>
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "zfaspp2gkl");
-</script>
+<!-- Analytics (GA4 + Microsoft Clarity) — loaded ONLY after the visitor
+     clicks Accept in the cookie banner. See cookie-consent.js (PR #26):
+     Consent Mode v2 defaults are denied, and no tracking script or
+     cookie is set before consent. -->
+<script src="cookie-consent.js"></script>
 <!-- Google Preferred Sources (official, manual mode) -->
 <script async preferred-sources-control="manual" src="https://news.google.com/swg/js/v1/publisher.js"></script>
 </head>
@@ -247,6 +236,7 @@
   <p class="footer-socials" id="social-links"></p>
   <p><a href="real-estate-video-editor.html">Real Estate Video Editor</a> &middot; <a href="youtube-editor.html">YouTube Editor</a> &middot; <a href="trial.html">Paid Trial — $10</a> &middot; <a href="index.html">Home</a></p>
   <p>© 2026 Driss Ouazzani Chahdi — Video Editor</p>
+  <p><button type="button" class="cookie-settings-link" data-cookie-settings>Cookie settings</button></p>
 </footer>
 <script src="config.js"></script>
 <script src="analytics.js"></script>
@@ -295,5 +285,14 @@ document.addEventListener('play', function (e) {
 <script src="motion-loader.js" defer></script>
 <script src="preferred-sources.js" defer></script>
 <script src="pillnav.js"></script>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent" aria-live="polite" hidden>
+  <div class="cookie-banner-inner">
+    <p class="cookie-banner-text"><strong>We use cookies for analytics.</strong> This site uses Google Analytics and Microsoft Clarity, including session recordings, to understand how visitors use the site. Accept to allow analytics, or decline and no analytics will run.</p>
+    <div class="cookie-banner-actions">
+      <button class="cookie-accept" type="button" data-cookie-accept>Accept</button>
+      <button class="cookie-decline" type="button" data-cookie-decline>Decline</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
