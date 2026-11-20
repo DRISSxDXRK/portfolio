@@ -21,8 +21,7 @@
 <meta name="twitter:image" content="https://drizoeditz.pro/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<link rel="preload" as="image" href="profile.jpg" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Archivo+Narrow:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3NFKERL15E"></script>
@@ -41,7 +40,7 @@
     })(window, document, "clarity", "script", "zfaspp2gkl");
 </script>
 </head>
-<body>
+<body class="rebuild">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <filter id="liquid-distort" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
@@ -52,370 +51,335 @@
   </defs>
 </svg>
 
-<nav class="nav">
-  <a href="#top" class="wordmark">Driss<span>.</span></a>
-  <div class="nav-links" id="nav-menu">
-    <a href="#work">Work</a>
-    <a href="#services">Services</a>
-    <a href="#quote">Quote</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <div class="nav-actions">
-    <button class="pref-badge" type="button" data-pref-source aria-label="Add drizoeditz.pro as a Google Preferred Source"><span class="g-mark">G</span><span class="pref-badge-text">Preferred Source</span></button>
-    <a href="#contact" class="btn btn-small btn-primary" data-track="hire-me">Hire me</a>
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
+<header class="topbar">
+  <a class="brand" href="#top">DRISS OUAZZANI CHAHDI<small>Video Editor — Fes, Morocco</small></a>
+  <div class="top-actions">
+    <button class="pref-badge" type="button" data-pref-source aria-label="Add drizoeditz.pro as a Google Preferred Source">
+      <span class="g-mark">G</span> Preferred Source on Google
     </button>
   </div>
-</nav>
+</header>
 
-<header class="hero" id="top">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="hero-kicker" id="hero-kicker">Portfolio — Video Editor</p>
-      <h1 id="hero-title" class="seo-line">Freelance Video Editor for <em>Reels, YouTube</em> and Real Estate</h1>
-      <p class="hero-sub"><strong>Hire a freelance video editor</strong> who cuts for retention. I'm Driss, a freelance video editor from Fès, Morocco. Reels, YouTube and real estate media — cut with pacing your audience can feel.</p>
-      <div class="hero-cta">
-        <a href="#work" class="btn btn-primary btn-3d btn-3d-dark">Watch my work</a>
-        <a href="#quote" class="btn btn-ghost btn-3d btn-3d-light">Get a quote</a>
-        <a href="trial.html" class="btn btn-ghost btn-3d btn-3d-fir">Try one reel, $10</a>
-        <!-- Stage 2 booking: hidden until config.js bookingUrl is set -->
-        <a href="#" class="btn btn-ghost booking-btn" id="hero-booking" hidden>Book a 15-min call</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="arch-frame">
-        <img src="profile.jpg" alt="Driss Ouazzani Chahdi" id="hero-photo" width="320" height="416" fetchpriority="high" loading="eager">
-        <video id="showreel-video" class="showreel" muted loop playsinline preload="none" width="320" height="416" hidden></video>
-      </div>
-      <div class="chip chip-a"><strong>2,300+</strong><span>videos delivered</span></div>
-      <div class="chip chip-b"><strong>48h</strong><span>turnaround</span></div>
-    </div>
-  </div>
-  <div class="hero-wide">
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <div class="hero">
+    <p class="hero-kicker" id="hero-kicker">Driss Ouazzani Chahdi — Fes, Morocco</p>
+    <h1 class="seo-line" id="hero-title">Freelance Video Editor for <em>Reels, YouTube</em> and Real Estate</h1>
     <p class="giant" aria-hidden="true">
       <span class="row">Edits that</span>
       <span class="row outline">keep viewers</span>
-      <span class="row"><span class="cycle-wrap"><span class="rotator" data-words="watching.|hooked.|staying.|sharing.|coming back."><span class="rotator-word">watching.</span></span></span></span>
+      <span class="row"><span class="cycle-wrap"><span class="cycle-word" id="cycleWord">watching.</span></span></span>
     </p>
-    <div class="proof-strip" role="img" aria-label="Proof: 2,300 plus videos delivered, 48 hour turnaround, 8 plus years editing, 5 out of 5 client rating">
+    <p class="hero-sub"><strong>Hire a freelance video editor</strong> who cuts for retention. I'm Driss, a freelance video editor from Fes, Morocco. Reels, YouTube and real estate media, cut with pacing your audience can feel.</p>
+    <div class="hero-ctas">
+      <a class="btn3d btn3d--dark" href="#work">&#9654;&nbsp; Watch my work</a>
+      <a class="btn3d btn3d--light" href="#quote">Get a quote</a>
+      <a class="btn3d btn3d--fir" href="trial.html" data-trial-link>Try one reel <span class="price-chip">$10</span></a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>2,300+</b><span>Videos delivered</span></div>
+      <div class="stat"><b>48h</b><span>Turnaround</span></div>
+      <div class="stat"><b>8+</b><span>Years editing</span></div>
+      <div class="stat"><b>5/5</b><span>Client rating</span></div>
+    </div>
+
+    <div class="proof-strip" role="img" aria-label="Proof strip: 8 plus years editing, 2,300 plus videos delivered, 48 hour turnaround, 5 out of 5 client rating">
+      <div class="proof-cell"><div class="score">8<small>+</small></div><div class="lbl">Years editing</div></div>
       <div class="proof-cell"><div class="score">2,300<small>+</small></div><div class="lbl">Videos delivered</div></div>
       <div class="proof-cell"><div class="score">48<small>h</small></div><div class="lbl">First draft back</div></div>
-      <div class="proof-cell"><div class="score">8<small>+</small></div><div class="lbl">Years editing</div></div>
       <div class="proof-cell"><div class="score">5<small>/5</small></div><div class="lbl">Malek — client review</div></div>
     </div>
   </div>
-  <div class="hero-glow"></div>
-</header>
 
-<section class="preferred" id="preferred" aria-labelledby="preferred-title">
-  <div class="pref-panel">
-    <div>
-      <p class="sec-kicker"><span>Google</span>Preferred Sources</p>
-      <h2 class="sec-title" id="preferred-title">See more of my work in Google Search</h2>
-      <p>Select <strong>drizoeditz.pro</strong> as a preferred source in Google Search, so this site is one of the sources Google knows you chose. That is all the badge does — it is your pick as a reader, saved on your Google account.</p>
-    </div>
-    <div class="pref-panel-actions">
-      <button class="btn btn-primary btn-3d btn-3d-dark" type="button" data-pref-source>Add as Preferred Source</button>
-      <span class="pref-steps">Google Search &rarr; Preferences &rarr; Sources &rarr; drizoeditz.pro</span>
-    </div>
-  </div>
-</section>
-
-<div class="ticker" aria-label="Career highlights">
-  <div class="ticker-track" id="tickerTrack"></div>
-</div>
-
-<main>
-  <section id="work" class="work">
-    <p class="sec-kicker"><span>01</span>Selected Work</p>
-    <h2 class="sec-title">Work that <em class="mark">holds attention.</em></h2>
-    <div class="filters" id="filters">
-      <button class="filter active" data-filter="all">All</button>
-      <button class="filter" data-filter="reels">Reels</button>
-      <button class="filter" data-filter="youtube">YouTube</button>
-      <button class="filter" data-filter="real-estate">Real Estate</button>
-      <button class="filter" data-filter="ads">Ads</button>
-    </div>
-    <div class="grid" id="grid"></div>
-  </section>
-
-  <!-- Stage 1 mounts: beforeafter.js and casestudy.js render into these
-       ONLY when their data files have content. Empty by default, so nothing
-       (no section, no heading) is visible until Driss supplies the assets. -->
-  <div id="before-after-mount"></div>
-  <div id="case-study-mount"></div>
-
-  <section id="services" class="services">
-    <div class="services-inner">
-      <p class="sec-kicker"><span>02</span>Services</p>
-      <h2 class="sec-title">Pick a format. <em>I handle the rest.</em></h2>
-      <p class="services-sub">Premium pacing, honest pricing, and a turnaround your content calendar can rely on.</p>
-      <h3 class="pricing-group-title">Reels &amp; Shorts</h3>
-      <div class="pricing-grid">
-        <div class="price-card featured">
-          <p class="price-badge">Most popular</p>
-          <p class="price-tier">Reels</p>
-          <h3>Starter Reel</h3>
-          <p class="price">$10<span class="price-per">/reel</span></p>
-          <p class="price-desc">One scroll-stopping vertical cut, engineered to win the first 3 seconds.</p>
-          <ul class="price-features">
-            <li>One vertical reel</li>
-            <li>Hook-first pacing &amp; captions</li>
-            <li>Platform-native 9:16 formatting</li>
-            <li>48-hour turnaround</li>
-          </ul>
-          <a href="#contact" class="btn btn-primary price-cta">Start a project</a>
-        </div>
-        <div class="price-card">
-          <p class="price-badge">Best value</p>
-          <p class="price-tier">Reels</p>
-          <h3>Creator Pack</h3>
-          <p class="price">$45<span class="price-per">/ 5 reels</span></p>
-          <p class="price-desc">Five reels for the price of four and a half — a week of content in one order.</p>
-          <ul class="price-features">
-            <li>5 vertical reels</li>
-            <li>Priority 48-hour turnaround</li>
-            <li>3 revision rounds included</li>
-            <li>Consistent style across the pack</li>
-          </ul>
-          <a href="#contact" class="btn btn-ghost price-cta">Start a project</a>
-        </div>
-        <div class="price-card">
-          <p class="price-tier">Reels</p>
-          <h3>Partner</h3>
-          <p class="price">Custom</p>
-          <p class="price-desc">Weekly reels from a dedicated editor embedded in your content operation.</p>
-          <ul class="price-features">
-            <li>Weekly reels, every week</li>
-            <li>Priority turnaround</li>
-            <li>One feedback loop, zero chaos</li>
-            <li>Monthly content system</li>
-          </ul>
-          <a href="#contact" class="btn btn-ghost price-cta">Let&apos;s talk</a>
-        </div>
+  <!-- ============ PREFERRED SOURCES ============ -->
+  <section id="preferred" style="padding-top:clamp(2rem,5vw,3.5rem)">
+    <div class="pref-panel">
+      <div>
+        <span class="demo-tag">Google Preferred Sources</span>
+        <h3>See more of my work in Google Search</h3>
+        <p>Tap the badge and you can select <strong>drizoeditz.pro</strong> as a preferred source in Google Search, so my site is one of the sources Google knows you chose. That is all the badge does — it is your pick as a reader, saved on your Google account.</p>
       </div>
-      <h3 class="pricing-group-title">YouTube</h3>
-      <div class="pricing-grid two">
-        <div class="price-card">
-          <p class="price-tier">Long-Form</p>
-          <h3>Single Edit</h3>
-          <p class="price"><span class="price-from">from</span> $12<span class="price-per">/min</span></p>
-          <p class="price-desc">Retention-edited videos built to hold attention to the end card.</p>
-          <ul class="price-features">
-            <li>Retention pacing &amp; pattern interrupts</li>
-            <li>B-roll, motion graphics &amp; sound design</li>
-            <li>Chapters &amp; end-screen strategy</li>
-            <li>First draft in 48 hours</li>
-          </ul>
-          <a href="#contact" class="btn btn-ghost price-cta">Start a project</a>
-        </div>
-        <div class="price-card">
-          <p class="price-tier">Long-Form</p>
-          <h3>Channel Partner</h3>
-          <p class="price">Custom</p>
-          <p class="price-desc">A dedicated editor for your channel, on a regular schedule.</p>
-          <ul class="price-features">
-            <li>Regular edits on a set schedule</li>
-            <li>Priority turnaround</li>
-            <li>One feedback loop, zero chaos</li>
-            <li>Monthly content system</li>
-          </ul>
-          <a href="#contact" class="btn btn-ghost price-cta">Let&apos;s talk</a>
-        </div>
+      <div style="display:grid;gap:.6rem;justify-items:start">
+        <button class="btn3d btn3d--dark" type="button" data-pref-source>&#9733;&nbsp; Add as Preferred Source</button>
+        <span class="pref-steps">Google Search &rarr; Preferences &rarr; Sources &rarr; drizoeditz.pro</span>
       </div>
-      <p class="services-note">Still deciding? <a href="trial.html">Start with a paid trial edit</a> — one reel for $10, credited toward your first pack if you continue — or <a href="#quote">get an instant quote</a>. Judge the work, not the pitch.</p>
     </div>
   </section>
 
-  <section id="how-it-works" class="how-it-works" aria-labelledby="how-title">
-    <p class="sec-kicker">How it works</p>
-    <h2 class="sec-title" id="how-title">From brief to <em>finished video.</em></h2>
-    <ol class="steps">
-      <li class="step">
-        <h3>Brief</h3>
-        <p>Tell me about your project, your footage and your deadline.</p>
-      </li>
-      <li class="step">
-        <h3>First draft in 48h</h3>
-        <p>You get a first cut within 48 hours of the brief.</p>
-      </li>
-      <li class="step">
-        <h3>Revisions</h3>
-        <p>3 revision rounds included. Extra rounds are +10% of the project price each.</p>
-      </li>
-      <li class="step">
-        <h3>Delivery and payment</h3>
-        <p>You get the finished video, ready to post. Payment by PayPal or international wire bank transfer to Morocco.</p>
-      </li>
-    </ol>
+  <!-- ============ WORK ============ -->
+  <section id="work">
+    <div class="sec-head">
+      <h2>Selected <em>work</em></h2>
+      <p>25 edits across Reels, YouTube and real estate. Every card wears the liquid-glass overlay — tap a card to play.</p>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter work by format">
+      <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" type="button" data-filter="reels" aria-pressed="false">Reels</button>
+      <button class="filter-btn" type="button" data-filter="youtube" aria-pressed="false">YouTube</button>
+      <button class="filter-btn" type="button" data-filter="real-estate" aria-pressed="false">Real Estate</button>
+      <span class="work-count" id="workCount">25 projects</span>
+    </div>
+    <div class="work-grid" id="workGrid"></div>
   </section>
 
-  <!-- Stage 2 lead magnet: hidden until config.js leadFormEndpoint AND
-       leadPdfUrl are both set (see leadmagnet.js). -->
-  <section id="lead-magnet" class="lead-magnet" aria-labelledby="lead-title" hidden>
-    <div class="lead-magnet-inner">
-      <p class="sec-kicker">Free guide</p>
-      <h2 class="sec-title" id="lead-title">10 reel hooks <em>that work.</em></h2>
-      <p>Get the free guide: ten opening hooks you can use on your next reel, with an example for each.</p>
-      <form class="lead-form" id="lead-form" action="#" novalidate>
-        <label class="sr-only" for="lead-email">Email</label>
-        <input id="lead-email" name="email" type="email" autocomplete="email" required placeholder="Your email">
-        <button class="btn btn-primary" type="submit">Send me the guide</button>
-      </form>
-      <p class="form-status" id="lead-status" role="status" aria-live="polite"></p>
-      <a class="lead-pdf-link" id="lead-pdf-link" href="#" hidden>Download "10 reel hooks that work" (PDF)</a>
+  <!-- ============ SERVICES ============ -->
+  <section id="services">
+    <div class="sec-head">
+      <h2>Services &amp; <em>pricing</em></h2>
+      <p>Same prices as always. Pick a pack, send the brief, first draft lands in 48 hours.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="svc dark">
+        <span class="tag">Most Popular</span>
+        <span class="group-lbl">Reels</span>
+        <h3>Reels Starter</h3>
+        <div class="price">$10<small> /reel</small></div>
+        <ul>
+          <li>One reel, cut for the hook</li>
+          <li>Captions and pacing built in</li>
+          <li>3 revision rounds included</li>
+          <li>First draft in 48h</li>
+        </ul>
+        <a class="btn3d btn3d--light" href="trial.html" data-trial-link>Try one reel <span class="price-chip">$10</span></a>
+      </article>
+      <article class="svc">
+        <span class="tag">Best Value</span>
+        <span class="group-lbl">Reels</span>
+        <h3>Creator Pack</h3>
+        <div class="price">$45<small> /5 reels</small></div>
+        <ul>
+          <li>Five reels, one consistent style</li>
+          <li>Hooks written for retention</li>
+          <li>3 revision rounds included</li>
+          <li>Priority queue</li>
+        </ul>
+        <a class="btn3d btn3d--dark" href="#quote">Get the pack</a>
+      </article>
+      <article class="svc">
+        <span class="group-lbl">Reels</span>
+        <h3>Partner</h3>
+        <div class="price">Custom</div>
+        <ul>
+          <li>Ongoing monthly editing</li>
+          <li>Your style, locked in</li>
+          <li>3 revision rounds included</li>
+          <li>Direct line to Driss</li>
+        </ul>
+        <a class="btn3d btn3d--dark" href="#contact">Talk to me</a>
+      </article>
+      <article class="svc">
+        <span class="group-lbl">YouTube</span>
+        <h3>YouTube Single Edit</h3>
+        <div class="price">$12<small> /min</small></div>
+        <ul>
+          <li>Full long-form edit, from $12/min</li>
+          <li>Retention pacing throughout</li>
+          <li>3 revision rounds included</li>
+          <li>First draft in 48h</li>
+        </ul>
+        <a class="btn3d btn3d--dark" href="#quote">Get a quote</a>
+      </article>
+      <article class="svc">
+        <span class="group-lbl">YouTube</span>
+        <h3>Channel Partner</h3>
+        <div class="price">Custom</div>
+        <ul>
+          <li>Every upload, handled</li>
+          <li>Consistent channel look</li>
+          <li>3 revision rounds included</li>
+          <li>Monthly rhythm</li>
+        </ul>
+        <a class="btn3d btn3d--dark" href="#contact">Talk to me</a>
+      </article>
+      <article class="svc">
+        <span class="group-lbl">Real Estate</span>
+        <h3>Real Estate Video</h3>
+        <div class="price">$80<small> /video</small></div>
+        <ul>
+          <li>Premium, cinematic, natural</li>
+          <li>60–90s listing films</li>
+          <li>Licensed music included</li>
+          <li>3 revision rounds included</li>
+        </ul>
+        <a class="btn3d btn3d--dark" href="#quote">Get a quote</a>
+      </article>
     </div>
   </section>
 
-  <section id="quote" class="quote-calc" aria-labelledby="quote-title">
-    <p class="sec-kicker">Instant Quote</p>
-    <h2 class="sec-title" id="quote-title">Get an instant <em class="mark">estimate.</em></h2>
-    <p class="quote-sub">Pick a format, a length and a turnaround, and see the price straight away. Estimate only &mdash; final price confirmed by email or WhatsApp.</p>
-    <div class="quote-layout">
-      <form class="quote-form" id="quote-form" action="#" novalidate>
-        <fieldset class="field">
-          <legend>Format</legend>
-          <div class="radio-row" role="group" aria-label="Format">
-            <label class="radio-pill"><input type="radio" name="format" value="reels" checked> Reels / Shorts</label>
-            <label class="radio-pill"><input type="radio" name="format" value="youtube"> YouTube Edit</label>
-            <label class="radio-pill"><input type="radio" name="format" value="real-estate"> Real Estate</label>
-            <label class="radio-pill"><input type="radio" name="format" value="ad"> Ad Creative</label>
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how">
+    <div class="sec-head">
+      <h2>How it <em>works</em></h2>
+      <p>Four steps from brief to delivered video. No calls needed unless you want one.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><h3>Brief</h3><p>Send your footage and tell me what the video has to do. Links, references, deadlines — whatever you have.</p></div>
+      <div class="step"><div class="num">02</div><h3>First draft in 48h</h3><p>Your first cut lands within 48 hours on standard delivery, 24 hours on rush.</p></div>
+      <div class="step"><div class="num">03</div><h3>3 revision rounds</h3><p>Three rounds of revisions are included in every pack, so the edit lands exactly where you want it.</p></div>
+      <div class="step"><div class="num">04</div><h3>Delivery &amp; payment</h3><p>Final files delivered ready to post. Payment by PayPal or wire transfer to Morocco.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ QUOTE ============ -->
+  <section id="quote">
+    <div class="quote-wrap">
+      <div>
+        <span class="demo-tag" style="border-color:rgba(244,245,240,.5);color:rgba(244,245,240,.75)">Instant quote</span>
+        <h2 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;margin:.7rem 0 1.4rem">Get your <em style="font-family:var(--serif);font-style:italic;font-weight:600;text-transform:none">estimate</em></h2>
+        <div class="q-field">
+          <label id="qTypeLbl">What are we cutting?</label>
+          <div class="q-types" role="group" aria-labelledby="qTypeLbl">
+            <button class="q-type" type="button" data-type="reels" aria-pressed="true"><b>Reels</b><span>$10 per reel</span></button>
+            <button class="q-type" type="button" data-type="youtube" aria-pressed="false"><b>YouTube</b><span>$12 per minute</span></button>
+            <button class="q-type" type="button" data-type="realestate" aria-pressed="false"><b>Real Estate</b><span>$80 per video</span></button>
+            <button class="q-type" type="button" data-type="ad" aria-pressed="false"><b>Ad Creative</b><span>$10 per reel</span></button>
           </div>
-        </fieldset>
-        <div class="field" id="quote-count-field">
-          <label for="quote-count">Number of videos</label>
-          <input id="quote-count" name="count" type="number" min="1" max="10" step="1" value="1">
-          <p class="field-hint">$10 per reel &middot; $80 per real-estate video &middot; $10 per ad creative</p>
         </div>
-        <div class="field" id="quote-minutes-field" hidden>
-          <label for="quote-minutes">Video length <output id="quote-minutes-value" for="quote-minutes">5 min</output></label>
-          <input id="quote-minutes" name="minutes" type="range" min="1" max="30" step="1" value="5">
-          <p class="field-hint">$12 per minute</p>
+        <div class="q-field">
+          <label id="qQtyLbl">How many?</label>
+          <div class="q-qty">
+            <button type="button" id="qMinus" aria-label="Decrease quantity">&minus;</button>
+            <output id="qQty" aria-labelledby="qQtyLbl">1</output>
+            <button type="button" id="qPlus" aria-label="Increase quantity">+</button>
+            <span class="unit" id="qUnit">reel</span>
+          </div>
+        </div>
+        <div class="q-field" style="margin-bottom:0">
+          <label id="qSpeedLbl">Turnaround</label>
+          <div class="q-row" role="group" aria-labelledby="qSpeedLbl">
+            <button class="q-speed" type="button" data-speed="standard" aria-pressed="true"><b>Standard</b><span>48h &middot; standard price</span></button>
+            <button class="q-speed" type="button" data-speed="rush" aria-pressed="false"><b>Rush</b><span>24h &middot; +50%</span></button>
+            <button class="q-speed" type="button" data-speed="flexible" aria-pressed="false"><b>Flexible</b><span>4–7 days &middot; &minus;10%</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="q-result" aria-live="polite">
+        <span class="lbl">Your estimate</span>
+        <div class="q-total" id="qTotal">$10</div>
+        <div class="q-break" id="qBreak"></div>
+        <a class="btn3d btn3d--light" id="qMailto" href="mailto:hello@drizoeditz.pro?subject=Quote%20request%20—%201%20reel">Start with this quote</a>
+        <p class="q-note">Estimate only — final price confirmed on your brief. 3 revision rounds included in every order.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT + KIND WORDS ============ -->
+  <section id="about">
+    <div class="sec-head">
+      <h2>About <em>Driss</em></h2>
+    </div>
+    <div class="two-col">
+      <div class="about-copy">
+        <p>I started editing in <strong>2018 on a Galaxy S5</strong>, cutting on a phone because that was what I had — from KineMaster and Alight Motion to After Effects on PC. Eight-plus years later I have delivered <strong>2,300+ videos</strong> for creators, channels and real estate brands.</p>
+        <p>The toolkit stays deliberately small: <strong>After Effects and CapCut only</strong>. No bloated pipeline, just pacing, hooks and cuts your audience can feel — from Fes, Morocco, for clients in the US, UK, EU and Canada.</p>
+        <div class="toolkit"><span>After Effects</span><span>CapCut</span><span>Reels</span><span>YouTube</span><span>Real Estate</span></div>
+      </div>
+      <aside class="kind-card" aria-label="Client words">
+        <span class="demo-tag">Kind words</span>
+        <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>&ldquo;He is good.&rdquo;</blockquote>
+        <cite>Malek — 5/5</cite>
+        <p class="only-note">The one real client quote on the live site, shown exactly as given. No other testimonials are displayed.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="contact-band">
+      <span class="demo-tag" style="border-color:rgba(244,245,240,.5);color:rgba(244,245,240,.75)">Contact</span>
+      <h2>Let's cut something <em>worth watching</em></h2>
+      <p style="margin:0;max-width:40em;color:rgba(244,245,240,.8)">Send the brief today and the first draft is back in 48 hours. Trial reel is $10, credited toward your first pack if you continue.</p>
+      <div class="contact-grid">
+        <a class="contact-item" href="mailto:hello@drizoeditz.pro"><span class="k">Email</span><span class="v">hello@drizoeditz.pro</span></a>
+        <a class="contact-item" href="https://wa.me/4917688649232" target="_blank" rel="noopener"><span class="k">WhatsApp</span><span class="v">+49 176 88649232</span></a>
+        <a class="contact-item" href="https://www.instagram.com/drissouazzani.21" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v">@drissouazzani.21</span></a>
+      </div>
+      <div class="pref-line">
+        <button class="pref-badge" type="button" data-pref-source><span class="g-mark">G</span> Preferred Source on Google</button>
+        <span>Prefer my work in search? Select drizoeditz.pro as a preferred source in Google Search preferences.</span>
+      </div>
+    </div>
+
+    <div class="contact-form-panel">
+      <h3>Send a message</h3>
+      <p>Prefer a form? Fill this in and it comes straight to hello@drizoeditz.pro.</p>
+      <form class="contact-form" id="contact-form" action="#" novalidate>
+        <div class="field">
+          <label for="field-name">Name</label>
+          <input id="field-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
         </div>
         <div class="field">
-          <label for="quote-turnaround">Turnaround</label>
-          <select id="quote-turnaround" name="turnaround">
-            <option value="standard">Standard &mdash; 48h (included)</option>
-            <option value="rush">Rush &mdash; 24h (+50%)</option>
-            <option value="flexible">Flexible &mdash; 4-7 days (-10%)</option>
+          <label for="field-type">Project type</label>
+          <select id="field-type" name="project-type">
+            <option>Reels</option>
+            <option>YouTube</option>
+            <option>Real Estate</option>
+            <option>Ads</option>
+            <option>Other</option>
           </select>
         </div>
+        <div class="field">
+          <label for="field-budget">Budget</label>
+          <select id="field-budget" name="budget">
+            <option>Under $100</option>
+            <option>$100&ndash;250</option>
+            <option>$250&ndash;500</option>
+            <option>$500+</option>
+            <option>To discuss</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="field-link">Link <span class="field-optional">(optional)</span></label>
+          <input id="field-link" name="link" type="url" inputmode="url" placeholder="https:// — your channel or a reference video">
+        </div>
+        <div class="field">
+          <label for="field-message">Message</label>
+          <textarea id="field-message" name="message" rows="4" required placeholder="Tell me about your project&hellip;"></textarea>
+        </div>
+        <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="_gotcha" id="field-hp" tabindex="-1" autocomplete="off"></label></div>
+        <button class="btn3d btn3d--dark" type="submit" id="contact-submit">Send message</button>
+        <button class="btn3d btn3d--light" type="button" id="contact-wa">Send on WhatsApp instead</button>
+        <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
       </form>
-      <div class="quote-result" aria-live="polite">
-        <p class="quote-result-label">Your estimate</p>
-        <p class="quote-total" id="quote-total">from $10</p>
-        <ul class="quote-breakdown">
-          <li id="quote-base">Reels / Shorts &mdash; 1 x $10 per reel = $10</li>
-          <li id="quote-adjustment">Standard &mdash; 48h: +$0</li>
-        </ul>
-        <a class="btn btn-primary" id="quote-wa" data-track="quote-whatsapp" href="https://wa.me/4917688649232" target="_blank" rel="noopener">Send this quote on WhatsApp</a>
-        <a class="btn btn-ghost" id="quote-email" data-track="quote-email" href="mailto:hello@drizoeditz.pro">Send this quote by email</a>
-        <p class="form-note"><a href="#contact">Or use the contact form below</a></p>
-      </div>
     </div>
   </section>
 
-  <section id="about" class="about">
-    <p class="sec-kicker"><span>03</span>About</p>
-    <div class="about-grid">
-      <div class="about-copy">
-        <h2 class="sec-title">The editor behind <em>the cuts.</em></h2>
-        <p>I started cutting game clips on a Galaxy S5 in 2018 and never stopped — from mobile edits on KineMaster and Alight Motion to After Effects on PC. I've cut real estate media for US teams, talking-head content for a training brand, and Pokémon card content for a growing YouTube channel.</p>
-        <p>Self-taught, fast, and obsessed with pacing that keeps viewers watching.</p>
-        <ul class="facts">
-          <li><span>Based in</span>Fès, Morocco · working worldwide</li>
-          <li><span>Experience</span>8+ years · 2,300+ videos delivered</li>
-          <li><span>Toolkit</span>After Effects · CapCut</li>
-        </ul>
-      </div>
-      <div class="about-visual">
-        <img src="profile.jpg" alt="Driss Ouazzani Chahdi" id="about-photo" width="320" height="416">
-      </div>
-    </div>
-  </section>
-
-  <section id="testimonials" class="testimonials">
-    <p class="sec-kicker"><span>04</span>Kind Words</p>
-    <h2 class="sec-title">Clients, <em>in their words.</em></h2>
-    <div class="quotes" id="quotes">
-      <figure class="quote">
-        <blockquote>&ldquo;He is good.&rdquo;</blockquote>
-        <figcaption><strong>Malek</strong><span>5/5 &mdash; client review</span></figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section id="contact" class="contact">
-    <p class="sec-kicker"><span>05</span>Contact</p>
-    <h2 class="sec-title">Let's make something <em class="mark">worth watching.</em></h2>
-    <p class="contact-sub">Currently available for freelance projects — reels, YouTube edits, ad creatives.</p>
-    <p class="pref-line"><button class="pref-badge" type="button" data-pref-source><span class="g-mark">G</span>Preferred Source on Google</button><span>Prefer my work in search? Select drizoeditz.pro as a preferred source in Google Search preferences.</span></p>
-    <!-- Stage 2 booking: hidden until config.js bookingUrl is set -->
-    <a href="#" class="btn btn-ghost booking-btn" id="contact-booking" hidden>Book a 15-min call</a>
-    <div class="contact-layout">
-    <div class="contact-links">
-      <a class="contact-card" href="https://wa.me/4917688649232" data-track="whatsapp" target="_blank" rel="noopener">
-        <span class="contact-label">WhatsApp</span>
-        <span class="contact-value">+49 176 88649232</span>
-      </a>
-      <a class="contact-card" href="https://www.instagram.com/drissouazzani.21" target="_blank" rel="noopener">
-        <span class="contact-label">Instagram</span>
-        <span class="contact-value">@drissouazzani.21</span>
-      </a>
-      <a class="contact-card" href="mailto:hello@drizoeditz.pro" data-track="email">
-        <span class="contact-label">Email</span>
-        <span class="contact-value">hello@drizoeditz.pro</span>
-      </a>
-    </div>
-    <form class="contact-form" id="contact-form" action="#" novalidate>
-      <div class="field">
-        <label for="field-name">Name</label>
-        <input id="field-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
-      </div>
-      <div class="field">
-        <label for="field-type">Project type</label>
-        <select id="field-type" name="project-type">
-          <option>Reels</option>
-          <option>YouTube</option>
-          <option>Real Estate</option>
-          <option>Ads</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="field-budget">Budget</label>
-        <select id="field-budget" name="budget">
-          <option>Under $100</option>
-          <option>$100&ndash;250</option>
-          <option>$250&ndash;500</option>
-          <option>$500+</option>
-          <option>To discuss</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="field-link">Link <span class="field-optional">(optional)</span></label>
-        <input id="field-link" name="link" type="url" inputmode="url" placeholder="https:// — your channel or a reference video">
-      </div>
-      <div class="field">
-        <label for="field-message">Message</label>
-        <textarea id="field-message" name="message" rows="4" required placeholder="Tell me about your project&hellip;"></textarea>
-      </div>
-      <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="_gotcha" id="field-hp" tabindex="-1" autocomplete="off"></label></div>
-      <button class="btn btn-primary" type="submit" id="contact-submit">Send message</button>
-      <button class="btn btn-ghost" type="button" id="contact-wa">Send on WhatsApp instead</button>
-      <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
-    </form>
-    </div>
-  </section>
+  <footer>
+    <p class="footer-socials" id="social-links"></p>
+    <p><a href="real-estate-video-editor.html">Real Estate Video Editor</a> &middot; <a href="youtube-editor.html">YouTube Editor</a> &middot; <a href="trial.html">Paid Trial — $10</a></p>
+    <p><span class="f-brand">DRISS OUAZZANI CHAHDI</span> — Freelance video editor, Fes, Morocco &middot; hello@drizoeditz.pro</p>
+    <p>&copy; 2026 Driss Ouazzani Chahdi — Video Editor</p>
+  </footer>
 </main>
 
-<footer>
-  <p class="footer-socials" id="social-links"></p>
-  <p><a href="real-estate-video-editor.html">Real Estate Video Editor</a> &middot; <a href="youtube-editor.html">YouTube Editor</a> &middot; <a href="trial.html">Paid Trial — $10</a></p>
-  <p>© 2026 Driss Ouazzani Chahdi — Video Editor</p>
-</footer>
+<!-- Floating pill nav with liquid glass + white Watch my work -->
+<nav class="pill-nav liquid-glass" id="pillNav" aria-label="Site navigation">
+  <span class="glass-label" id="glassLabel">Liquid glass</span>
+  <a href="#work">Work</a>
+  <a href="#services">Services</a>
+  <a href="#quote">Quote</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <a class="cta" href="#work">&#9654; Watch my work</a>
+</nav>
+
+<!-- Player modal: real videos from videos.js -->
+<div class="modal" id="playerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-screen" id="modalScreen">
+      <button class="modal-close" type="button" id="modalClose" aria-label="Close player">&#10005;</button>
+      <video id="modalVideo" controls playsinline preload="none" style="width:100%;height:100%;object-fit:contain;background:#0c0e22"></video>
+    </div>
+    <div class="modal-body">
+      <h3 id="modalTitle">Work</h3>
+      <p id="modalMeta"></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
 
 <script src="config.js"></script>
 <script src="videos.js"></script>
@@ -429,25 +393,8 @@
 <script src="socials.js"></script>
 <script src="app.js"></script>
 <script src="quote.js"></script>
-<!-- Premium motion: GSAP 3.12.5 + ScrollTrigger (cdnjs), Lenis 1.1.14 (jsDelivr).
-     Loaded only after first paint by motion-loader.js, so motion never
-     blocks the hero. Progressive enhancement only: motion.js guards every
-     call, and no CSS hides content, so the site is fully visible if any CDN fails. -->
-<!-- Hero and card effects (see react-bits.jsx): plain JavaScript only.
-     Progressive enhancement only: if this fails, the static hero/cards stay. -->
 <script src="react-bits.jsx" defer></script>
 <script src="motion-loader.js" defer></script>
-
-<nav class="pillnav liquid-glass" id="pillnav" aria-label="Site pages">
-  <span class="pillnav-skin" id="pillnav-skin" aria-hidden="true"></span>
-  <span class="pillnav-row" id="pillnav-row">
-    <a class="pillnav-link" href="index.html">Homepage</a>
-    <a class="pillnav-link" href="real-estate-video-editor.html">Real Estate</a>
-    <a class="pillnav-link" href="youtube-editor.html">YouTube Editor</a>
-    <a class="pillnav-link" href="trial.html">Trial &mdash; $10</a>
-    <a class="pillnav-link pillnav-cta" href="index.html#work">Watch my work</a>
-  </span>
-</nav>
 <script src="pillnav.js"></script>
 </body>
 </html>
