@@ -63,6 +63,15 @@
 </script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="liquid-distort" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="2" result="softNoise" />
+      <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="38" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+</svg>
 <nav class="nav">
   <a href="index.html" class="wordmark">Driss<span>.</span></a>
   <div class="nav-links" id="nav-menu">
@@ -73,6 +82,7 @@
     <a href="index.html#contact">Contact</a>
   </div>
   <div class="nav-actions">
+<button class="pref-badge" type="button" data-pref-source aria-label="Add drizoeditz.pro as a Google Preferred Source"><span class="g-mark">G</span><span class="pref-badge-text">Preferred Source</span></button>
     <a href="index.html#contact" class="btn btn-small btn-primary" data-track="hire-me">Hire me</a>
     <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
       <span class="nav-toggle-bar" aria-hidden="true"></span>
@@ -216,13 +226,14 @@
 })();
 </script>
 
-<nav class="pillnav" id="pillnav" aria-label="Site pages">
+<nav class="pillnav liquid-glass" id="pillnav" aria-label="Site pages">
   <span class="pillnav-skin" id="pillnav-skin" aria-hidden="true"></span>
   <span class="pillnav-row" id="pillnav-row">
     <a class="pillnav-link" href="index.html">Homepage</a>
     <a class="pillnav-link" href="real-estate-video-editor.html">Real Estate</a>
     <a class="pillnav-link" href="youtube-editor.html">YouTube Editor</a>
     <a class="pillnav-link" href="trial.html">Trial &mdash; $10</a>
+    <a class="pillnav-link pillnav-cta" href="index.html#work">Watch my work</a>
   </span>
 </nav>
 <!-- Premium motion, same as homepage: GSAP + Lenis smooth scroll.

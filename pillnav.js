@@ -13,6 +13,18 @@
  * prefers-reduced-motion: the pill stays expanded, no shrink at all.
  */
 (function () {
+  /* PR #21: liquid-glass fallback — Safari / iOS ignore url() in
+     backdrop-filter, so feature-detect and fall back to plain blur. */
+  (function () {
+    try {
+      var ua = navigator.userAgent || '';
+      var isSafari = /Safari/.test(ua) && !/Chrome|Chromium|CriOS|Edg|OPR/.test(ua);
+      var ok = CSS.supports('backdrop-filter', 'url(#liquid-distort)') ||
+               CSS.supports('-webkit-backdrop-filter', 'url(#liquid-distort)');
+      if (isSafari || !ok) document.body.classList.add('glass-fallback');
+    } catch (e) { document.body.classList.add('glass-fallback'); }
+  })();
+
   var nav = document.getElementById('pillnav');
   if (!nav) return;
   var row = document.getElementById('pillnav-row');

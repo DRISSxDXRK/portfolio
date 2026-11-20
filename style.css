@@ -1206,3 +1206,80 @@ footer { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px)); }
 @media (prefers-reduced-motion: reduce) {
   .pillnav, .pillnav-skin, .pillnav-row, .pillnav-link { transition: none; }
 }
+
+/* ---------- PR #21: Awwwards style + liquid glass + 3D buttons + Preferred Sources ----------
+   Combination A only. No invented stats: the proof strip uses only
+   2,300+ videos, 48h, 8+ years and Malek's real 5/5 review. */
+.hero { flex-direction: column; justify-content: center; }
+.hero-inner { width: 100%; }
+.hero-wide { position: relative; z-index: 1; width: 100%; max-width: 75rem; margin: 3rem auto 0; }
+h1.seo-line { font-size: clamp(1.5rem, 3.4vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem; max-width: 30em; }
+h1.seo-line em { font-style: italic; color: var(--gold); }
+.giant { font-weight: 900; letter-spacing: -0.035em; line-height: 0.92; text-transform: uppercase; font-size: clamp(2.9rem, 11vw, 9.5rem); margin: 0.4em 0 0; }
+.giant .row { display: block; }
+.giant .outline { color: transparent; -webkit-text-stroke: 2px var(--midnight); }
+.giant .cycle-wrap { display: inline-block; min-width: 5.2ch; text-align: left; }
+.giant .rotator-word { font-family: var(--serif); font-style: italic; font-weight: 600; text-transform: none; letter-spacing: -0.02em; }
+.proof-strip { margin-top: clamp(1.8rem, 4vw, 3rem); background: var(--midnight); color: var(--pearl); border-radius: calc(var(--radius) * 1.5); padding: 1.1rem clamp(1rem, 3vw, 2rem); display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; align-items: center; }
+.proof-cell .score { font-family: var(--serif); font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.proof-cell .score small { font-size: 0.5em; font-weight: 700; color: rgba(244, 245, 240, 0.55); }
+.proof-cell .lbl { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244, 245, 240, 0.65); margin-top: 0.3rem; }
+
+/* Liquid glass: SVG feTurbulence + feDisplacementMap bends the backdrop
+   in Chromium. Safari / iOS ignore url() in backdrop-filter, so
+   body.glass-fallback (set by pillnav.js) uses a plain frosted blur. */
+.liquid-glass { background: rgba(244, 245, 240, 0.14); -webkit-backdrop-filter: blur(14px) saturate(1.5); backdrop-filter: url(#liquid-distort) blur(2px) saturate(1.5); border: 1px solid rgba(255, 255, 255, 0.35); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(255, 255, 255, 0.08), 0 12px 32px -12px rgba(18, 20, 41, 0.45); }
+.glass-fallback .liquid-glass { background: rgba(244, 245, 240, 0.72); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); }
+@supports not (backdrop-filter: url(#liquid-distort)) { .liquid-glass { background: rgba(244, 245, 240, 0.6); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); } }
+/* The pill nav is the glass element that must stay readable: light glass,
+   Midnight links, Fir skin. */
+.pillnav.liquid-glass { background: rgba(244, 245, 240, 0.55); border-color: rgba(18, 20, 41, 0.18); }
+.pillnav.liquid-glass .pillnav-link { color: var(--ink); }
+.pillnav.liquid-glass .pillnav-link:hover { color: var(--ink); }
+.pillnav.liquid-glass .pillnav-link.is-active { color: var(--pearl); }
+/* Work-card play overlays wear the same glass; the play button stays solid. */
+.play-overlay.liquid-glass { background: rgba(244, 245, 240, 0.14); }
+
+/* Skeuomorphic 3D buttons: layered inset + drop shadows, Midnight palette.
+   Pressing dips the button, like a real button. */
+.btn-3d { transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease; }
+.btn-3d-dark { background: linear-gradient(180deg, #23264d, var(--midnight) 55%, #0c0e22); color: var(--pearl); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -3px 0 rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 28px -6px rgba(18, 20, 41, 0.65), 0 22px 44px -18px rgba(18, 20, 41, 0.5); }
+.btn-3d-light { background: linear-gradient(180deg, #ffffff, var(--pearl) 60%, #e4e6dc); color: var(--midnight); border-color: rgba(18, 20, 41, 0.06); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -3px 0 rgba(18, 20, 41, 0.14), inset 0 0 0 1px rgba(18, 20, 41, 0.06), 0 1px 2px rgba(0, 0, 0, 0.28), 0 10px 28px -6px rgba(18, 20, 41, 0.45), 0 22px 44px -18px rgba(18, 20, 41, 0.35); }
+.btn-3d-fir { background: linear-gradient(180deg, #62666a, var(--gold) 55%, #3e4144); color: var(--pearl); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -3px 0 rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 28px -6px rgba(18, 20, 41, 0.65), 0 22px 44px -18px rgba(18, 20, 41, 0.5); }
+.btn-3d:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.btn-3d:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 3px 8px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.4); }
+.btn-3d-light:active { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 3px 8px rgba(18, 20, 41, 0.22), 0 1px 1px rgba(0, 0, 0, 0.25); }
+
+/* Preferred Sources badge / panel. The badge only points the reader at
+   their own Google Search preferences; it makes no ranking promise. */
+.pref-badge { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; border: 1.5px solid var(--midnight); border-radius: 999px; padding: 0.42rem 0.9rem 0.42rem 0.55rem; font-family: var(--sans); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; background: var(--pearl); color: var(--ink); transition: transform 0.15s ease, background 0.15s ease; white-space: nowrap; }
+.pref-badge:hover { transform: translateY(-1px); background: #fff; }
+.pref-badge .g-mark { width: 22px; height: 22px; border-radius: 50%; background: var(--midnight); color: var(--pearl); display: grid; place-items: center; font-family: var(--serif); font-style: italic; font-size: 0.85rem; line-height: 1; flex: none; }
+.nav .pref-badge { font-size: 0.62rem; padding: 0.35rem 0.7rem 0.35rem 0.45rem; }
+.preferred { padding: 3rem 2rem 0; }
+.pref-panel { border: 2px solid var(--midnight); border-radius: calc(var(--radius) * 1.5); background: var(--card); padding: clamp(1.2rem, 3vw, 2rem); display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; justify-content: space-between; max-width: 75rem; margin: 0 auto; }
+.pref-panel .sec-title { margin-bottom: 0.75rem; }
+.pref-panel p { color: var(--pearl-dim); max-width: 44em; }
+.pref-panel-actions { display: grid; gap: 0.6rem; justify-items: start; }
+.pref-steps { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.pref-line { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-top: 1.4rem; font-size: 0.92rem; color: var(--pearl-dim); }
+.pref-toast { position: fixed; left: 50%; transform: translate(-50%, 20px); bottom: 6.2rem; z-index: 90; opacity: 0; pointer-events: none; background: var(--midnight); color: var(--pearl); border-radius: 14px; padding: 0.8rem 1.1rem; font-size: 0.9rem; max-width: min(480px, calc(100vw - 2rem)); text-align: center; transition: opacity 0.3s ease, transform 0.3s ease; box-shadow: 0 18px 40px -12px rgba(18, 20, 41, 0.6); }
+.pref-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Pill nav: white Watch my work button with the same 3D treatment. */
+.pillnav-cta { background: linear-gradient(180deg, #ffffff, var(--pearl) 60%, #e4e6dc) !important; color: var(--midnight) !important; font-weight: 800 !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -3px 0 rgba(18, 20, 41, 0.14), 0 1px 2px rgba(0, 0, 0, 0.28), 0 10px 28px -6px rgba(18, 20, 41, 0.45); }
+
+@media (max-width: 960px) {
+  .proof-strip { grid-template-columns: 1fr 1fr; }
+  .giant { font-size: clamp(2.6rem, 12.5vw, 6rem); }
+  .hero-wide { margin-top: 2rem; }
+}
+@media (max-width: 720px) {
+  .pillnav-link.pillnav-cta { display: none; }
+  .nav .pref-badge-text { display: none; }
+  .preferred { padding: 2rem 1.25rem 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-3d { transition: none; }
+  .giant .rotator-word, .giant .rotator-word::after { transition: none; }
+}

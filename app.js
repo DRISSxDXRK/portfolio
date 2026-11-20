@@ -29,7 +29,7 @@
       player.appendChild(img);
 
       var overlay = document.createElement('div');
-      overlay.className = 'play-overlay';
+      overlay.className = 'play-overlay liquid-glass';
       overlay.innerHTML = '<div class="play-btn"></div><span class="play-label">Tap to play</span>';
       overlay.addEventListener('click', function () {
         pauseAll();
@@ -56,7 +56,7 @@
       players.push(video);
 
       var overlay2 = document.createElement('div');
-      overlay2.className = 'play-overlay';
+      overlay2.className = 'play-overlay liquid-glass';
       overlay2.innerHTML = '<div class="play-btn"></div><span class="play-label">Tap to play</span>';
       overlay2.addEventListener('click', function () {
         pauseAll(video);
