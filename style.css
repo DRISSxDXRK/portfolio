@@ -1513,3 +1513,81 @@ body.rebuild .toast.show { opacity: 1; transform: translate(-50%, 0); }
   body.rebuild .cycle-word.swap { animation: none; }
   body.rebuild .card, body.rebuild .card .tile, body.rebuild .btn3d { transition: none; }
 }
+
+/* ---------- PR #26: Cookie consent banner ----------
+   Combination A only: Midnight #121429 banner on the Bright White page,
+   Bright White #F4F5F0 text, Metallic Fir #505457 only as a border tint.
+   Fixed to the bottom, above the pill nav (z-index 60) and below the
+   video modal (z-index 80). While the banner is visible the pill nav is
+   lifted above it so the two never overlap. The banner is hidden by
+   default (hidden attribute); cookie-consent.js only shows it when the
+   visitor has no stored choice, or re-opens it from "Cookie settings". */
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  background: var(--midnight);
+  color: var(--pearl);
+  border-top: 1px solid rgba(244, 245, 240, 0.18);
+  box-shadow: 0 -12px 32px rgba(18, 20, 41, 0.35);
+  padding: 1rem clamp(1rem, 4vw, 3rem) calc(1rem + env(safe-area-inset-bottom, 0px));
+}
+.cookie-banner-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+.cookie-banner-text { margin: 0; font-size: 0.95rem; line-height: 1.55; max-width: 58rem; color: rgba(244, 245, 240, 0.85); }
+.cookie-banner-text strong { color: var(--pearl); }
+.cookie-banner-actions { display: flex; gap: 0.6rem; flex-shrink: 0; }
+.cookie-accept, .cookie-decline {
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cookie-accept {
+  background: linear-gradient(180deg, #ffffff, var(--pearl) 60%, #e4e6dc);
+  color: var(--midnight);
+  border: 1px solid rgba(18, 20, 41, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -3px 0 rgba(18, 20, 41, 0.14), 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+.cookie-accept:active { transform: translateY(1px); }
+.cookie-decline {
+  background: transparent;
+  color: var(--pearl);
+  border: 1px solid rgba(244, 245, 240, 0.55);
+}
+.cookie-decline:hover { background: rgba(244, 245, 240, 0.1); }
+.cookie-settings-link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* Lift both pill nav variants above the banner while it is shown. */
+body.cookie-banner-visible .pill-nav { bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); }
+body.cookie-banner-visible .pillnav { bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 720px) {
+  .cookie-banner-inner { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+  .cookie-banner-text { font-size: 0.9rem; }
+  .cookie-banner-actions { width: 100%; }
+  .cookie-accept, .cookie-decline { flex: 1; text-align: center; }
+  body.cookie-banner-visible .pill-nav { bottom: calc(12.5rem + env(safe-area-inset-bottom, 0px)); }
+  body.cookie-banner-visible .pillnav { bottom: calc(12.5rem + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-accept:active { transform: none; }
+}
