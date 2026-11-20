@@ -1,7 +1,8 @@
 /* Portfolio app: renders video cards, filters, inline playback. VIDEOS comes from videos.js */
 (function () {
-  var grid = document.getElementById('grid');
+  var grid = document.getElementById('workGrid') || document.getElementById('grid');
   var filtersEl = document.getElementById('filters');
+  var workCountEl = document.getElementById('workCount');
   var currentFilter = 'all';
   var players = [];
 
@@ -9,111 +10,92 @@
     return { ahp: 'Art Home Photo', as: 'Art Social', charlie: "Charlie's Pokécards", hercules: 'Hercules Training' }[key] || key;
   }
 
+  var CATLBL = { reels: 'Reels', youtube: 'YouTube', 'real-estate': 'Real Estate', ads: 'Ads' };
+  var modal = document.getElementById('playerModal');
+  var modalVideo = document.getElementById('modalVideo');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalMeta = document.getElementById('modalMeta');
+  var modalScreen = document.getElementById('modalScreen');
+  var modalFrame = null;
+
+  function openPlayer(v) {
+    if (!modal) return;
+    pauseAll();
+    if (modalTitle) modalTitle.textContent = v.title;
+    if (modalMeta) modalMeta.textContent = clientLabel(v.client) + ' \u00b7 ' + (CATLBL[(v.format || ['reels'])[0]] || 'Reels');
+    if (modalFrame) { modalFrame.remove(); modalFrame = null; }
+    if (v.youtube) {
+      if (modalVideo) { modalVideo.pause(); modalVideo.style.display = 'none'; }
+      modalFrame = document.createElement('iframe');
+      modalFrame.src = 'https://www.youtube-nocookie.com/embed/' + v.youtube + '?autoplay=1&rel=0';
+      modalFrame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      modalFrame.allowFullscreen = true;
+      modalFrame.title = v.title;
+      modalFrame.style.cssText = 'width:100%;height:100%;border:0;position:absolute;inset:0';
+      modalScreen.appendChild(modalFrame);
+    } else if (modalVideo) {
+      modalVideo.style.display = '';
+      modalVideo.src = v.src;
+      modalVideo.poster = v.poster;
+      modalVideo.play().catch(function () {});
+    }
+    modal.classList.add('open');
+  }
+  function closePlayer() {
+    if (!modal) return;
+    modal.classList.remove('open');
+    if (modalVideo) { modalVideo.pause(); modalVideo.removeAttribute('src'); modalVideo.load(); }
+    if (modalFrame) { modalFrame.remove(); modalFrame = null; }
+  }
+  var modalClose = document.getElementById('modalClose');
+  if (modalClose) modalClose.addEventListener('click', closePlayer);
+  if (modal) modal.addEventListener('click', function (e) { if (e.target === modal) closePlayer(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal && modal.classList.contains('open')) closePlayer(); });
+
   function makeCard(v) {
-    var card = document.createElement('article');
+    var card = document.createElement('button');
+    card.type = 'button';
     card.className = 'card';
     card.dataset.client = v.client;
-
-    var player = document.createElement('div');
-    player.className = 'player' + (v.vertical ? ' vertical' : '');
-
-    if (v.youtube) {
-      // YouTube: thumbnail + tap-to-load iframe (avoids broken embeds on page load)
-      var img = document.createElement('img');
-      img.src = v.poster;
-      img.alt = v.title;
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'cover';
-      img.loading = 'lazy';
-      player.appendChild(img);
-
-      var overlay = document.createElement('div');
-      overlay.className = 'play-overlay liquid-glass';
-      overlay.innerHTML = '<div class="play-btn"></div><span class="play-label">Tap to play</span>';
-      overlay.addEventListener('click', function () {
-        pauseAll();
-        var frame = document.createElement('iframe');
-        frame.src = 'https://www.youtube-nocookie.com/embed/' + v.youtube + '?autoplay=1&rel=0';
-        frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-        frame.allowFullscreen = true;
-        frame.title = v.title;
-        player.innerHTML = '';
-        player.appendChild(frame);
-      });
-      player.appendChild(overlay);
-    } else {
-      var video = document.createElement('video');
-      video.src = v.src;
-      video.poster = v.poster;
-      video.preload = 'none'; // Stage 1: posters only on load, video loads on tap/hover
-      video.playsInline = true;
-      video.setAttribute('playsinline', '');
-      video.setAttribute('webkit-playsinline', '');
-      video.controls = false; // native controls only after a tap-to-play (see below)
-      video.disablePictureInPicture = false;
-      player.appendChild(video);
-      players.push(video);
-
-      var overlay2 = document.createElement('div');
-      overlay2.className = 'play-overlay liquid-glass';
-      overlay2.innerHTML = '<div class="play-btn"></div><span class="play-label">Tap to play</span>';
-      overlay2.addEventListener('click', function () {
-        pauseAll(video);
-        overlay2.classList.add('gone');
-        video.controls = true;
-        video.muted = false;
-        video.loop = false;
-        video.play().catch(function () { overlay2.classList.remove('gone'); });
-      });
-      video.addEventListener('pause', function () { overlay2.classList.remove('gone'); });
-      // Only one video plays at a time anywhere on the page.
-      video.addEventListener('play', function () {
-        overlay2.classList.add('gone');
-        pauseAll(video);
-        var reel = document.getElementById('showreel-video');
-        if (reel && !reel.paused) reel.pause();
-      });
-      player.appendChild(overlay2);
-
-      /* Stage 1 hover preview: desktop only (hover + fine pointer), never
-         on touch, never on reduced-motion. Muted looping preview of the same
-         file; tap-to-play behaviour is unchanged. */
-      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-          !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var hovering = false;
-        player.addEventListener('mouseenter', function () {
-          if (video.controls) return; // already playing by tap — leave it alone
-          hovering = true;
-          pauseAll(video);
-          video.muted = true;
-          video.loop = true;
-          video.play().catch(function () {});
-        });
-        player.addEventListener('mouseleave', function () {
-          hovering = false;
-          video.pause();
-          video.muted = false;
-          video.loop = false;
-          video.currentTime = 0;
-        });
-        video.addEventListener('pause', function () { hovering = false; });
-      }
-    }
-
-    var body = document.createElement('div');
-    body.className = 'card-body';
-    var client = document.createElement('div');
-    client.className = 'card-client';
-    client.textContent = clientLabel(v.client);
-    var title = document.createElement('h3');
-    title.className = 'card-title';
-    title.textContent = v.title;
-    body.appendChild(client);
-    body.appendChild(title);
-
-    card.appendChild(player);
-    card.appendChild(body);
+    var cat = (v.format || ['reels'])[0];
+    var label = CATLBL[cat] || 'Reels';
+    var aspect = v.vertical ? '9:16' : '16:9';
+    card.setAttribute('aria-label', 'Play: ' + v.title);
+    var tile = document.createElement('span');
+    tile.className = 'tile';
+    var img = document.createElement('img');
+    img.src = v.poster;
+    img.alt = v.title;
+    img.loading = 'lazy';
+    tile.appendChild(img);
+    card.appendChild(tile);
+    var meta = document.createElement('span');
+    meta.className = 'meta-top';
+    var chip = document.createElement('span');
+    chip.className = 'chip liquid-glass';
+    chip.textContent = label;
+    var dur = document.createElement('span');
+    dur.className = 'chip dur';
+    dur.textContent = aspect;
+    meta.appendChild(chip);
+    meta.appendChild(dur);
+    card.appendChild(meta);
+    var ring = document.createElement('span');
+    ring.className = 'play-ring liquid-glass';
+    ring.textContent = '\u25b6';
+    card.appendChild(ring);
+    var bar = document.createElement('span');
+    bar.className = 'glass-bar liquid-glass';
+    var t = document.createElement('span');
+    t.className = 't';
+    t.textContent = v.title;
+    var c = document.createElement('span');
+    c.className = 'c';
+    c.textContent = clientLabel(v.client);
+    bar.appendChild(t);
+    bar.appendChild(c);
+    card.appendChild(bar);
+    card.addEventListener('click', function () { openPlayer(v); });
     return card;
   }
 
@@ -132,6 +114,7 @@
       grid.appendChild(makeCard(v));
       shown++;
     });
+    if (workCountEl) workCountEl.textContent = shown + (shown === 1 ? ' project' : ' projects');
     if (!shown) {
       var empty = document.createElement('div');
       empty.className = 'empty-state';
@@ -156,7 +139,7 @@
 
   /* Hide filter tabs that have no videos yet (e.g. Ads). They reappear
      automatically as soon as a video with that format is added to videos.js. */
-  filtersEl.querySelectorAll('.filter').forEach(function (b) {
+  filtersEl.querySelectorAll('.filter-btn, .filter').forEach(function (b) {
     var key = b.dataset.filter;
     if (key === 'all') return;
     var has = VIDEOS.some(function (v) { return (v.format || []).indexOf(key) !== -1; });
@@ -167,7 +150,7 @@
     var btn = e.target.closest('.filter');
     if (!btn) return;
     currentFilter = btn.dataset.filter;
-    filtersEl.querySelectorAll('.filter').forEach(function (b) {
+    filtersEl.querySelectorAll('.filter-btn, .filter').forEach(function (b) {
       b.classList.toggle('active', b === btn);
     });
     render();

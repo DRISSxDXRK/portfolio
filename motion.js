@@ -85,7 +85,7 @@
   function animateCards() {
     cardTriggers.forEach(function (t) { try { t.kill(); } catch (e) {} });
     cardTriggers = [];
-    var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#workGrid .card, #grid .card'));
     cards.forEach(function (card, i) {
       var tween = window.gsap.from(card, {
         y: 28, opacity: 0, duration: 0.7, delay: Math.min(i * 0.05, 0.4),

@@ -1,20 +1,16 @@
-/* Floating bottom pill nav — iOS 26 Liquid Glass shrink-on-scroll.
+/* Floating bottom pill nav.
  *
- * Behaviour: scroll down > 10px (cumulative, jitter ignored) and the pill
- * morphs to a compact mini pill showing only the active tab; scroll up,
- * reach the top, or tap the compact pill and it springs back to full.
+ * PR #22: the preview pill nav is STATIC — it never shrinks on scroll
+ * and its white Watch my work CTA is always visible, on desktop and on
+ * phones (only the non-CTA links hide under 720px, in CSS). The old
+ * shrink-on-scroll morph from PR #21 is what hid the CTA, so it is
+ * gone for the preview nav (#pillNav). The other pages still use the
+ * old morphing nav (#pillnav); that behaviour is kept below for them.
  *
- * Fixed technique (from the preview repair): NO scaleX/scaleY transform
- * on the skin — non-uniform scaling flattens border-radius and turns the
- * pill into a flat-sided rounded rectangle. The skin and the bar morph
- * with real geometry (left / width / height, border-radius: 999px, so the
- * ends stay perfect semicircles at every width). Labels fade/scale with
- * transform + opacity only. The inner row slides with transform only.
- * prefers-reduced-motion: the pill stays expanded, no shrink at all.
- */
+ * Glass fallback (both navs): Safari / iOS ignore url() in
+ * backdrop-filter, so feature-detect and fall back to plain blur. */
 (function () {
-  /* PR #21: liquid-glass fallback — Safari / iOS ignore url() in
-     backdrop-filter, so feature-detect and fall back to plain blur. */
+  /* Liquid-glass fallback — shared by both nav variants. */
   (function () {
     try {
       var ua = navigator.userAgent || '';
@@ -25,66 +21,70 @@
     } catch (e) { document.body.classList.add('glass-fallback'); }
   })();
 
+  /* --- Preview nav (#pillNav): static, CTA always visible, scroll-spy. --- */
+  var previewNav = document.getElementById('pillNav');
+  if (previewNav) {
+    var links = Array.prototype.slice.call(previewNav.querySelectorAll('a:not(.cta)'));
+    var sections = links.map(function (a) {
+      return { link: a, el: document.querySelector(a.getAttribute('href')) };
+    }).filter(function (s) { return s.el; });
+    if ('IntersectionObserver' in window && sections.length) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          sections.forEach(function (s) {
+            var on = s.el === entry.target;
+            s.link.style.background = on ? 'rgba(18,20,41,.08)' : '';
+          });
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(function (s) { io.observe(s.el); });
+    }
+    return;
+  }
+
+  /* --- Old morphing nav (#pillnav), kept for the other 4 pages. --- */
   var nav = document.getElementById('pillnav');
   if (!nav) return;
   var row = document.getElementById('pillnav-row');
   var skin = document.getElementById('pillnav-skin');
-  var links = Array.prototype.slice.call(row.querySelectorAll('.pillnav-link'));
-  if (!row || !skin || !links.length) return;
+  var navLinks = Array.prototype.slice.call(row.querySelectorAll('.pillnav-link'));
+  if (!row || !skin || !navLinks.length) return;
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* Active page from the URL, not from per-page markup, so every page
-   * carries identical HTML and behaves identically. */
   var file = (window.location.pathname.split('/').pop() || 'index.html').split(/[?#]/)[0];
-  var active = links[0];
-  links.forEach(function (a) {
+  var active = navLinks[0];
+  navLinks.forEach(function (a) {
     var href = a.getAttribute('href');
     if (href === file) active = a;
     if (file === '' && href === 'index.html') active = a;
   });
-  links.forEach(function (a) {
+  navLinks.forEach(function (a) {
     var on = a === active;
     a.classList.toggle('is-active', on);
     if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
 
-  var PAD = 8; /* row horizontal padding, px — read live below, must match style.css */
+  var PAD = 8;
   var compact = false;
   var anchorY = window.scrollY || 0;
 
   function geometry() {
-    /* Read the row's real padding (8px desktop, 6px on mobile) so the
-     * compact skin and row shift line up exactly on every viewport. */
     var pad = PAD;
     try {
       var cs = window.getComputedStyle(row);
       var pl = parseFloat(cs.paddingLeft);
       if (!isNaN(pl)) pad = pl;
-    } catch (e) { /* keep PAD */ }
+    } catch (e) {}
     var rowW = row.scrollWidth;
     var activeW = active.offsetWidth;
     var activeL = active.offsetLeft;
     var height = nav.offsetHeight || 52;
-    /* Never let the pill be wider than the viewport: on a 360px phone a
-       wider system font could push the row past the screen edge. */
     var maxW = Math.max(0, window.innerWidth - 16);
     rowW = Math.min(rowW, maxW);
     return {
-      expanded: {
-        width: rowW,
-        left: Math.max(8, (window.innerWidth - rowW) / 2),
-        skinLeft: activeL,
-        skinWidth: activeW,
-        shift: 0
-      },
-      compact: {
-        width: activeW + pad * 2,
-        left: Math.max(8, (window.innerWidth - (activeW + pad * 2)) / 2),
-        skinLeft: pad,
-        skinWidth: activeW,
-        shift: activeL - pad
-      },
+      expanded: { width: rowW, left: Math.max(8, (window.innerWidth - rowW) / 2), skinLeft: activeL, skinWidth: activeW, shift: 0 },
+      compact: { width: activeW + pad * 2, left: Math.max(8, (window.innerWidth - (activeW + pad * 2)) / 2), skinLeft: pad, skinWidth: activeW, shift: activeL - pad },
       height: height
     };
   }
@@ -98,11 +98,7 @@
     skin.style.left = g.skinLeft + 'px';
     skin.style.width = g.skinWidth + 'px';
     row.style.transform = g.shift ? 'translateX(' + (-g.shift) + 'px)' : 'translateX(0)';
-    if (snap) {
-      /* Force the snap layout before transitions are re-enabled. */
-      void nav.offsetWidth;
-      nav.classList.remove('pillnav-snap');
-    }
+    if (snap) { void nav.offsetWidth; nav.classList.remove('pillnav-snap'); }
   }
 
   function setCompact(next, snap) {
@@ -114,7 +110,6 @@
     apply(geometry()[compact ? 'compact' : 'expanded'], snap);
   }
 
-  /* Initial layout: snap, no animation on load. */
   setCompact(false, true);
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { setCompact(compact, true); });
@@ -134,9 +129,6 @@
         else if (y < anchorY - 10) { anchorY = y; setCompact(false); }
       });
     }, { passive: true });
-
-    /* Tap the compact pill to expand it (the active link points at the
-     * current page anyway, so expanding instead of navigating is right). */
     nav.addEventListener('click', function (e) {
       if (!compact) return;
       var link = e.target.closest('a');
@@ -144,7 +136,6 @@
     });
   }
 
-  /* Re-measure on resize / font load, snapped so it does not trail. */
   var resizeTimer = null;
   window.addEventListener('resize', function () {
     if (resizeTimer) clearTimeout(resizeTimer);

@@ -124,6 +124,26 @@
     }, 3000);
   }
 
+  /* ---------- 1d. Cycling hero word (PR #22, preview layout) ----------
+   * The giant hero's serif word cycles watching / hooked / staying /
+   * sharing / coming back, every 2.2s, with the marker-sweep class.
+   * Static first word when reduced motion. */
+  function mountCycleWord() {
+    var cw = document.getElementById('cycleWord');
+    if (!cw || cw.dataset.started) return;
+    cw.dataset.started = '1';
+    if (REDUCED) return;
+    var words = ['watching.', 'hooked.', 'staying.', 'sharing.', 'coming back.'];
+    var idx = 0;
+    setInterval(function () {
+      idx = (idx + 1) % words.length;
+      cw.classList.remove('swap');
+      void cw.offsetWidth;
+      cw.textContent = words[idx];
+      cw.classList.add('swap');
+    }, 2200);
+  }
+
   /* ---------- 2. ShinyText ----------
    * A Fir shine sweep across the text, via a background-clip gradient. */
   function mountShinyText() {
@@ -141,7 +161,7 @@
    * A radial glow that follows the cursor inside the card. Mounted as an
    * overlay (pointer-events: none) so it never blocks links/buttons. */
   function mountSpotlights() {
-    document.querySelectorAll('.price-card, .contact-card').forEach(function (card) {
+    document.querySelectorAll('.svc, .contact-item, .price-card, .contact-card').forEach(function (card) {
       if (card.querySelector('.spotlight-mount')) return;
       var mount = document.createElement('div');
       mount.className = 'spotlight-mount';
@@ -169,7 +189,7 @@
   /* ---------- Magnetic hover on primary CTAs ---------- */
   function mountMagnetic() {
     if (REDUCED) return;
-    document.querySelectorAll('.hero-cta .btn-primary, .nav .btn-primary').forEach(function (btn) {
+    document.querySelectorAll('.hero-ctas .btn3d--dark, .hero-cta .btn-primary, .nav .btn-primary').forEach(function (btn) {
       btn.classList.add('magnetic');
       btn.addEventListener('mousemove', function (e) {
         var r = btn.getBoundingClientRect();
@@ -209,10 +229,12 @@
   }
 
   function init() {
-    try { mountSplitText(); } catch (e) {}
+    var rebuild = document.body.classList.contains('rebuild');
+    try { if (!rebuild) mountSplitText(); } catch (e) {}
     try { mountMarkers(); } catch (e) {}
     try { mountRotator(); } catch (e) {}
-    try { mountShinyText(); } catch (e) {}
+    try { mountCycleWord(); } catch (e) {}
+    try { if (!rebuild) mountShinyText(); } catch (e) {}
     try { mountSpotlights(); } catch (e) {}
     try { mountMagnetic(); } catch (e) {}
     try { mountPreferredSources(); } catch (e) {}
