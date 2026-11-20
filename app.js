@@ -16,14 +16,80 @@
   var modalTitle = document.getElementById('modalTitle');
   var modalMeta = document.getElementById('modalMeta');
   var modalScreen = document.getElementById('modalScreen');
+  var modalCard = modal ? modal.querySelector('.modal-card') : null;
+  var modalPlayBtn = document.getElementById('modalPlayBtn');
   var modalFrame = null;
+  var lastFocused = null;
+  var prevBodyOverflow = '';
+  var prevDocOverflow = '';
+
+  /* Big centre play button: shown whenever the MP4 is paused (autoplay
+     blocked, video ended, user paused). Tapping it plays with sound;
+     if the browser still refuses, it retries muted so the video at
+     least plays, and the visitor can unmute from the native controls. */
+  function showPlayBtn(show) {
+    if (!modalPlayBtn) return;
+    modalPlayBtn.hidden = !show;
+  }
+  function tryPlay() {
+    if (!modalVideo) return;
+    var p = null;
+    try { p = modalVideo.play(); } catch (e) { p = null; }
+    if (p && typeof p.catch === 'function') {
+      p.catch(function () {
+        modalVideo.muted = true;
+        var p2 = null;
+        try { p2 = modalVideo.play(); } catch (e) { p2 = null; }
+        if (p2 && typeof p2.catch === 'function') p2.catch(function () { showPlayBtn(true); });
+      });
+    }
+  }
+  if (modalVideo) {
+    modalVideo.addEventListener('playing', function () { showPlayBtn(false); });
+    modalVideo.addEventListener('pause', function () {
+      if (modal && modal.classList.contains('open') && !modalVideo.ended) showPlayBtn(true);
+    });
+    modalVideo.addEventListener('ended', function () { showPlayBtn(true); });
+  }
+  if (modalPlayBtn) modalPlayBtn.addEventListener('click', function () {
+    if (!modalVideo) return;
+    if (modalVideo.muted) modalVideo.muted = false;
+    tryPlay();
+  });
+
+  function lockScroll() {
+    prevBodyOverflow = document.body.style.overflow;
+    prevDocOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function unlockScroll() {
+    document.body.style.overflow = prevBodyOverflow;
+    document.documentElement.style.overflow = prevDocOverflow;
+  }
 
   function openPlayer(v) {
     if (!modal) return;
     pauseAll();
+    lastFocused = document.activeElement;
     if (modalTitle) modalTitle.textContent = v.title;
     if (modalMeta) modalMeta.textContent = clientLabel(v.client) + ' \u00b7 ' + (CATLBL[(v.format || ['reels'])[0]] || 'Reels');
     if (modalFrame) { modalFrame.remove(); modalFrame = null; }
+    /* Size the modal to the video's real shape BEFORE showing it.
+       22 of the 25 videos are vertical 9:16 reels: a fixed 16:9 modal
+       showed them as a tiny pillarboxed strip (~213px wide on desktop)
+       with the controls hard to reach — that was the reported bug.
+       Vertical reels get a tall narrow card; YouTube gets a wide one. */
+    var vertical = !!v.vertical && !v.youtube;
+    if (modalCard) {
+      modalCard.classList.toggle('modal-card--vertical', vertical);
+      modalCard.classList.toggle('modal-card--wide', !vertical);
+    }
+    /* Open first, then load and play: calling play() while the modal
+       is still display:none can fail silently, notably on iOS Safari. */
+    lockScroll();
+    modal.classList.add('open');
+    showPlayBtn(false);
     if (v.youtube) {
       if (modalVideo) { modalVideo.pause(); modalVideo.style.display = 'none'; }
       modalFrame = document.createElement('iframe');
@@ -35,17 +101,29 @@
       modalScreen.appendChild(modalFrame);
     } else if (modalVideo) {
       modalVideo.style.display = '';
+      modalVideo.muted = false;
       modalVideo.src = v.src;
       modalVideo.poster = v.poster;
-      modalVideo.play().catch(function () {});
+      tryPlay();
+      /* If autoplay is still blocked, the pause handler shows the
+         big play button; also show it after a short grace period
+         when the video never starts, so a visitor is never left
+         staring at a still poster with no obvious way to play. */
+      setTimeout(function () {
+        if (modal.classList.contains('open') && modalVideo.paused && !modalVideo.ended) showPlayBtn(true);
+      }, 900);
     }
-    modal.classList.add('open');
+    var modalCloseBtn = document.getElementById('modalClose');
+    if (modalCloseBtn) modalCloseBtn.focus();
   }
   function closePlayer() {
     if (!modal) return;
     modal.classList.remove('open');
+    unlockScroll();
+    showPlayBtn(false);
     if (modalVideo) { modalVideo.pause(); modalVideo.removeAttribute('src'); modalVideo.load(); }
     if (modalFrame) { modalFrame.remove(); modalFrame = null; }
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
   }
   var modalClose = document.getElementById('modalClose');
   if (modalClose) modalClose.addEventListener('click', closePlayer);
@@ -59,7 +137,6 @@
     card.dataset.client = v.client;
     var cat = (v.format || ['reels'])[0];
     var label = CATLBL[cat] || 'Reels';
-    var aspect = v.vertical ? '9:16' : '16:9';
     card.setAttribute('aria-label', 'Play: ' + v.title);
     var tile = document.createElement('span');
     tile.className = 'tile';
@@ -76,7 +153,9 @@
     chip.textContent = label;
     var dur = document.createElement('span');
     dur.className = 'chip dur';
-    dur.textContent = aspect;
+    /* The old chip showed the aspect ratio ("9:16") which reads as a
+       duration (9 minutes 16 seconds). Say what it actually is. */
+    dur.textContent = v.vertical ? 'Vertical' : 'Widescreen';
     meta.appendChild(chip);
     meta.appendChild(dur);
     card.appendChild(meta);
@@ -147,11 +226,15 @@
   });
 
   filtersEl.addEventListener('click', function (e) {
-    var btn = e.target.closest('.filter');
+    /* BUG (found 2026-11-20 audit): this used closest('.filter') but
+       the buttons are class "filter-btn", so no filter click ever
+       matched and the Work filters did nothing at all. */
+    var btn = e.target.closest('.filter-btn, .filter');
     if (!btn) return;
     currentFilter = btn.dataset.filter;
     filtersEl.querySelectorAll('.filter-btn, .filter').forEach(function (b) {
       b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
     });
     render();
   });
