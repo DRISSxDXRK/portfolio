@@ -203,30 +203,12 @@
 
 
   /* ---------- PR #21: Preferred Sources badge ----------
-   * The badge is a real Google feature in the reader's own Google
-   * account; this site cannot add itself for them. Clicking shows
-   * where to pick drizoeditz.pro in Google Search preferences. No
-   * ranking claim is made anywhere. */
-  function mountPreferredSources() {
-    var btns = document.querySelectorAll('[data-pref-source]');
-    if (!btns.length) return;
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var toast = document.getElementById('pref-toast');
-        if (!toast) {
-          toast = document.createElement('div');
-          toast.id = 'pref-toast';
-          toast.className = 'pref-toast';
-          toast.setAttribute('role', 'status');
-          document.body.appendChild(toast);
-        }
-        toast.textContent = 'To add it: open Google Search, go to Preferences, then Sources, and select drizoeditz.pro as a preferred source. It is saved on your own Google account.';
-        toast.classList.add('show');
-        clearTimeout(toast._t);
-        toast._t = setTimeout(function () { toast.classList.remove('show'); }, 5000);
-      });
-    });
-  }
+   * PR #24: the toast handler is gone. The buttons are now wired by
+   * preferred-sources.js (Google's official manual-mode library), which
+   * opens Google's real add-as-preferred-source dialog for
+   * drizoeditz.pro, with a deeplink fallback if Google's library fails.
+   * This file no longer binds [data-pref-source] buttons. */
+  function mountPreferredSources() { /* owned by preferred-sources.js */ }
 
   function init() {
     var rebuild = document.body.classList.contains('rebuild');
