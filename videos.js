@@ -4,7 +4,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-isabelle-reel-1.mp4",
   "poster": "thumbs/ahp-isabelle-reel-1.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -12,7 +12,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-isabelle-reel-2.mp4",
   "poster": "thumbs/ahp-isabelle-reel-2.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -20,7 +20,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-delaney-reel-1.mp4",
   "poster": "thumbs/ahp-delaney-reel-1.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -28,7 +28,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-claire-reel-2.mp4",
   "poster": "thumbs/ahp-claire-reel-2.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -36,7 +36,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-claire-reel-3.mp4",
   "poster": "thumbs/ahp-claire-reel-3.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -44,7 +44,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-peekaboo.mp4",
   "poster": "thumbs/ahp-peekaboo.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {
@@ -52,7 +52,7 @@ const VIDEOS = [
   "client": "ahp",
   "src": "videos/ahp-lilly-reel-1.mp4",
   "poster": "thumbs/ahp-lilly-reel-1.jpg",
-  "format": ["reels", "real-estate"],
+  "format": ["reels"],
   "vertical": true
  },
  {

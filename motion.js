@@ -80,7 +80,7 @@
   reveal('.contact-form', { y: 28 });
   reveal('.quote-form, .quote-result', { y: 28 });
 
-  /* ---------- Work cards: re-run after app.js render / filter ---------- */
+  /* ---------- Work cards: re-run after app.js render ---------- */
   var cardTriggers = [];
   function animateCards() {
     cardTriggers.forEach(function (t) { try { t.kill(); } catch (e) {} });
