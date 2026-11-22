@@ -51,7 +51,7 @@ window.SITE_CONFIG = {
    * name (e.g. 'about-photo.jpg') to use a different photo in About. */
   aboutPhoto: '',
   /* TRIAL PAYMENT. Leave empty until Driss supplies his PayPal payment
-   * link for the $10 trial edit (e.g. a PayPal payment link). While
+   * link for the trial edit (e.g. a PayPal payment link). While
    * empty, the PayPal button on trial.html stays hidden and the page
    * says the link will be sent after the brief is reviewed.
    * AUTO-RETURN URL (paste into PayPal, Confirmation step):

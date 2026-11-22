@@ -1,16 +1,14 @@
-/* Portfolio app: renders video cards, filters, inline playback. VIDEOS comes from videos.js */
+/* Portfolio app: renders all video cards, inline playback. VIDEOS comes from videos.js */
 (function () {
   var grid = document.getElementById('workGrid') || document.getElementById('grid');
-  var filtersEl = document.getElementById('filters');
   var workCountEl = document.getElementById('workCount');
-  var currentFilter = 'all';
   var players = [];
 
   function clientLabel(key) {
     return { ahp: 'Art Home Photo', as: 'Art Social', charlie: "Charlie's Pokécards", hercules: 'Hercules Training' }[key] || key;
   }
 
-  var CATLBL = { reels: 'Reels', youtube: 'YouTube', 'real-estate': 'Real Estate', ads: 'Ads' };
+  var CATLBL = { reels: 'Reels', youtube: 'YouTube' };
   var modal = document.getElementById('playerModal');
   var modalVideo = document.getElementById('modalVideo');
   var modalTitle = document.getElementById('modalTitle');
@@ -202,7 +200,6 @@
     players = [];
     var shown = 0;
     VIDEOS.forEach(function (v) {
-      if (currentFilter !== 'all' && !(v.format || []).includes(currentFilter)) return;
       grid.appendChild(makeCard(v));
       shown++;
     });
@@ -210,9 +207,7 @@
     if (!shown) {
       var empty = document.createElement('div');
       empty.className = 'empty-state';
-      var msg = currentFilter === 'ads'
-        ? 'No ad creatives published yet \u2014 ask me for recent ad examples.'
-        : 'No videos in this category yet.';
+      var msg = 'No videos published yet.';
       var pEl = document.createElement('p');
       pEl.textContent = msg;
       var link = document.createElement('a');
@@ -225,32 +220,9 @@
     }
     /* Hook for motion.js: re-animate freshly rendered work cards. */
     if (typeof window !== 'undefined' && window.dispatchEvent) {
-      window.dispatchEvent(new CustomEvent('portfolio:grid-rendered', { detail: { filter: currentFilter } }));
+      window.dispatchEvent(new CustomEvent('portfolio:grid-rendered', { detail: { shown: shown } }));
     }
   }
-
-  /* Hide filter tabs that have no videos yet (e.g. Ads). They reappear
-     automatically as soon as a video with that format is added to videos.js. */
-  filtersEl.querySelectorAll('.filter-btn, .filter').forEach(function (b) {
-    var key = b.dataset.filter;
-    if (key === 'all') return;
-    var has = VIDEOS.some(function (v) { return (v.format || []).indexOf(key) !== -1; });
-    if (!has) b.hidden = true;
-  });
-
-  filtersEl.addEventListener('click', function (e) {
-    /* BUG (found 2026-11-20 audit): this used closest('.filter') but
-       the buttons are class "filter-btn", so no filter click ever
-       matched and the Work filters did nothing at all. */
-    var btn = e.target.closest('.filter-btn, .filter');
-    if (!btn) return;
-    currentFilter = btn.dataset.filter;
-    filtersEl.querySelectorAll('.filter-btn, .filter').forEach(function (b) {
-      b.classList.toggle('active', b === btn);
-      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
-    });
-    render();
-  });
 
   render();
 })();
@@ -382,6 +354,7 @@
 
   var nameEl = document.getElementById('field-name');
   var typeEl = document.getElementById('field-type');
+  var formatEl = document.getElementById('field-format');
   var budgetEl = document.getElementById('field-budget');
   var linkEl = document.getElementById('field-link');
   var messageEl = document.getElementById('field-message');
@@ -421,6 +394,7 @@
     return {
       name: nameEl.value.trim(),
       type: typeEl.value,
+      format: formatEl ? formatEl.value : '',
       budget: budgetEl.value,
       link: normalizeLink(linkEl.value),
       message: messageEl.value.trim()
@@ -450,6 +424,7 @@
       'Hi Driss, I want to book a project.',
       'Name: ' + d.name,
       'Project type: ' + d.type,
+      'Format: ' + d.format,
       'Budget: ' + d.budget
     ];
     if (d.link) lines.push('Link: ' + d.link);
@@ -468,6 +443,7 @@
     var payload = {
       name: d.name,
       'project-type': d.type,
+      format: d.format,
       budget: d.budget,
       link: d.link,
       message: d.message,
